@@ -1,0 +1,57 @@
+<div class="container" style="width:400px">
+  <div style="text-align:center;color:black">
+    <h3><b>ToDo App Registration</b></h3>
+  </div>
+  <!-- <md-card class=class="padded md-whiteframe-10dp"> -->
+  <form role="form" name="registrationForm" class="well">
+    <div class="md-block" class="form-group">
+      <label class="lable"> Firstname:  </label>
+      <input required type="text" name="firstName" id="firstname" ng-model="firstName" class="form-control" placeholder="Enter Name " ng-pattern="/^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/" style="max-width:1500px;" />
+      <div ng-messages="registrationForm.firstName.$error" ng-if="registrationForm.lastName.$touched">
+        <div ng-message-exp="['required', 'pattern']">Invalid Firstname</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="lable">Lastname: </label>
+      <input required type="text" name="lastName" id="lastname" ng-model="lastName" class="form-control" placeholder="Enter Name " ng-pattern="/^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/" style="max-width:1500px;" />
+      <div ng-messages="registrationForm.lastName.$error" ng-if="registrationForm.lastName.$touched">
+        <div ng-message-exp="['required', 'pattern']">Invalid Lastname</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="lable">Mobilenumber: </label>
+      <input required type="text" name="mobileNumber" id="mobileNumber" ng-model="mobileNumber" class="form-control" placeholder="Enter Name " ng-pattern="/^([+][9][1]|[9][1]|[0]){0,1}([7-9]{1})([0-9]{9})$/" style="max-width:1500px;" />
+      <div ng-messages="registrationForm.mobileNumber.$error" ng-if="registrationForm.mobileNumber.$touched">
+      <div ng-message-exp="['required', 'pattern']">Invalid Mobilenumber</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="lable">Email: </label>
+      <input required type="email" name="userEmail" id="email" ng-model="userEmail" class="form-control" placeholder="Enter Name " ng-pattern="/(^[\w]+@+[a-zA-Z]+\.+[a-zA-z]{2,3})$/" style="max-width:1500px;" />
+      <div ng-messages="registrationForm.userEmail.$error" ng-if="registrationForm.userEmail.$touched">
+        <div ng-show="registrationForm.userEmail.$invalid" ng-message-exp="['required', 'pattern']">
+          Invalid e-mail address.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label class="lable">Password: </label>
+      <input required type="password" name="userPassword" id="password" ng-model="userPassword" class="form-control" placeholder="Enter Name " ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/" />
+      <div ng-messages="registrationForm.userPassword.$error" ng-if="registrationForm.userEmail.$touched">
+        <div ng-message-exp="['required','pattern' ]">
+          Invalid password.
+        </div>
+      </div>
+    </div>
+    <a href="#!/forgotPassword" style="margin-left:200px">Forgot Password???</a>
+    <br>
+    <br>
+    <button type="submit" ng-disabled="!registrationForm.$valid" class="btn btn-primary" style="margin:auto;display:block">Sign up</button>
+    <div style="color: #616161" align="center">Already have an account?
+      <a href="#!/login">SignIn</a>
+    </div>
+  </form>
+  <!-- </md-card> -->
+
+</div>

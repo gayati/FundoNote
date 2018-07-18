@@ -1,0 +1,49 @@
+<div layout="row" layout-padding layout-align="space-around" class="login-div">
+  <md-card class="md-whiteframe-24dp " style="width:400px;">
+    <md-toolbar style="text-align:center;color:white;background-color:#ED9626">
+      <h3><b>ToDo App Registration</b></h3>
+    </md-toolbar>
+    <form role="form" name="registrationForm">
+      <md-input-container class="md-block" >
+        <input required type="text" name="firstName" id="firstname" ng-model="firstName" placeholder="Firstname" ng-pattern="/^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/" style="max-width:1500px;" />
+        <div ng-messages="registrationForm.firstName.$error">
+          <div ng-message-exp="['required', 'pattern']">Invalid Firstname</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" >
+        <input required type="text" name="lastName" id="lastname" ng-model="lastName" placeholder="Lastname" ng-pattern="/^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/" style="max-width:1500px;" />
+        <div ng-messages="registrationForm.lastName.$error" >
+          <div ng-message-exp="['required', 'pattern']">Invalid Lastname</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <input required type="text" name="mobileNumber" id="mobileNumber" ng-model="mobileNumber"  placeholder="Mobilenumber" ng-pattern="/^([+][9][1]|[9][1]|[0]){0,1}([7-9]{1})([0-9]{9})$/" style="max-width:1500px;" />
+        <div ng-messages="registrationForm.mobileNumber.$error">
+          <div ng-message-exp="['required', 'pattern']">Invalid Mobilenumber</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <input required type="email" name="userEmail" id="email" ng-model="Email"  placeholder="Email" ng-pattern="/(^[\w]+@+[a-zA-Z]+\.+[a-zA-z]{2,3})$/" style="max-width:1500px;" />
+        <div ng-messages="registrationForm.userEmail.$error" >
+          <div ng-show="registrationForm.userEmail.$invalid" ng-message-exp="['required', 'pattern']">
+            Invalid e-mail address.
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" >
+        <input required type="password" name="userPassword" id="password" ng-model="Password"  placeholder="Password" ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/" />
+        <div ng-messages="registrationForm.userPassword.$error">
+          <div ng-message-exp="['required','pattern' ]">
+            Invalid password.
+          </div>
+        </div>
+      </md-input-container>
+      <md-button type="submit" class="md-raised md-primary button" ng-disabled="!registrationForm.$valid"
+      ng-click="registerUser()"
+       style="margin:auto;display:block">Sign up</md-button>
+      <div style="color: #616161" align="center">Already have an account?
+        <a href="#!/login">SignIn</a>
+      </div>
+    </form>
+  </md-card>
+</div>

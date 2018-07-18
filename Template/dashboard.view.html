@@ -1,0 +1,247 @@
+<div id="myDiv">
+<div layout="row" layout-align="center-center" style="padding-top:10px" ng-show="!showCard">
+  <md-card style="width:550px;height:50px;">
+    <div layout="row" layout-align="space-between center" style="">
+      <input type="text" placeholder="Take a note....." style="border:none;width:200px" ng-click="showCard=true" />
+      <div layout="row" style="width:150px" ng-click="showList=true">
+        <md-button class="md-icon-button">
+          <img src="images/list.svg">
+          <md-tooltip>New List</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button">
+          <img src="images/add-image.svg">
+          <md-tooltip>New note with image</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><i class="material-icons not-allowed">edit</i></md-icon>
+          <md-tooltip>Drawing is not available</md-tooltip>
+        </md-button>
+      </div>
+    </div>
+  </md-card>
+</div>
+
+<div layout="row" layout-align="center-center " style="padding-top:20px;" ng-show="showCard">
+  <md-card style="width:550px">
+    <div layout="row" layout-align="space-between center">
+      <!-- <input placeholder="Title" ng-model="noteTitle" name="noteTitle" /> -->
+      <!-- <div  contenteditable ng-model="noteTitle" ></div> -->
+      <div ng-model="noteTitle" data-placeholder="Title" content-editable>Title
+      </div>
+      <!-- <div style="width:450px" contenteditable="true" placeholder="Title" ng-model="noteTitle" name="noteTitle"></div> -->
+      <div>
+        <md-button class="md-icon-button">
+          <img src="images/pin.svg" />
+        </md-button>
+        <md-tooltip>Pin Note</md-tooltip>
+      </div>
+    </div>
+    <input placeholder="Take a note......." ng-model="noteDesc" name="noteDesc" />
+    <!-- <div contenteditable="true" placeholder="Take a note......." ng-model="noteDesc" name="noteDesc"></div> -->
+    <div layout="row" layout-align="space-between center">
+
+      <!-- <icons></icons> -->
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/reminder.svg" /></md-icon>
+        <md-tooltip>Remind me</md-tooltip>
+      </md-button>
+
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/collaberator.svg" /></md-icon>
+        <md-tooltip>Collaberator</md-tooltip>
+      </md-button>
+
+      <md-menu>
+        <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+          <md-icon><img src="images/change-color.svg" /></md-icon>
+          <md-tooltip>Change color</md-tooltip>
+        </md-button>
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item>
+            <div ng-repeat="array in colorList">
+              <div ng-repeat="object in array" class="box"
+              ng-style="{'background-color': object.color}"></div>
+            </div>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/add-image.svg" /></md-icon>
+        <md-tooltip>Add image</md-tooltip>
+      </md-button>
+
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/more.svg" /></md-icon>
+      </md-button>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/undo.svg" /></md-icon>
+        <md-tooltip>Undo</md-tooltip>
+      </md-button>
+
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/redo.svg" /></md-icon>
+        <md-tooltip>Redo</md-tooltip>
+      </md-button>
+      <div>
+        <md-button ng-click="showCard=false; createNote();">
+          CLOSE
+        </md-button>
+      </div>
+
+    </div>
+  </md-card>
+</div>
+
+<!-- <div layout="row"  layout-align="space-around center" >
+  <div  ng-repeat="notes in allNotes">
+  <md-card style="width:300px">
+    <div layout="row" layout-align="space-between center">
+    <div>
+      <div layout-align="space-around center"> {{notes.title}}</div>
+        <div> {{notes.description}}</div>
+      </div>
+        <md-button class="md-icon-button">
+          <img src="images/pin.svg" />
+        </md-button>
+      </div>
+      <icons></icons>
+    </md-card>
+  </div>
+     -->
+
+
+<div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px">
+
+  <div flex-gt-xs='100' flex-gt-md='30' ng-repeat="notes in allNotes">
+    <md-card style="width:250px;" ng-style="{'background-color': notes.color}">
+      <div layout="row" layout-align="space-between center">
+        <div>
+          <p> {{notes.title}} </p>
+        </div>
+        <div>
+          <md-button class="md-icon-button">
+            <img src="images/pin.svg" />
+          </md-button>
+          <md-tooltip>Pin Note</md-tooltip>
+        </div>
+      </div>
+      <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div>
+
+      <!-- <icons></icons> -->
+      <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+        <div ng-show="first">
+          <md-button class="md-icon-button">
+            <md-icon><img src="images/reminder.svg" /></md-icon>
+            <md-tooltip>Remind me</md-tooltip>
+          </md-button>
+
+          <md-button class="md-icon-button">
+            <md-icon><img src="images/collaberator.svg" /></md-icon>
+            <md-tooltip>Collaberator</md-tooltip>
+          </md-button>
+
+          <md-menu>
+            <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+              <md-icon><img src="images/change-color.svg" /></md-icon>
+
+              <md-tooltip>Change color</md-tooltip>
+            </md-button>
+            <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+              <md-menu-item ng-repeat="array in colorList">
+              <div ng-repeat="object in array" class="box" ng-style="{'background-color': object.color}"
+             ng-click="updateNote(notes,object.color)" ></div>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <md-button class="md-icon-button" ng-click="archiveNote(notes,true)">
+            <md-icon><img src="images/archive.svg" /></md-icon>
+            <md-tooltip>Archive</md-tooltip>
+          </md-button>
+          <md-button class="md-icon-button">
+            <md-icon><img src="images/add-image.svg" /></md-icon>
+            <md-tooltip>Add image</md-tooltip>
+          </md-button>
+
+          <md-menu>
+    <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open()">
+      <md-icon><img src="images/more.svg" /></md-icon>
+    </md-button>
+    <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+      <md-menu-item ng-repeat="item in menuList">
+        <md-button>
+        {{item.option}}
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+          <!-- <md-button class="md-icon-button">
+          </md-button> -->
+        </div>
+      </div>
+    </md-card>
+  </div>
+</div>
+
+
+
+</div>
+
+
+
+
+<!-- <div layout="row" layout-align="center-center " style="padding-top:50px;" ng-show="showList">
+  <md-card style="width:550px">
+    <div layout="row" layout-align="space-between center">
+      <div style="width:450px" contenteditable="true" placeholder="Title"></div>
+      <div>
+        <md-button class="md-icon-button">
+          <img src="images/pin.svg"  />
+        </md-button>
+      </div>
+    </div>
+    <md-divider></md-divider>
+    <md-list>
+      <md-list-item>
+        <div layout="row">
+          <md-button class="md-icon-button">
+            <md-icon><i class="material-icons">add</i></md-icon>
+          </md-button>
+          <div contenteditable="true" placeholder="List Item"></div>
+        </div>
+      </md-list-item>
+    </md-list>
+    <md-divider></md-divider>
+    <div layout="row" layout-align="space-between center">
+      <div>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/reminder.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/collaberator.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/change-color.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/add-image.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/more.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/undo.svg" /></md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon><img src="images/redo.svg" /></md-icon>
+        </md-button>
+      </div>
+      <div>
+        <md-button ng-click="showList=false">
+          CLOSE
+        </md-button>
+      </div>
+    </div>
+  </md-card>
+  </div> -->
