@@ -5,8 +5,10 @@
 }
 
 .md-sidenav-left {
-  margin-top: 65px
-}
+    margin-top: 65px;
+    width: 200px;
+    position: fixed;
+  }
 
 .sidebar-para {
   margin-left: 30px;
@@ -17,8 +19,8 @@
   border: none;
   outline: none;
 }
-/*
-[content-editable]:empty::before {
+
+/* [content-editable]:empty::before {
   content: attr(data-placeholder);
   font-weight: bold;
   color: #737373;
@@ -42,4 +44,8 @@ div:empty:not(:focus):before {
   margin-right: 5px;
   margin-bottom: 5px;
   border-radius: 10px;
+}
+
+.intial-text after-click{
+  width: :100px;
 }

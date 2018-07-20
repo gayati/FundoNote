@@ -1,12 +1,12 @@
 <div>
-<md-toolbar layout="row" layout-align="space-around center" class="toolbar" style="background-color:#FB0;" flex="100">
+<md-toolbar layout="row" layout-align="space-around center" class="toolbar" style="background-color:#FB0;position:fixed" flex="100">
   <div layout="row" layout-align="space-around center">
-    <md-button class="md-icon-button" ng-click="toggleLeft(); myFunction()">
+    <md-button class="md-icon-button" ng-click="toggleLeft(); ">
       <md-icon><img src="images/menu.svg" /></md-icon>
       <md-tooltip>Menu</md-tooltip>
     </md-button>
   </div>
-  <div>Google Keep</div>
+  <div>Fundo Note</div>
   <div class="search-box">
     <md-button class="md-icon-button"><img src="images/search.svg" /></md-button>
     <input placeholder="Search" style="width:550px;height: 50px ;border:none;outline:none" style="" />
@@ -40,7 +40,7 @@
     </md-button>
   </div>
   <div>
-    <md-button class="md-icon-button" ng-click="logoutCard=true">
+    <md-button class="md-icon-button" ng-click="logOut();">
       <md-icon><i class="material-icons">account_circle</i></md-icon>
       <md-tooltip>Google Account</md-tooltip>
     </md-button>
@@ -48,7 +48,7 @@
 </md-toolbar>
 
 
-<div style="margin-left:950px;position: absolute;z-index:0" ng-show="logoutCard">
+<div style="margin-left:950px;padding-top: 65px;position: absolute;z-index:0" ng-show="logoutCard">
   <md-card style="width:300px;height:100px;">
     <div layout="row" style="">
       <div class="profile-image" >
@@ -58,7 +58,7 @@
         <div>Gayatri Kawade</div>
         <div>gayatrikawade80@gmail.com</div>
         <div>
-          <md-button>Log Out</md-button>
+          <md-button ng-click="goToLogin()">Log Out</md-button>
         </div>
       </div>
     </div>

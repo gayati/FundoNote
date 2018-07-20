@@ -1,4 +1,4 @@
-var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages" , "angular-content-editable"]);
+var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages","content-editable"]);
 ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('register', {
@@ -37,20 +37,25 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       controller: 'NoteController'
     })
     .state('home.dashboard', {
-    url: '/dashboard',
-    templateUrl: 'Template/dashboard.view.html',
-    controller: 'NoteController'
-      })
-      .state('home.archive', {
-      url: '/archive',
-      templateUrl: 'Template/dashboard.archive.html',
+      url: '/dashboard',
+      templateUrl: 'Template/dashboard.view.html',
       controller: 'NoteController'
-        })
-    // .state('logout', {
-    // url: '/logout',
-    // templateUrl: 'Template/logout.view.html',
-    // controller: 'UserController'
-    //   })
+    })
+    .state('home.archive', {
+      url: '/archive',
+      templateUrl: 'Template/archive.view.html',
+      controller: 'NoteController'
+    })
+    .state('home.trash', {
+      url: '/trash',
+      templateUrl: 'Template/trash.view.html',
+      controller: 'NoteController'
+    })
+  // .state('logout', {
+  // url: '/logout',
+  // templateUrl: 'Template/logout.view.html',
+  // controller: 'UserController'
+  //   })
 
 
 

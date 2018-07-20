@@ -1,0 +1,65 @@
+<md-card style="width:500px;" ng-style="{'background-color': note.color}">
+  <div layout="row" layout-align="space-between center">
+    <div>
+      <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="note.title"></div>
+    </div>
+    <div>
+      <md-button class="md-icon-button" >
+        <img src="images/pin.svg" />
+      </md-button>
+      <md-tooltip>Pin Note</md-tooltip>
+    </div>
+  </div>
+  <div contenteditable id = "description1"  data-placeholder="Take a note............" ng-model="note.description"></div>
+    <div style="height:40px" layout="row" layout-align="space-between center">
+      <div layout="row">
+      <icons></icons>
+      <!-- <md-button class="md-icon-button">
+        <md-icon><img src="images/reminder.svg" /></md-icon>
+        <md-tooltip>Remind me</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/collaberator.svg" /></md-icon>
+        <md-tooltip>Collaberator</md-tooltip>
+      </md-button>
+      <md-menu>
+        <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open($event)">
+          <md-icon><img src="images/change-color.svg" /></md-icon>
+          <md-tooltip>Change color</md-tooltip>
+        </md-button>
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close($event)">
+          <md-menu-item ng-repeat="array in colorList">
+            <div ng-repeat="object in array" class="box" ng-style="{'background-color': object.color}" ng-click="updateNotecolor(notes.noteId,notes,object.color)"></div>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-button class="md-icon-button" ng-click="">
+        <md-icon><img src="images/archive.svg" /></md-icon>
+        <md-tooltip>Archive</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/add-image.svg" /></md-icon>
+        <md-tooltip>Add image</md-tooltip>
+      </md-button> -->
+      <md-menu>
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open()">
+          <md-icon><img src="images/more.svg" /></md-icon>
+        </md-button>
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in menuList">
+            <md-button ng-click="ctrlNote($index,notes)">
+              {{item.option}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <!-- <md-button class="md-icon-button">
+        </md-button> -->
+    </div>
+    <div>
+      <md-button ng-click=" updateNote(notes); hideDialogueBox()">
+        CLOSE
+      </md-button>
+    </div>
+  </div>
+</md-card>

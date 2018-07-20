@@ -30,6 +30,7 @@ ToDoApp.controller('UserController', function($scope, $state, $location, PostSer
     console.log(loginDetails);
     var url = baseurl + 'login';
     PostService.postService(loginDetails, url).then(function successCallback(response) {
+      console.log(response);
       console.log(response.data);
       $state.go('home.dashboard');
       localStorage.setItem("loginToken", response.data);
