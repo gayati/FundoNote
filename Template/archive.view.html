@@ -1,6 +1,6 @@
 <div id ="myDiv" layout="row" layout-xs='column' layout-align="center-center" layout-wrap  style="padding-top:65px;">
   <div  ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}">
-    <md-card style="width:250px;" ng-style="{'background-color': notes.color}">
+    <md-card style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
       <div layout="row" layout-align="space-between center">
         <div>
           <p> {{notes.title}} </p>
@@ -17,38 +17,7 @@
       <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
         <div ng-show="first">
             <icons></icons>
-          <!-- <md-button class="md-icon-button">
-            <md-icon><img src="images/reminder.svg" /></md-icon>
-            <md-tooltip>Remind me</md-tooltip>
-          </md-button>
-
-          <md-button class="md-icon-button">
-            <md-icon><img src="images/collaberator.svg" /></md-icon>
-            <md-tooltip>Collaberator</md-tooltip>
-          </md-button>
-
-          <md-menu>
-            <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open()">
-              <md-icon><img src="images/change-color.svg" /></md-icon>
-
-              <md-tooltip>Change color</md-tooltip>
-            </md-button>
-            <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
-              <md-menu-item ng-repeat="array in colorList">
-              <div ng-repeat="object in array" class="box" ng-style="{'background-color': object.color}"
-             ng-click="updateNote(notes,object.color)" ></div>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
-          <md-button class="md-icon-button" ng-click="archiveNote(notes,true)">
-            <md-icon><img src="images/archive.svg" /></md-icon>
-            <md-tooltip>Archive</md-tooltip>
-          </md-button>
-          <md-button class="md-icon-button">
-            <md-icon><img src="images/add-image.svg" /></md-icon>
-            <md-tooltip>Add image</md-tooltip>
-          </md-button> -->
-
+          <unarchiveicon></unarchiveicon>
           <md-menu>
     <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open()">
       <md-icon><img src="images/more.svg" /></md-icon>

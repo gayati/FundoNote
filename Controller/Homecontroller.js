@@ -1,6 +1,46 @@
  ToDoApp.controller('HomeController', function($scope, $state, $mdDialog, PostService,$mdSidenav,GetService ) {
    var baseurl = "http://localhost:9000/";
 
+   $scope.showDialogue = function(clickEvent, notes) {
+     console.log(notes.noteId + ":In show dialogue");
+     $mdDialog.show({
+       controller: dialogueController,
+       templateUrl: 'Template/noteDialogue.view.html',
+       parent: angular.element(document.body),
+       targetEvent: clickEvent,
+       clickOutsideToClose: true,
+       fullscreen: $scope.customFullscreen,
+       locals: {
+         note: notes
+       }
+     });
+   }
+
+   function dialogueController($scope, note) {
+     console.log("In dialiogue " + note.title);
+     $scope.notes = note;
+     $scope.updateNote = function(note) {
+       console.log("In update note.............");
+       console.log(note);
+       var url = baseurl + 'updateNote/' + note.noteId;
+       PostService.postService(note, url).then(function successCallback(response) {
+         console.log(response);
+         getNote();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+     }
+
+     // $scope.updateDialogueNotecolor = function (data,notes,color) {
+     //   console.log("IN update dialogue");
+     //   $scope.$parent.updateNotecolor(data,notes,color);
+     // }
+
+     $scope.hideDialogueBox = function() {
+       $mdDialog.hide();
+     }
+   }
+
    $scope.changeColor = function() {
      if ($state.is('home.dashboard')) {
        $scope.title = "Fundoo Notes";
