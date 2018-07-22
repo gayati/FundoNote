@@ -15,7 +15,7 @@
     <md-menu-item ng-repeat="array in colorList">
       <div ng-repeat="object in array" class="box"
             ng-style="{'background-color': object.color}"
-            ng-click="updateNotecolor(notes.noteId,notes,object.color)">
+            ng-click="updateNotecolor(notes,object.color)">
         </div>
     </md-menu-item>
   </md-menu-content>

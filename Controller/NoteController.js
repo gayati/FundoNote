@@ -1,4 +1,4 @@
-ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSidenav, $mdDialog, PostService, GetService,commonService) {
+ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSidenav, $mdDialog, PostService, GetService,DeleteService,commonService) {
   var baseurl = "http://localhost:9000/";
 
   $scope.toggleLeft = buildToggler('left');
@@ -9,6 +9,29 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
     $scope.isArchived = false;
     $scope.isPinned = false;
     $scope.isTrashed = false;
+
+    $scope.changeColor = function() {
+       if ($state.is('home.dashboard')) {
+         $scope.title = "Fundoo Notes";
+         $scope.CustomColor = {
+           'backgroundcolor': '#fb0',
+           'color': 'black'
+         }
+       } else if ($state.is('home.archive')) {
+         $scope.title = "Archive";
+         $scope.CustomColor = {
+           'backgroundcolor': '#A09E98',
+           'color': 'white'
+         }
+       } else if ($state.is('home.trash')) {
+         $scope.title = "Trash";
+         $scope.CustomColor = {
+           'backgroundcolor': 'rgb(99, 99, 99)',
+           'color': 'white'
+         }
+       }
+     };
+     $scope.changeColor();
 
 
 //  $scope.colorList = commonService.colorList;
@@ -23,11 +46,15 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
         document.getElementById("myDiv").style.marginLeft = "0px";
       }
     };
-  };
+  }
+
+  // $scope.showDialogue = function(clickEvent, notes) {
+  //   console.log(notes + "dsfffffffff");
+  // }
 
 
-
-    $scope.showDialogue = function(clickEvent, note) {
+    $scope.showDialogue = function(clickEvent, notes) {
+      console.log(notes.noteId + ":In show dialogue");
       $mdDialog.show({
         controller: dialogueController,
         templateUrl: 'Template/noteDialogue.view.html',
@@ -36,27 +63,17 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
         clickOutsideToClose: true,
         fullscreen: $scope.customFullscreen,
         locals: {
-          note: note
+          note: notes
         }
       });
     }
 
     function dialogueController($scope, note) {
-      $scope.note = note;
+      console.log("In dialiogue " + note.title);
+      $scope.notes = note;
       $scope.updateNote = function(note) {
         console.log("In update note.............");
-        // var title = $('#title1').html();
-        // var description = $('#description1').html();
-        //
-        // var note = {
-        //   title: $scope.noteTitle,
-        //   description: $scope.noteDesc,
-        //   color: note.color,
-        //   isArchived:note.isArchived,
-        //   isPinned: note.isPinned,
-        //   isTrashed: note.isTrashed
-        // }
-        console.log(note);
+        console.log(  note);
         var url = baseurl + 'updateNote/' +note.noteId;
         PostService.postService(note, url).then(function successCallback(response) {
           console.log(response);
@@ -171,27 +188,17 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
   ];
 
 
-  $scope.updateNotecolor = function(noteId,notes, color) {
-     console.log(noteId);
-    if(noteId === undefined){
+  $scope.updateNotecolor = function(note, color) {
+    if(note === undefined){
       console.log("In A");
       $scope.color = color;
     }
     else{
       console.log("In B");
-    console.log("in update note" + color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
-     notes.color = color
-    // var note = {
-    //   title: notes.title,
-    //   description: notes.description,
-    //   color: color,
-    //   isArchived: notes.isArchived,
-    //   isPinned: notes.isPinned,
-    //   isTrashed: notes.isTrashed
-    // }
-    console.log(notes.title + "update note color");
-    var url = baseurl + 'updateNote/' + notes.noteId;
-    PostService.postService(notes, url).then(function successCallback(response) {
+     note.color = color
+    console.log(note.title + "update note color");
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
       console.log(response);
       getNote();
     }, function errorCallback(response) {
@@ -209,6 +216,7 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
     console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
     notes.isArchived = true;
     notes.isPinned=false;
+    notes.isTrashed = false;
     var url = baseurl + 'updateNote/' + notes.noteId;
     PostService.postService(notes, url).then(function successCallback(response) {
       console.log(response);
@@ -268,20 +276,13 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
     console.log("in ctrl note");
     if (index == 0) {
       console.log("index");
-      trashNote(notes, true)
+      trashNote(notes)
     }
   }
 
-  var trashNote = function(notes, data) {
-    // var note = {
-    //   title: notes.title,
-    //   description: notes.description,
-    //   color: notes.color,
-    //   isArchived: notes.isArchived,
-    //   isPinned: notes.isPinned,
-    //   isTrashed: data
-    // }
-    notes.isTrashed = data;
+  var trashNote = function(notes) {
+    if(notes.isTrashed === true){
+    notes.isTrashed = false;
     var url = baseurl + 'updateNote/' + notes.noteId;
     PostService.postService(notes, url).then(function successCallback(response) {
       console.log(response);
@@ -290,7 +291,21 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
       console.log("erorr.................");
       console.log("error" + response.data);
     })
+  }else{
+    console.log("In trash true");
+   notes.isTrashed = true;
+   notes.isPinned = false;
+   notes.isArchived = false;
+   var url = baseurl + 'updateNote/' + notes.noteId;
+   PostService.postService(notes, url).then(function successCallback(response) {
+     console.log(response);
+     getNote();
+   }, function errorCallback(response) {
+     console.log("erorr.................");
+     console.log("error" + response.data);
+   })
   }
+}
 
 
   $scope.ctrltrashNote = function(index, notes) {
@@ -307,8 +322,8 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
   var deleteNoteforever = function(noteId) {
     console.log("In delte forever");
     var url = baseurl + 'deleteNote/' + noteId;
-    var note = {};
-    PostService.postService(note, url).then(function successCallback(response) {
+
+    DeleteService.delete( url).then(function successCallback(response) {
       console.log(response);
     }, function errorCallback(response) {
       console.log("erorr.................");
@@ -317,17 +332,10 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
   }
 
   var restoreNote = function(notes, data) {
-    // var note = {
-    //   title: notes.title,
-    //   description: notes.description,
-    //   color: notes.color,
-    //   isArchived: notes.isArchived,
-    //   isPinned: notes.isPinned,
-    //   isTrashed: data
-    // }
-    notes.isTrashed = data;
+    console.log(notes+ "in restore");
+    notes.isTrashed = false;
     var url = baseurl + 'updateNote/' + notes.noteId;
-    PostService.postService(note, url).then(function successCallback(response) {
+    PostService.postService(notes, url).then(function successCallback(response) {
       console.log(response);
       getNote();
     }, function errorCallback(response) {
@@ -351,11 +359,12 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
     if(notes === undefined){
       $scope.isPinned = true;
     }
-    else if (notes.isPinned === false || notes.isArchived === true) {
+    else if (notes.isPinned === false ) {
       console.log("In update false");
       console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
       notes.isPinned = true;
       notes.isArchived = false;
+      notes.isTrashed = false;
       var url = baseurl + 'updateNote/' + notes.noteId;
       PostService.postService(notes, url).then(function successCallback(response) {
         console.log(response);
@@ -377,6 +386,15 @@ ToDoApp.controller('NoteController', function($scope,$rootScope, $state, $mdSide
 }
 }
 
-
+//  $scope.image = function (notes) {
+//    console.log("In iMAGE" + notes);
+//    if(note.isPinned){
+//      console.log("in blue pin");
+//       return "images/bluePin.svg";
+//    }else{
+//      return "images/pin.svg";
+//    }
+//  }
+// $scope.image();
 
 });

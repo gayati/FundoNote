@@ -1,16 +1,16 @@
-<md-card style="width:500px;" ng-style="{'background-color': note.color}">
+<md-card style="width:500px;" ng-style="{'background-color': notes.color}">
   <div layout="row" layout-align="space-between center">
     <div>
-      <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="note.title"></div>
+      <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="notes.title"></div>
     </div>
     <div>
-      <md-button class="md-icon-button" >
+      <md-button class="md-icon-button" ng-click="updatePin(notes)" >
         <img src="images/pin.svg" />
       </md-button>
       <md-tooltip>Pin Note</md-tooltip>
     </div>
   </div>
-  <div contenteditable id = "description1"  data-placeholder="Take a note............" ng-model="note.description"></div>
+  <div contenteditable id = "description1"  data-placeholder="Take a note............" ng-model="notes.description"></div>
     <div style="height:40px" layout="row" layout-align="space-between center">
       <div layout="row">
       <icons></icons>

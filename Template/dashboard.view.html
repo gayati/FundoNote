@@ -1,9 +1,8 @@
-<div id="myDiv" style="padding-top:65px">
-  <div layout="row" layout-align="center-center" ng-show="!showCard">
-    <md-card style="width:550px;height:50px;">
+<div  style="width:100%"  layout = "column" layout-align="center center">
+<div id="myDiv" style="padding-top:15px" style="width:70%" layout-align="center center"  >
+     <div layout="row" style="width:800px" layout-align="center center">
+    <md-card style="width:550px;height:50px;" ng-show="!showCard" >
       <div layout="row" layout-align="space-between center" style="">
-        <!-- <div class="intial-text after-click" contenteditable data-placeholder="Take a note....."  ng-click="showCard=true"></div> -->
-
         <input type="text" placeholder="Take a note....." style="border:none;width:200px" ng-click="showCard=true" />
         <div layout="row" style="width:150px">
           <md-button class="md-icon-button">
@@ -23,10 +22,9 @@
     </md-card>
   </div>
 
-  <div layout="row" layout-align="center-center " ng-show="showCard">
-    <md-card style="width:550px" ng-style="{'background-color':color}">
+  <!-- <div layout="row" layout-align="center-center " > -->
+    <md-card style="width:550px" ng-style="{'background-color':color}" ng-show="showCard">
       <div layout="row" layout-align="space-between center">
-        <!-- <input placeholder="Title" ng-model="noteTitle" name="noteTitle" /> -->
         <div class="intial-text after-click" id="title" contenteditable data-placeholder="Title" ng-model="noteTitle"></div>
         <div>
           <md-button class="md-icon-button" ng-click="updatePin(notes)">
@@ -86,24 +84,24 @@
         </div>
       </div>
     </md-card>
-  </div>
+  <!-- </div> -->
 
-  <md-subheader>Pinned</md-subheader>
-  <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px">
-    <div ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:true}">
-      <md-card style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
+  <md-subheader><strong>Pinned</strong></md-subheader>
+    <div layout="row"  style="width:800px"  layout-wrap>
+      <md-card style="width:250px" ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
         <div layout="row" layout-align="space-between center">
           <div>
             <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
           </div>
           <div>
             <md-button class="md-icon-button" ng-click="updatePin(notes)">
-              <img src="images/pin.svg" />
+              <img ng-if="notes.isPinned === true"  src="images/bluePin.svg">
+                <img ng-if="notes.isPinned === false"  src="images/pin.svg">
             </md-button>
             <md-tooltip>Pin Note</md-tooltip>
           </div>
         </div>
-        <div contenteditable><strong> {{notes.description}} </strong></div>
+        <div contenteditable  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div>
         <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
           <div ng-show="first">
             <icons></icons>
@@ -122,13 +120,12 @@
           </div>
         </div>
       </md-card>
-    </div>
   </div>
 
-  <md-subheader>Other</md-subheader>
-  <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px">
-    <div ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false}">
-      <md-card style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
+  <md-subheader><strong>Other</strong></md-subheader>
+  <!-- <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px"> -->
+    <div layout="row" style="width:800px"  layout-wrap>
+      <md-card style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)"  ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false}">
         <div layout="row" layout-align="space-between center">
           <div>
             <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
@@ -136,12 +133,13 @@
           </div>
           <div>
             <md-button class="md-icon-button" ng-click="updatePin(notes)">
-              <img src="images/pin.svg" />
+              <img ng-if="notes.isPinned === true"  src="images/bluePin.svg">
+                <img ng-if="notes.isPinned === false"  src="images/pin.svg">
             </md-button>
             <md-tooltip>Pin Note</md-tooltip>
           </div>
         </div>
-        <div contenteditable><strong> {{notes.description}} </strong></div>
+        <div contenteditable  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div>
 
         <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
           <div ng-show="first">
@@ -192,8 +190,9 @@
         </div>
       </md-card>
     </div>
-  </div>
+  <!-- </div> -->
 
 
 
+</div>
 </div>
