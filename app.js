@@ -34,13 +34,18 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
     .state('home', {
       url: '/home',
       templateUrl: 'Template/homepage.view.html',
-      controller: 'NoteController'
+      controller: 'HomeController'
     })
     .state('home.dashboard', {
       url: '/dashboard',
       templateUrl: 'Template/dashboard.view.html',
       controller: 'NoteController'
     })
+    // .state('home.dashboard', {
+    //   url: '/dashboard',
+    //   templateUrl: 'Template/dashboard.view.html',
+    //   controller: 'LabelController',
+    // })
     .state('home.archive', {
       url: '/archive',
       templateUrl: 'Template/archive.view.html',

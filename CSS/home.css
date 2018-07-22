@@ -6,7 +6,7 @@
 
 .md-sidenav-left {
     margin-top: 65px;
-    width: 200px;
+    width: 250px;
     position: fixed;
   }
 
@@ -48,4 +48,13 @@ div:empty:not(:focus):before {
 
 .intial-text after-click{
   width: :100px;
+}
+
+.CreateLabel {
+  height: 200px;
+  width: 300px;
+}
+.button {
+  width: 20px;
+  text-align: center;
 }
