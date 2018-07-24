@@ -1,6 +1,47 @@
 <md-dialog class="CreateLabel">
-  <p> <strong>&nbsp;&nbsp;&nbsp;Edit Labels</strong></p>
-  <div>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <md-subheader class="label-header">Edit labels</md-subheader>
+      <div layout="row" layout-align="start center">
+        <md-button style="margin: 0 auto;padding: 0px;" class="md-icon-button md-icon-left" ng-click="changeIcon()" ng-show="close">
+          <md-icon><i class="material-icons">close</i></md-icon>
+        </md-button>
+        <md-button style="margin: 0 auto;padding: 0px;" class="md-icon-button md-icon-left" ng-click="changeIcon()" ng-show="add">
+          <md-icon><i class="material-icons">add</i></md-icon>
+        </md-button>
+        <input type="text" style="border:none;outline: none;" ng-model="label" placeholder="Create new label"
+        ng-click="changeIcon()" />
+        <md-button class="md-icon-button md-icon-right" ng-click="addLabel()" style="margin: 0 auto;padding: 0px;" ng-show="done">
+          <md-icon><i class="material-icons">done</i></md-icon>
+        </md-button>
+      </div>
+
+      <div layout="row" layout-align="start" ng-repeat="label in allLabels">
+        <md-button style="margin: 0px auto;padding: 0px" class="md-icon-button md-icon md-icon-left">
+          <md-icon ng-click="deleteLabel(label)"><i class="material-icons" >delete</i></md-icon>
+        </md-button>
+        <md-button style="margin: 0px auto;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" >
+          <md-icon><i class="material-icons">label</i></md-icon>
+        </md-button>
+        <input  type="text" style="border:none;outline: none;" ng-model="label.label" ng-mouseover="changeIcon1()" />
+        <md-button style="margin: 0px auto;padding: 0px;" class="md-icon-button md-icon md-icon-right">
+          <md-icon><i class="material-icons">create</i></md-icon>
+        </md-button>
+        <md-button class="md-icon-button md-icon-right"  style="margin: 0 auto;padding: 0px;" >
+          <md-icon><i class="material-icons"  ng-click="updateLabel(label)">done</i></md-icon>
+        </md-button>
+      </div>
+      <div layout="row" layout-align="end end">
+        <md-button>
+          <strong>Done</strong>
+        </md-button>
+      </div>
+    </div>
+  </md-dialog-content>
+</md-dialog>
+
+<!-- <p> <strong>&nbsp;&nbsp;&nbsp;Edit Labels</strong></p>
+  <div class="md-dialog-content">
     <md-button class="md-icon-button" data-ng-click="show=true" ng-show="!show">
       <md-icon><i class="material-icons">close</i></md-icon>
       <md-tooltip>Cancel</md-tooltip>
@@ -9,29 +50,34 @@
     <md-button class="md-icon-button" data-ng-click="show=false" ng-hide="!show">
       <md-icon><i class="material-icons">add</i></md-icon>
       <md-tooltip>Cretae Lable</md-tooltip>
-    </md-button>
+    </md-button> -->
 
-    <md-input-container >
+<!-- <md-input-container >
       <input type="text" name="newlabel" ng-model="label" placeholder="<strong>Create New Label</strong>" style="width:160px;">
     </md-input-container>
-    <md-button class="md-icon-button"  ng-hide="show" ng-show="!show" ng-click="addLabel()">
+    <md-button class="md-icon-button" ng-click="addLabel()">
       <md-icon><i class="material-icons">done</i></md-icon>
       <md-tooltip>Create Lable</md-tooltip>
     </md-button>
-  </div>
-  <md-divider></md-divider>
+  </div> -->
+<!-- <md-divider></md-divider>
   <div  ng-repeat="label in allLabels">
     <div layout="row">
-    <div style="width:50px"><img src="images/installsoftwear.svg" />
+    <div style="width:50px"><img src="images/installsoftwear.svg" ng-show="!showDelete" />
+      <img src="images/delete.svg" ng-show="showDelete">
     </div>
-    <div style="width:200px">{{label.label}}</div>
+    <div style="width:200px" ng-mouseover="showDelete = true" ng-mouseout="showDelete = false" >{{label.label}}</div>
     <div style="width:50px">
-
     </div>
+    <md-button class="md-icon-button">
+      <md-icon><i class="material-icons not-allowed">edit</i></md-icon>
+      <md-tooltip>Drawing is not available</md-tooltip>
+    </md-button>
   </div>
 </div>
   <md-button class="button" ng-click="cancel()" >Done</md-button>
-</md-dialog>
+  <div>
+</md-dialog> -->
 
 <!-- <md-dialog aria-label="Label" class="label-dialog">
     <md-dialog-content>

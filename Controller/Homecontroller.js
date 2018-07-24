@@ -1,5 +1,7 @@
- ToDoApp.controller('HomeController', function($scope, $state, $mdDialog, PostService,$mdSidenav,GetService ) {
+ ToDoApp.controller('HomeController', function($scope, $state, $mdDialog, PostService, $mdSidenav, GetService, DeleteService,PutService) {
    var baseurl = "http://localhost:9000/";
+
+   $scope.allLabels = [];
 
    $scope.showDialogue = function(clickEvent, notes) {
      console.log(notes.noteId + ":In show dialogue");
@@ -30,11 +32,6 @@
          console.log("error" + response.data);
        })
      }
-
-     // $scope.updateDialogueNotecolor = function (data,notes,color) {
-     //   console.log("IN update dialogue");
-     //   $scope.$parent.updateNotecolor(data,notes,color);
-     // }
 
      $scope.hideDialogueBox = function() {
        $mdDialog.hide();
@@ -84,39 +81,109 @@
      $scope.label = "";
      $scope.userId = 0;
 
-       function getLabel() {
-         var url = baseurl + 'getLabels';
-         GetService.getModel(url).then(function successCallback(response) {
-           $scope.allLabels = response.data;
-           console.log($scope.allLabels);
+     var getLabel = function() {
+       var url = baseurl + 'getLabels';
+       GetService.getModel(url).then(function successCallback(response) {
+         $scope.allLabels = response.data;
+         console.log($scope.allLabels);
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+     }
+     getLabel();
+
+     $scope.addLabel = function() {
+       var label = {
+         labelId: $scope.labelId,
+         label: $scope.label,
+         userId: $scope.userId
+       }
+       console.log("In addlabel" + label);
+       var url = baseurl + 'addLabel';
+       if (label.label == "") {
+         console.log("label undefined............");
+       } else {
+         PostService.postService(label, url).then(function successCallback(response) {
+           console.log(response);
+           getLabel();
          }, function errorCallback(response) {
            console.log("error" + response.data);
          })
        }
+     }
 
-       getLabel();
+     $scope.cancel = function() {
+       $mdDialog.cancel();
+     };
 
-       $scope.addLabel = function() {
-         var label = {
-         labelId:   $scope.labelId,
-         label : $scope.label,
-         userId:  $scope.userId
-         }
-         console.log("In addlabel" + label);
-         var url = baseurl + 'addLabel';
-         if (label.label == "" ) {
-           console.log("label undefined............");
-         } else {
-           PostService.postService(label, url).then(function successCallback(response) {
-             console.log(response);
-               getLabel();
-           }, function errorCallback(response) {
-             console.log("error" + response.data);
-           })
-         }
+     $scope.close = false;
+     $scope.done = false;
+     $scope.add = true;
+     $scope.isClicked = false;
+     $scope.changeIcon = function() {
+       $scope.isClicked = !$scope.isClicked;
+       if ($scope.isClicked) {
+         $scope.add = true;
+         $scope.close = false;
+         $scope.done = false;
+       } else {
+         $scope.add = false;
+         $scope.close = true;
+         $scope.done = true;
        }
+     }
+
+     $scope.showDelete = false;
+     $scope.showLabel = true;
+     $scope.changeIcon1 = function() {
+       $scope.showDelete=true;
+       $scope.showLabel=false;
+     }
+
+     $scope.enableEdit = function(item) {
+       item.editable = true;
+       item.labelIcon = false;
+     };
+
+     $scope.disableEdit = function(item) {
+       item.editable = false;
+       item.labelIcon = true;
+     };
+
+     $scope.deleteLabel = function(label) {
+       var url = baseurl + 'deleteLabel/' + label.labelId;
+       DeleteService.delete(url).then(function successCallback(response) {
+         console.log(response);
+       }, function errorCallback(response) {
+         console.log("erorr.................");
+         console.log("error" + response.data);
+       })
+     }
+
+     $scope.updateLabel = function (label) {
+       console.log("In update label" + label.label + label.labelId + label.userId);
+       console.log(label);
+       var url = baseurl + 'updateLabel/' + label.labelId;
+       PutService.updateMethod(label,url).then(function successCallback(response) {
+         console.log(response);
+         getLabel();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+     }
 
    }
+
+   var getLabel = function() {
+     var url = baseurl + 'getLabels';
+     GetService.getModel(url).then(function successCallback(response) {
+       $scope.allLabels = response.data;
+       console.log($scope.allLabels);
+     }, function errorCallback(response) {
+       console.log("error" + response.data);
+     })
+   }
+   getLabel();
 
    $scope.toggleLeft = buildToggler('left');
 
@@ -159,5 +226,6 @@
        $scope.logoutCard = false;
      }
    }
+
 
  });

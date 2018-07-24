@@ -4,6 +4,12 @@
   margin-left: 25px;
 }
 
+.toolbar{
+  position: fixed;
+  /* position: sticky; */
+  width : 100%;
+  z-index:10;
+}
 .md-sidenav-left {
     margin-top: 65px;
     width: 250px;

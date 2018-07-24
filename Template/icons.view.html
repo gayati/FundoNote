@@ -7,11 +7,11 @@
   <md-tooltip>Collaberator</md-tooltip>
 </md-button>
 <md-menu>
-  <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open($event)">
+  <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
     <md-icon><img src="images/change-color.svg" /></md-icon>
     <md-tooltip>Change color</md-tooltip>
   </md-button>
-  <md-menu-content width="4" ng-mouseleave="$mdMenu.close($event)">
+  <md-menu-content width="4" ng-click="$mdMenu.close($event)">
     <md-menu-item ng-repeat="array in colorList">
       <div ng-repeat="object in array" class="box"
             ng-style="{'background-color': object.color}"

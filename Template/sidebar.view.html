@@ -15,18 +15,19 @@
       </md-list-item>
       <md-divider></md-divider>
       <md-list-item ng-click="">
-        <div layout="row">
+        <div layout="row" layout-align="space-between center">
           <p class="sidebar-para">Label</p>
+          <md-button ng-click="showLabel($event)">EDIT</md-button>
         </div>
       </md-list-item>
+      <md-list-item  ng-repeat="labels in allLabels">
+          <div layout="row" layout-align="space-between center">
+        <md-icon><img src="images/installsoftwear.svg" /></md-icon>
+          <div class="md-list-item">{{ labels.label}}</div>
 
-      <!-- <md-list-item ng-click="null">
-     <div layout="row">
-       <md-icon><img src="images/installsoftwear.svg" /></md-icon>
-     <p class="sidebar-para">Software Install</p>
-   </div>
-   </md-list-item> -->
+      </div>
 
+      </md-list-item>
       <md-list-item ng-click="showLabel($event)">
         <div layout="row">
           <md-icon><img src="images/label.svg" /></md-icon>
@@ -36,11 +37,11 @@
       <md-divider></md-divider>
       <md-list-item ng-click="goToArchive()">
         <div layout="row">
-          <md-icon ><img src="images/archive.svg" /></md-icon>
+          <md-icon><img src="images/archive.svg" /></md-icon>
           <p class="sidebar-para">Archive</p>
         </div>
       </md-list-item>
-      </md-list-item >
+      </md-list-item>
       <md-list-item ng-click="goTotrash()">
         <div layout="row">
           <md-icon><img src="images/trash.svg" /></md-icon>

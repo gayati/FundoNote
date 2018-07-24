@@ -154,7 +154,9 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   // }
 
 
+
   getNote();
+
   $scope.createNote = function() {
     // var title = $('#title').html();
     // var description = $('#description').html();
@@ -182,15 +184,34 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
 
   }
 
+
   function getNote() {
     console.log("In get note");
     var url = baseurl + 'getNotes';
     GetService.getModel(url).then(function successCallback(response) {
       $scope.allNotes = response.data;
+      //  var noteArray = $scope.allNotes;
+      showHideheader();
       console.log($scope.allNotes);
+      //showHideheader(  $scope.allNotes);
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
+  }
+
+  var showHideheader = function() {
+    var myArray = $scope.allNotes;
+    console.log(myArray);
+    for (var i = 0; i < myArray.length; i++) {
+      var noteObj = myArray[i];
+      console.log(noteObj.isPinned);
+      if (noteObj.isPinned === true) {
+        console.log("In isPinned true");
+        $scope.showPinned = true;
+      } else if (noteObj.isPinned === false) {
+        $scope.showOther = true;
+      }
+    }
   }
 
 
@@ -396,12 +417,15 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   $scope.updatePin = function(notes) {
     if (notes === undefined) {
       $scope.isPinned = true;
+      // $scope.showPinned = true;
     } else if (notes.isPinned === false) {
       console.log("In update false");
       console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
       notes.isPinned = true;
       notes.isArchived = false;
       notes.isTrashed = false;
+
+      //  console.log("In Pinned false" + $scope.showPinned);
       var url = baseurl + 'updateNote/' + notes.noteId;
       PostService.postService(notes, url).then(function successCallback(response) {
         console.log(response);
@@ -410,9 +434,12 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
         console.log("error" + response.data);
       })
     } else {
+
       console.log("In update true");
       console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
       notes.isPinned = false;
+
+
       var url = baseurl + 'updateNote/' + notes.noteId;
       PostService.postService(notes, url).then(function successCallback(response) {
         console.log(response);
@@ -421,6 +448,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
         console.log("error" + response.data);
       })
     }
+
   }
 
 
