@@ -1,4 +1,4 @@
-<div style="width:100%;padding-top:65px"  layout = "column"  layout="row" layout-xs='column' layout-align="center-center" layout-wrap  style="padding-top:65px;">
+<div style="width:100%;padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
     <div id ="myDiv" layout="row"  style="width:800px"  layout-wrap>
     <md-card style="width:250px;" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
       <div layout="row" layout-align="space-between center">

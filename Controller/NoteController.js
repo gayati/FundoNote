@@ -434,12 +434,9 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
         console.log("error" + response.data);
       })
     } else {
-
       console.log("In update true");
       console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
       notes.isPinned = false;
-
-
       var url = baseurl + 'updateNote/' + notes.noteId;
       PostService.postService(notes, url).then(function successCallback(response) {
         console.log(response);
@@ -450,6 +447,29 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
     }
 
   }
+
+  $scope.showReminderDialogue = function(clickEvent) {
+    console.log("In show label");
+    $mdDialog.show({
+      controller: reminderController,
+      templateUrl: 'Template/reminder.view.html',
+      parent: angular.element(document.body),
+      targetEvent: clickEvent,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen
+    });
+  };
+
+ var reminderController  = function () {
+   console.log("In reminder controller");
+ }
+
+$scope.showDiv1 = false;
+ $scope.showDiv = function (clickEvent) {
+   console.log("Inshow dv");
+  console.log(clickEvent);
+   $scope.showDiv1 = true;
+ }
 
 
 

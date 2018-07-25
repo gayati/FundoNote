@@ -7,9 +7,9 @@
     </md-button>
   </div>
   <h2 ng-style = "{'color':CustomColor.color}">{{title}}</h2>
-  <div class="search-box">
-    <md-button class="md-icon-button"><img src="images/search.svg" /></md-button>
-    <input placeholder="Search" style="width:550px;height: 50px ;border:none;outline:none" style="" />
+  <div class="search-box" >
+    <md-button class="md-icon-button"  ng-click="goToSearch();"><img src="images/search.svg" /></md-button>
+    <input type='text' ng-model='search' placeholder="Search" style="color: black;width:550px;height: 50px ;border:none;outline:none;"  />
     <md-button class="md-icon-button">
       <md-icon><i class="material-icons pointer"><font color="black">close</font></i></md-icon>
     </md-button>
@@ -24,9 +24,13 @@
     </md-button>
   </div>
   <div>
-    <md-button class="md-icon-button">
-      <md-icon><img src="images/viewstream.svg" /></md-icon>
+    <md-button class="md-icon-button" ng-show="showListView" >
+      <md-icon><img src="images/viewstream.svg" ng-click = "listView();"/></md-icon>
       <md-tooltip>List View</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-show="showGridView">
+      <md-icon><img src="images/gridView.svg"  ng-click = "gridView()"/></md-icon>
+      <md-tooltip>Grid View</md-tooltip>
     </md-button>
   </div>
   <div>
@@ -50,7 +54,7 @@
 </md-toolbar>
 
 
-<div style="margin-left:950px;padding-top: 5px;position: absolute;z-index:0" ng-show="logoutCard">
+<div style="padding-top: 5px;position: absolute;z-index:0" ng-show="logoutCard">
   <md-card style="width:300px;height:100px;">
     <div layout="row" style="">
       <div class="profile-image" >

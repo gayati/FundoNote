@@ -64,3 +64,7 @@ div:empty:not(:focus):before {
   width: 20px;
   text-align: center;
 }
+
+.mdcard{
+  width:250px;
+}

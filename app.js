@@ -56,6 +56,11 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       templateUrl: 'Template/trash.view.html',
       controller: 'NoteController'
     })
+    .state('home.search', {
+      url: '/search',
+      templateUrl: 'Template/search.view.html',
+      controller: 'NoteController'
+    })
   // .state('logout', {
   // url: '/logout',
   // templateUrl: 'Template/logout.view.html',

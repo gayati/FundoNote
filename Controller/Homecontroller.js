@@ -227,5 +227,34 @@
      }
    }
 
+   var elements = document.getElementsByClassName("mdcard");
+
+   var i;
+
+   $scope.showGridView = false;
+   $scope.showListView = true;
+   $scope.listView = function () {
+     console.log("In list view");
+     for (i = 0; i < elements.length; i++) {
+       elements[i].style.width = "800px";
+     }
+     $scope.showListView = false;
+     $scope.showGridView = true;
+   }
+
+   $scope.gridView = function () {
+     console.log("In list view");
+     for (i = 0; i < elements.length; i++) {
+       elements[i].style.width = "250px";
+     }
+     $scope.showGridView = false;
+      $scope.showListView = true;
+   }
+
+   $scope.goToSearch = function () {
+     console.log("In go search");
+     $state.go('home.search');
+   }
+
 
  });
