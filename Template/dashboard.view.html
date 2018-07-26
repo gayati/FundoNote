@@ -25,7 +25,8 @@
   <div style="width:70%" layout-align="center-center ">
     <md-card  style="width:550px" ng-style="{'background-color':color}" ng-show="showCard">
       <div layout="row" layout-align="space-between center">
-        <div class="intial-text after-click" id="title" contenteditable data-placeholder="Title" ng-model="noteTitle"></div>
+        <div  id="title" contenteditable data-placeholder="Title"
+        style="border:none;outline:none;margin-left:10px" ng-model="noteTitle"></div>
         <div>
           <md-button class="md-icon-button" ng-click="updatePin(notes)">
             <img src="images/pin.svg" />
@@ -33,7 +34,8 @@
           <md-tooltip>Pin Note</md-tooltip>
         </div>
       </div>
-      <div class="intial-text after-click" contenteditable id="description" , data-placeholder="Take a note....." ng-model="noteDesc"></div>
+      <div class="intial-text after-click" contenteditable id="description" , data-placeholder="Take a note....."
+      style="border:none;outline:none;margin-left:10px" ng-model="noteDesc"></div>
       <div layout="row" layout-align="space-between center">
         <div layout="row">
           <icons></icons>
@@ -70,9 +72,14 @@
               <md-icon><img src="images/more.svg" /></md-icon>
             </md-button>
             <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
-              <md-menu-item ng-repeat="item in [1,2,3] ">
+              <md-menu-item >
                 <md-button ng-click="">
-                  option{{item}}
+                Add Label
+                </md-button>
+              </md-menu-item>
+              <md-menu-item >
+                <md-button ng-click="">
+                Check Box
                 </md-button>
               </md-menu-item>
             </md-menu-content>
@@ -127,6 +134,29 @@
   </div>
 </div>
 
+<div ng-show="showreminderDiv" >
+<md-card style="width:1200px;height:200px;background-color:yellow;" >
+  <div layout=row>
+    <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
+  </div>
+  <!-- <md-menu-item ng-click="null">
+    <div layout=row>
+      <div>
+        <md-icon><img src="images/arrowback.svg" /></md-icon>
+        Pick Date and Time</div>
+    </div>
+  </md-menu-item>
+  <md-menu-item ng-click="null">
+    <div layout=row>
+      <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
+    </div>
+  </md-menu-item>
+  <md-divider></md-divider>
+  <md-menu-item>
+    <md-button  ng-click="updateReminder()">SAVE</md-button>
+  </md-menu-item> -->
+</md-card>
+  </div>
 
 
 <div ng-show="showOther">

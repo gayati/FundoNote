@@ -9,6 +9,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   $scope.isArchived = false;
   $scope.isPinned = false;
   $scope.isTrashed = false;
+  $scope.reminder = {};
 
 
 
@@ -248,6 +249,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   ];
 
 
+
+
   $scope.updateNotecolor = function(note, color) {
     if (note === undefined) {
       console.log("In A");
@@ -462,13 +465,22 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
 
  var reminderController  = function () {
    console.log("In reminder controller");
+
+   
  }
 
-$scope.showDiv1 = false;
+ $scope.updateReminder = function (note,reminder) {
+   note.reminder = $scope.reminder;
+ }
+
+
+
+
+$scope.showreminderDiv = false;
  $scope.showDiv = function (clickEvent) {
    console.log("Inshow dv");
   console.log(clickEvent);
-   $scope.showDiv1 = true;
+   $scope.showreminderDiv = true;
  }
 
 

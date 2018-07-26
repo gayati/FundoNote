@@ -36,10 +36,13 @@ div:empty:not(:focus):before {
     content: attr(data-placeholder);
     font-weight: bold;
     color: #737373;
+    border:none;
+    outline: none;
 }
 
 .profile-image{
   border-radius: 10px;
+
 }
 
 .box {
@@ -67,4 +70,9 @@ div:empty:not(:focus):before {
 
 .mdcard{
   width:250px;
+  height: fit-content;
+}
+
+.intial-text after-click{
+  outline: none;
 }

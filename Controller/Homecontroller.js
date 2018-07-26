@@ -114,6 +114,12 @@
 
      $scope.cancel = function() {
        $mdDialog.cancel();
+
+       $scope.hideDialogueBox = function() {
+         console.log("In hide d");
+         $mdDialog.hide();
+       }
+
      };
 
      $scope.close = false;
