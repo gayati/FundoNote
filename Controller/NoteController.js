@@ -1,4 +1,4 @@
-ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSidenav, $mdDialog, PostService, GetService, DeleteService, commonService) {
+ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSidenav, $mdDialog, PostService, GetService,PutService, DeleteService, commonService) {
   var baseurl = "http://localhost:9000/";
 
 
@@ -10,7 +10,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   $scope.isPinned = false;
   $scope.isTrashed = false;
   $scope.reminder = {};
-
 
 
   // $scope.changeColor = function() {
@@ -154,9 +153,386 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   //   }
   // }
 
+  $scope.ctrlNote = function(index, notes) {
+    console.log("in ctrl note");
+    if (index == 0) {
+      console.log("index");
+      trashNote(notes)
+    }
+    if(index ==1){
+      $scope.showAddlabelDialogue();
+    }
+  }
 
+     $scope.showDialogue = function(clickEvent, notes) {
+       console.log(notes.noteId + ":In show dialogue");
+       $mdDialog.show({
+         controller: dialogueController,
+         templateUrl: 'Template/noteDialogue.view.html',
+         parent: angular.element(document.body),
+         targetEvent: clickEvent,
+         clickOutsideToClose: true,
+         fullscreen: $scope.customFullscreen,
+         locals: {
+           note: notes
+         }
+       });
+     }
+
+     function dialogueController($scope, note) {
+       console.log("In dialiogue " + note.title);
+       $scope.notes = note;
+       $scope.updateNote = function(note) {
+         console.log("In update note.............");
+         console.log(note);
+         var url = baseurl + 'updateNote/' + note.noteId;
+         PostService.postService(note, url).then(function successCallback(response) {
+           console.log(response);
+           getNote();
+         }, function errorCallback(response) {
+           console.log("error" + response.data);
+         })
+       }
+
+       $scope.hideDialogueBox = function() {
+         $mdDialog.hide();
+       }
+     }
+
+     $scope.changeColor = function() {
+       if ($state.is('home.dashboard')) {
+         $scope.title = "Fundoo Notes";
+         $scope.CustomColor = {
+           'backgroundcolor': '#fb0',
+           'color': 'black'
+         }
+       } else if ($state.is('home.archive')) {
+         $scope.title = "Archive";
+         $scope.CustomColor = {
+           'backgroundcolor': '#A09E98',
+           'color': 'white'
+         }
+       } else if ($state.is('home.trash')) {
+         $scope.title = "Trash";
+         $scope.CustomColor = {
+           'backgroundcolor': 'rgb(99, 99, 99)',
+           'color': 'white'
+         }
+       }
+     };
+     $scope.changeColor();
+
+
+
+     $scope.toggleLeft = buildToggler('left');
+
+     function buildToggler(componentId) {
+       return function() {
+         $mdSidenav(componentId).toggle();
+         //$mdSidenav.isOpen = false;
+         if ($mdSidenav(componentId).isOpen()) {
+           document.getElementById("myDiv").style.marginLeft = "200px";
+         } else {
+           document.getElementById("myDiv").style.marginLeft = "0px";
+         }
+       };
+     }
+
+
+
+     $scope.goToArchive = function() {
+       $state.go('home.archive')
+     };
+
+     $scope.goTotrash = function() {
+       $state.go('home.trash')
+     };
+
+     $scope.goToDashboard = function() {
+       $state.go('home.dashboard')
+     };
+
+     $scope.goToLogin = function() {
+       $state.go('login')
+     }
+
+
+     $scope.logoutCard = false;
+     $scope.logOut = function() {
+       if ($scope.logoutCard === false) {
+         $scope.logoutCard = true;
+       } else {
+         $scope.logoutCard = false;
+       }
+     }
+
+     var elements = document.getElementsByClassName("mdcard");
+
+     var i;
+
+     $scope.showGridView = false;
+     $scope.showListView = true;
+     $scope.listView = function() {
+       console.log("In list view");
+       for (i = 0; i < elements.length; i++) {
+         elements[i].style.width = "800px";
+       }
+       $scope.showListView = false;
+       $scope.showGridView = true;
+     }
+
+     $scope.gridView = function() {
+       console.log("In list view");
+       for (i = 0; i < elements.length; i++) {
+         elements[i].style.width = "250px";
+       }
+       $scope.showGridView = false;
+       $scope.showListView = true;
+     }
+
+     $scope.goToSearch = function() {
+       console.log("In go search");
+       $state.go('home.search');
+     }
+
+
+
+
+  $scope.allLabels = [];
+  $scope.showLabel = true;
+  //$scope.showCreate = true;
+  $scope.showDelete = false;
+
+  $scope.showLabel = function(clickEvent) {
+    console.log("In show label");
+    $mdDialog.show({
+      controller: LabelController,
+      templateUrl: 'Template/label.view.html',
+      parent: angular.element(document.body),
+      targetEvent: clickEvent,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen
+    });
+  };
+
+
+  function LabelController($scope, $mdDialog) {
+
+    console.log("In close fun");
+    $scope.labelId = 0;
+    $scope.label = "";
+    $scope.userId = 0;
+
+    var getLabel = function() {
+      var url = baseurl + 'getLabels';
+      GetService.getModel(url).then(function successCallback(response) {
+        $scope.allLabels = response.data;
+        console.log($scope.allLabels);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+    getLabel();
+
+    $scope.addLabel = function() {
+      var label = {
+        labelId: $scope.labelId,
+        label: $scope.label,
+        userId: $scope.userId
+      }
+      console.log("In addlabel" + label);
+      var url = baseurl + 'addLabel';
+      if (label.label == "") {
+        console.log("label undefined............");
+      } else {
+        PostService.postService(label, url).then(function successCallback(response) {
+          console.log(response);
+          getLabel();
+        }, function errorCallback(response) {
+          console.log("error" + response.data);
+        })
+      }
+    }
+
+
+
+    $scope.hideDialogueBox = function() {
+      console.log("In hide d");
+      $mdDialog.hide();
+    }
+
+
+
+    $scope.close = false;
+    $scope.done = false;
+    $scope.add = true;
+    $scope.isClicked = false;
+    $scope.changeIcon = function() {
+      $scope.isClicked = !$scope.isClicked;
+      if ($scope.isClicked) {
+        $scope.add = true;
+        $scope.close = false;
+        $scope.done = false;
+      } else {
+        $scope.add = false;
+        $scope.close = true;
+        $scope.done = true;
+      }
+    }
+
+
+    $scope.showCreate = true
+    $scope.beforeEdit = function(label) {
+      label.showDelete = true;
+      label.showLabel = false;
+    }
+
+
+    $scope.afterEdit = function(label) {
+      label.showDelete = false;
+      label.showLabel = true;
+
+    }
+
+
+
+
+    $scope.deleteLabel = function(label) {
+      var url = baseurl + 'deleteLabel/' + label.labelId;
+      DeleteService.delete(url).then(function successCallback(response) {
+        console.log(response);
+      }, function errorCallback(response) {
+        console.log("erorr.................");
+        console.log("error" + response.data);
+      })
+    }
+
+    $scope.updateLabel = function(label) {
+      console.log("In update label" + label.label + label.labelId + label.userId);
+      console.log(label);
+      var url = baseurl + 'updateLabel/' + label.labelId;
+      PutService.updateMethod(label, url).then(function successCallback(response) {
+        console.log(response);
+        getLabel();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+
+
+
+  }
+
+  var getLabel = function() {
+    var url = baseurl + 'getLabels';
+    GetService.getModel(url).then(function successCallback(response) {
+      $scope.allLabels = response.data;
+      console.log($scope.allLabels);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+  getLabel();
 
   getNote();
+
+  $scope.showAddlabelDialogue = function (clickEvent) {
+    console.log("In add label dialgue");
+    $mdDialog.show({
+      locals:{label:$scope.allLabels},
+      controller:addLabelController,
+      templateUrl: 'Template/addlabel.view.html',
+      parent: angular.element(document.body),
+      targetEvent: clickEvent,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen
+    });
+
+
+
+
+  }
+
+  var addLabelController = function ($scope,label) {
+    console.log(label);
+      $scope.label1 = label;
+
+      $scope.selected = [];
+
+      $scope.exists = function (item, list) {
+        console.log(item);
+       console.log(list);
+        return list.indexOf(item) > -1;
+      };
+
+      $scope.addNoteLabel = function(note,label){
+     	  console.log("in add method");
+
+     	  console.log(note)
+
+
+     	var noteLabel = {}
+     	noteLabel.noteId = note.noteId,
+     	noteLabel.labelId = label.labelId
+
+
+        console.log("In addlabel" + label);
+        var url = baseurl + 'addnoteLabel';
+
+          PostService.postService(noteLabel, url).then(function successCallback(response) {
+            console.log(response);
+          }, function errorCallback(response) {
+            console.log("error" + response.data);
+          })
+        }
+      }
+
+      //
+      // $scope.checkLabels = function($event,labelObject){
+    	//  $scope.value;
+      //
+    	//   console.log("checking labels...");
+    	//   // for(var i = 0; i < note.labels.length ; i++){
+    	// 	//   if(note.labels[i].labelId == labelObject.label){
+    	// 	// 	  console.log("found label")
+    	// 	// 	  $scope.value="true";
+    	// 	//   }else{
+    	// 	// 	  console.log("label not found..!!!")
+    	// 	// 	  $scope.value="false";
+    	// 	//   }
+    	//   // }
+      // }
+
+  //     $scope.editChange = function(isChecked,note,label,$index){
+  //      	 console.log(isChecked)
+  //      	 console.log(note)
+  //      	 console.log(label)
+  //        if(isChecked){
+  //       	 console.log("calling method..!!")
+  //       //	 $scope.addLabelToNote(note,label);
+  //        }else if(!isChecked){
+  //       	 console.log("calling delete method...");
+  //       	// $scope.deleteLabelFromNote(note,label,$index);
+  //        }
+  //     }
+  //
+  // }
+
+
+
+      $scope.selected = [];
+      $scope.toggle = function (item, list)
+      {
+          var idx = list.indexOf(item);
+          if (idx > -1) {
+              list.splice(idx, 1);
+          }
+          else {
+              list.push(item);
+          }
+      };
+
+
 
   $scope.createNote = function() {
     // var title = $('#title').html();
@@ -334,13 +710,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   //   $state.go('login')
   // }
 
-  $scope.ctrlNote = function(index, notes) {
-    console.log("in ctrl note");
-    if (index == 0) {
-      console.log("index");
-      trashNote(notes)
-    }
-  }
+
 
   var trashNote = function(notes) {
     if (notes.isTrashed === true) {
@@ -466,7 +836,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
  var reminderController  = function () {
    console.log("In reminder controller");
 
-   
+
  }
 
  $scope.updateReminder = function (note,reminder) {

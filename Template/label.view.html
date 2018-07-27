@@ -16,23 +16,23 @@
         </md-button>
       </div>
 
-      <div layout="row" layout-align="start" ng-repeat="label in allLabels">
-        <md-button style="margin: 0px auto;padding: 0px" class="md-icon-button md-icon md-icon-left">
+      <div layout="row" layout-align="start" ng-repeat="label in allLabels" ng-mouseover="beforeEdit(label)" ng-mouseout="afterEdit(label)">
+        <md-button style="margin: 0px auto;padding: 0px" class="md-icon-button md-icon md-icon-left" ng-show="label.showDelete">
           <md-icon ng-click="deleteLabel(label)"><i class="material-icons" >delete</i></md-icon>
         </md-button>
-        <md-button style="margin: 0px auto;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" >
+        <md-button style="margin: 0px auto;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" ng-show="label.showLabel" >
           <md-icon><i class="material-icons">label</i></md-icon>
         </md-button>
-        <input  type="text" style="border:none;outline: none;" ng-model="label.label" ng-mouseover="changeIcon1()" />
-        <md-button style="margin: 0px auto;padding: 0px;" class="md-icon-button md-icon md-icon-right">
-          <md-icon><i class="material-icons">create</i></md-icon>
+        <input  type="text" style="border:none;outline: none;" ng-model="label.label"  />
+        <md-button style="margin: 0px auto;padding: 0px;" class="md-icon-button md-icon md-icon-right" ng-show="showCreate">
+          <md-icon><i class="material-icons" ng-click="beforeEdit(label);updateLabel(label);" >create</i></md-icon>
         </md-button>
-        <md-button class="md-icon-button md-icon-right"  style="margin: 0 auto;padding: 0px;" >
-          <md-icon><i class="material-icons"  ng-click="updateLabel(label);hideDialogueBox()">done</i></md-icon>
+        <md-button class="md-icon-button md-icon-right"  style="margin: 0 auto;padding: 0px;" ng-show="label.showDone">
+          <md-icon><i class="material-icons" >done</i></md-icon>
         </md-button>
       </div>
       <div layout="row" layout-align="end end">
-        <md-button>
+        <md-button ng-click="hideDialogueBox()">
           <strong>Done</strong>
         </md-button>
       </div>

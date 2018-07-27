@@ -34,7 +34,7 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
     .state('home', {
       url: '/home',
       templateUrl: 'Template/homepage.view.html',
-      controller: 'HomeController'
+      controller: 'NoteController'
     })
     .state('home.dashboard', {
       url: '/dashboard',
