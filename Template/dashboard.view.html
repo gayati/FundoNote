@@ -96,9 +96,9 @@
 
   <div ng-show="showPinned" >
   <md-subheader ><strong>Pinned</strong></md-subheader>
-    <div layout="row"  style="width:800px"  layout-wrap>
+    <div  layout="row"  style="width:800px"  layout-wrap >
       <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
-        <div layout="row" layout-align="space-between center">
+        <div ng-init="getNoteLabel(notes)" layout="row" layout-align="space-between center">
           <div>
             <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
           </div>
@@ -112,6 +112,11 @@
         </div>
         <div contenteditable  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"
        ng-bind-html = "notes.description"></div>
+       <div style="height:50px">
+       <div ng-repeat="label in noteLabels">
+        {{label.label}}
+       </div>
+     </div>
         <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
           <div ng-show="first">
             <icons></icons>
@@ -122,7 +127,7 @@
               </md-button>
               <md-menu-content width="4" ng-click="$mdMenu.close($event)">
                 <md-menu-item ng-repeat="item in menuList">
-                  <md-button ng-click="ctrlNote($index,notes)">
+                  <md-button ng-click="ctrlNote($event,$index,notes)">
                     {{item.option}}
                   </md-button>
                 </md-menu-item>
@@ -164,9 +169,9 @@
   <!-- <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px"> -->
     <div layout="row" style="width:800px"  layout-wrap>
       <md-card  class="mdcard" style="" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)"
-       ng-repeat="notes in allNotes | orderBy:'notes'  | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
+       ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
         <div layout="row" layout-align="space-between center">
-          <div>
+          <div ng-init="getNoteLabel(notes)">
             <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
             <!-- <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div> -->
           </div>
@@ -180,6 +185,11 @@
         </div>
         <div contenteditable  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
           <strong ng-bind-html="notes.description">  </strong></div>
+          <div style="height:50px">
+          <div ng-repeat="label in noteLabels">
+           {{label.label}}
+          </div>
+        </div>
         <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
           <div ng-show="first">
             <icons></icons>
@@ -190,7 +200,7 @@
               </md-button>
               <md-menu-content width="4" ng-click="$mdMenu.close($event)">
                 <md-menu-item ng-repeat="item in menuList">
-                  <md-button ng-click="ctrlNote($index,notes)">
+                  <md-button ng-click="ctrlNote($event,$index,notes)">
                     {{item.option}}
                   </md-button>
                 </md-menu-item>

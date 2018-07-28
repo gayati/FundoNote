@@ -3,15 +3,15 @@
         <div class="md-dialog-content">
             <md-subheader class="label-header">Label notes</md-subheader>
             <div layout="row" layout-align="start space-between">
-                <input type="text" style="border: none;outline: none;margin-left: 15px;" placeholder="Enter label name"  ng-maxlength=25 >
+                <input type="text" style="border: none;outline: none;margin-left: 15px;" placeholder="Enter label name" ng-model="label"  ng-maxlength=25 >
                 <md-button class="md-icon-button md-icon-right" style="margin: 0 auto;padding: 0px;">
                     <md-icon><i class="material-icons">search</i></md-icon>
                 </md-button>
             </div>
             <span style="text-align: center;color: red;margin-left: 15px;">{{error}} </span>
 
-            <div  layout="row" layout-align="start space-around" style="margin-left: 15px;"  ng-repeat="label in label1">
-                        <md-checkbox ng-click="addNoteLabel(note,label)">
+            <div  layout="row" layout-align="start space-around" style="margin-left: 15px;"  ng-repeat="label in label1|filter:label">
+                        <md-checkbox ng-checked="exists(label.label,selected)" ng-click="toggle(label,note,selected)">
                             {{ label.label }} <!--<span ng-if="exists(item, selected)">selected</span>-->
                         </md-checkbox>
             </div>
