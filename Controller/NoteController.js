@@ -153,6 +153,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   //   }
   // }
 
+  getNote();
 
    $scope.noteLabels=[];
 
@@ -208,6 +209,33 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
       }
     };
 
+    // $scope.checkLabels = function($event,note,labelObject){
+    // 	 $scope.value;
+    // 	  console.log("checking labels...");
+    // 	  for(var i = 0; i < note.labels.length ; i++){
+    // 		  if(note.labels[i].labelId == labelObject.label){
+    // 			  console.log("found label")
+    // 			  $scope.value="true";
+    // 		  }else{
+    // 			  console.log("label not found..!!!")
+    // 			  $scope.value="false";
+    // 		  }
+    // 	  }
+    //   }
+
+      // $scope.editChange = function(isChecked,note,label,$index){
+      //  	 console.log(isChecked)
+      //  	 console.log(note)
+      //  	 console.log(label)
+      //    if(isChecked){
+      //   	 console.log("calling method..!!")
+      //   	 $scope.addLabelToNote(note,label);
+      //    }else if(!isChecked){
+      //   	 console.log("calling delete method...");
+      //   	// $scope.deleteLabelFromNote(note,label,$index);
+      //    }
+      // }
+
     $scope.addNoteLabel = function(note, label) {
       console.log("in add method");
       var noteLabel = {}
@@ -219,23 +247,29 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
       console.log(url);
       PostService.postService(noteLabel, url).then(function successCallback(response) {
         console.log(response);
-      $rootScope.getNoteLabel(noteLabel);
+      getNoteLabel(noteLabel.noteId);
       }, function errorCallback(response) {
         console.log("error" + response.data);
       })
     }
   }
 
-    $rootScope.getNoteLabel = function (note) {
-      console.log("In getlabel" + note.noteId);
-         var url = baseurl + 'getNoteLabels/' + note.noteId;
+    var getNoteLabel = function (noteId) {
+      console.log("In getlabel" + noteId);
+         var url = baseurl + 'getNoteLabels/' + noteId;
          console.log(url);
          GetService.getModel(url).then(function successCallback(response) {
+           console.log("In get service of getNoteLabel");
            $scope.noteLabels = response.data;
-           console.log(  "In get note label.........." +$scope.noteLabels);
+           console.log(  "In get note label.........." + $scope.noteLabels);
+
+
+           console.log(  "In get note label.........." + $scope.noteLabels.labelId);
          }, function errorCallback(response) {
            console.log("error" + response.data);
          })
+
+
     }
 
   $scope.showDialogue = function(clickEvent, notes) {
@@ -331,10 +365,34 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   }
 
 
+  function tokenDecode(str) {
+    var output = str.replace('-', '+').replace('_', '/');
+       return window.atob(output);
+      }
+
+  // $scope.getProfileInfo = function () {
+  //
+  // }
+
+
   $scope.logoutCard = false;
   $scope.logOut = function() {
     if ($scope.logoutCard === false) {
       $scope.logoutCard = true;
+      var token = localStorage.getItem("loginToken");
+      console.log(token);
+      var user = {};
+         if (token !== null) {
+             var encoded = token.split('.')[1];
+             user = JSON.parse(tokenDecode(encoded));
+             console.log(user.sub);
+              $scope.userDetails = user;
+              console.log($scope.userDetails);
+         }
+         else
+         {
+          $location.path('login');
+         }
     } else {
       $scope.logoutCard = false;
     }
@@ -508,7 +566,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
   }
   getLabel();
 
-  getNote();
 
 
 
@@ -584,16 +641,28 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdSid
     }
 
   }
+;
+var obj = {
+
+};
 
 
   function getNote() {
     console.log("In get note");
     var url = baseurl + 'getNotes';
     GetService.getModel(url).then(function successCallback(response) {
-      $scope.allNotes = response.data;
+     $scope.allNotes = response.data;
+      var noteArray = response.data;
       //  var noteArray = $scope.allNotes;
       showHideheader();
-      console.log($scope.allNotes);
+      console.log('  $scope.allNotes',  $scope.allNotes);
+      for(var i=0;i<noteArray.length;i++){
+        var noteObj = noteArray[i];
+        console.log(noteObj.noteId);
+      getNoteLabel(noteObj.noteId);
+      //  console.log(labelArray);
+      }
+      // console.log($scope.allNotes);
       //showHideheader(  $scope.allNotes);
     }, function errorCallback(response) {
       console.log("error" + response.data);

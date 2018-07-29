@@ -12,7 +12,7 @@
 
             <div  layout="row" layout-align="start space-around" style="margin-left: 15px;"  ng-repeat="label in label1|filter:label">
                         <md-checkbox ng-checked="exists(label.label,selected)" ng-click="toggle(label,note,selected)">
-                            {{ label.label }} <!--<span ng-if="exists(item, selected)">selected</span>-->
+                            {{ label.label }}
                         </md-checkbox>
             </div>
 

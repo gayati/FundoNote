@@ -1,4 +1,4 @@
-<div  class="toolbar">
+<div  class="toolbar" ng-init="getProfileInfo()">
 <md-toolbar layout="row" layout-align="space-around center" ng-style="{'background-color': CustomColor.backgroundcolor}"  flex="100">
   <div layout="row" layout-align="space-around center">
     <md-button class="md-icon-button" ng-click="toggleLeft(); ">
@@ -61,8 +61,8 @@
         <img src="images/gayatri.png" style="width:100px">
       </div>
       <div layout="column" style="width:260px">
-        <div>Gayatri Kawade</div>
-        <div>gayatrikawade80@gmail.com</div>
+        <div>{{userDetails.iss}}</div>
+        <div>{{userDetails.sub}}</div>
         <div>
           <md-button ng-click="goToLogin()">Log Out</md-button>
         </div>
