@@ -1,73 +1,82 @@
-<div  class="toolbar" ng-init="getProfileInfo()">
-<md-toolbar layout="row" layout-align="space-around center" ng-style="{'background-color': CustomColor.backgroundcolor}"  flex="100">
-  <div layout="row" layout-align="space-around center">
-    <md-button class="md-icon-button" ng-click="toggleLeft(); ">
-      <md-icon><img src="images/menu.svg" /></md-icon>
-      <md-tooltip>Menu</md-tooltip>
-    </md-button>
-  </div>
-  <h2 ng-style = "{'color':CustomColor.color}">{{title}}</h2>
-  <div class="search-box" ng-click="goToSearch();" >
-    <md-button class="md-icon-button"  ><img src="images/search.svg" /></md-button>
-    <input type='text' ng-model='search' placeholder="Search" style="color: black;width:550px;height: 50px ;border:none;outline:none;"  />
-    <md-button class="md-icon-button">
-      <md-icon><i class="material-icons pointer"><font color="black">close</font></i></md-icon>
-    </md-button>
-    <md-tooltip>Search</md-tooltip>
-  </div>
+<div class="toolbar" ng-init="getProfileInfo()">
+  <md-toolbar layout="row" layout-align="space-around center" ng-style="{'background-color': CustomColor.backgroundcolor}" flex="100">
+    <div layout="row" layout-align="space-around center">
+      <md-button class="md-icon-button" ng-click="toggleLeft(); ">
+        <md-icon><img src="images/menu.svg" /></md-icon>
+        <md-tooltip>Menu</md-tooltip>
+      </md-button>
+    </div>
+    <h2 ng-style="{'color':CustomColor.color}">{{title}}</h2>
+    <div class="search-box" ng-click="goToSearch();">
+      <md-button class="md-icon-button"><img src="images/search.svg" /></md-button>
+      <input type='text' ng-model='search' placeholder="Search" style="color: black;width:550px;height: 50px ;border:none;outline:none;" />
+      <md-button class="md-icon-button">
+        <md-icon><i class="material-icons pointer"><font color="black">close</font></i></md-icon>
+      </md-button>
+      <md-tooltip>Search</md-tooltip>
+    </div>
 
 
-  <div>
-    <md-button class="md-icon-button">
-      <md-icon><img src="images/replay.svg" /></md-icon>
-      <md-tooltip>Refresh</md-tooltip>
-    </md-button>
-  </div>
-  <div>
-    <md-button class="md-icon-button" ng-show="showListView" >
-      <md-icon><img src="images/viewstream.svg" ng-click = "listView();"/></md-icon>
-      <md-tooltip>List View</md-tooltip>
-    </md-button>
-    <md-button class="md-icon-button" ng-show="showGridView">
-      <md-icon><img src="images/gridView.svg"  ng-click = "gridView()"/></md-icon>
-      <md-tooltip>Grid View</md-tooltip>
-    </md-button>
-  </div>
-  <div>
-    <md-button class="md-icon-button">
-      <md-icon><img src="images/googleapp.svg" /></md-icon>
-      <md-tooltip>Google Apps</md-tooltip>
-    </md-button>
-  </div>
-  <div>
-    <md-button class="md-icon-button">
-      <md-icon><img src="images/notification.svg" /></md-icon>
-      <md-tooltip>Notification</md-tooltip>
-    </md-button>
-  </div>
-  <div>
-    <md-button class="md-icon-button" ng-click="logOut();">
-      <md-icon><i class="material-icons">account_circle</i></md-icon>
-      <md-tooltip>Google Account</md-tooltip>
-    </md-button>
-  </div>
-</md-toolbar>
+    <div>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/replay.svg"/></md-icon>
+        <md-tooltip>Refresh</md-tooltip>
+      </md-button>
+    </div>
+    <div>
+      <md-button class="md-icon-button" ng-show="showListView">
+        <md-icon><img src="images/viewstream.svg" ng-click="listView();" /></md-icon>
+        <md-tooltip>List View</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button" ng-show="showGridView">
+        <md-icon><img src="images/gridView.svg" ng-click="gridView()" /></md-icon>
+        <md-tooltip>Grid View</md-tooltip>
+      </md-button>
+    </div>
+    <div>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/googleapp.svg" /></md-icon>
+        <md-tooltip>Google Apps</md-tooltip>
+      </md-button>
+    </div>
+    <div>
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/notification.svg" /></md-icon>
+        <md-tooltip>Notification</md-tooltip>
+      </md-button>
+    </div>
+    <div>
+      <md-button class="md-icon-button" ng-click="logOut();">
+        <md-icon><i class="material-icons">account_circle</i></md-icon>
+        <md-tooltip>Google Account</md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
 
 
-<div style="padding-top: 5px;position: absolute;z-index:0;margin-left:950px" ng-show="logoutCard">
-  <md-card style="width:300px;height:100px;">
-    <div layout="row" style="">
-      <div class="profile-image" >
-        <img src="images/gayatri.png" style="width:100px">
-      </div>
-      <div layout="column" style="width:260px">
-        <div>{{userDetails.iss}}</div>
-        <div>{{userDetails.sub}}</div>
-        <div>
-          <md-button ng-click="goToLogin()">Log Out</md-button>
+  <div style="padding-top: 5px;position: absolute;z-index:0;margin-left:950px" ng-show="logoutCard">
+    <md-card style="width:300px;height:150px;">
+      <div layout="row" style="">
+        <div class="profile-image">
+          <img src="images/gayatri.png" style="width:100px">
+        </div>
+        <div layout="column" style="width:260px">
+          <div style="font-weight:bold">{{userDetails.iss}}</div>
+          <div>{{userDetails.sub}}</div>
+          <div><a href="https://plus.google.com/u/0/me" target="_blank">Google+ Profile</a>
+            <span aria-hidden="true">–</span>
+            <a href="https://myaccount.google.com/privacypolicy" target="_blank">Privacy</a>
+          </div>
+          <div>
+          <a href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" target="_blank"><md-button>Google Account</a>
+          </div>
         </div>
       </div>
+      <md-divider></md-divider>
+      <div layout="row" layout-align="space-between center">
+      <div><md-button>Add account</md-button></div>
+      <div><md-button ng-click="goToLogin()">Log Out</md-button></div>
     </div>
-  </md-card>
-</div>
+    </md-card>
+  </div>
 </div>

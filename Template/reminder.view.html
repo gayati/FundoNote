@@ -1,25 +1,24 @@
-<div style="width:350px;height:300px">
-  <md-menu-item ng-click="null">
-    <div layout=row>
-      <div>
-        <md-icon><img src="images/arrowback.svg" /></md-icon>
-        Pick Date and Time</div>
-    </div>
-  </md-menu-item>
-  <md-menu-item ng-click="null">
-    <div layout=row>
-      <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
-    </div>
-  </md-menu-item>
-  <md-divider></md-divider>
-  <md-menu-item>
-    <md-button  ng-click="updateReminder()">SAVE</md-button>
-  </md-menu-item>
-  </div>
-  <!-- <md-select ng-model="dayTime" placeholder="" class="md-no-underline">
-         <md-option value="8.00 AM">Morning</md-option>
-         <md-option value="1.00 PM">AfterNoon</md-option>
-         <md-option value="6.00 PM">Milk</md-option>
-         <md-option value="9.00 PM">Wine</md-option>
-       </md-select>
-  <md-divider></md-divider> -->
+<div>
+<md-card class="demo-menu-example">
+<div style="padding:5px; width:250px;" ng-show="reminder">
+<div>Reminder:</div>
+<md-list>
+<md-list-item ng-click="null"><div>Later Today<div >8A.M</div></div></md-list-item>
+<md-list-item ng-click="null">Tommorow</md-list-item>
+<md-list-item ng-click="null">Next Week</md-list-item>
+<md-list-item ng-click="null">Home</md-list-item>
+<md-list-item ng-click="pickDateTime()">Pick date & time</md-list-item>
+</md-list>
+</div>
+<div ng-hide="reminder" >
+<div style="padding:5px; width:300px; "><md-icon ng-click="reminder=true" style="outline:none;">keyboard_backspace</md-icon>Pick date & time</div>
+ <md-list>
+ <md-list-item ng-click="null"><md-datepicker ng-model="myDate"></md-datepicker></md-list-item>
+ <md-list-item ng-click="null">Tommorow</md-list-item>
+ <md-list-item ng-click="null">Next Week</md-list-item>
+ <md-list-item ng-click="null">Home</md-list-item>
+ <md-list-item ng-click="null">Pick date & time</md-list-item>
+ </md-list>
+</div>
+</md-card>
+</div>

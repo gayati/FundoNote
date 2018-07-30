@@ -2,7 +2,6 @@
   <md-icon><img src="images/reminder.svg" /></md-icon>
   <md-tooltip>Remind me</md-tooltip>
 </md-button> -->
-
 <md-menu>
   <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
     <md-icon><img src="images/reminder.svg" /></md-icon>
@@ -10,61 +9,76 @@
   </md-button>
   <md-menu-content width="4">
     <md-menu-item ng-click="null">
-      <div layout=row >
-      <div>Reminder</div>
-    </div>
-    </md-menu-item>
-    <md-menu-item ng-click="null">
-      <div layout=row layout-align="space-between center">
-      <div>Later Today</div>
-      <div>8.00 AM</div>
-    </div>
-    </md-menu-item>
-    <md-menu-item ng-click="null">
-      <div layout=row layout-align="space-between center">
-      <div>Tomorrow</div>
-      <div>8.00 AM</div>
-    </div>
-    </md-menu-item>
-    <md-menu-item>
-      <div layout=row layout-align="space-between center">
-      <div>Next Week</div>
-      <div>Mon,8.00 AM</div>
-    </div>
-    </md-menu-item>
-    <md-menu-item>
-      <div layout=row ng-click="showDiv($event)">
-    <div><md-icon><img src="images/acesstime.svg" /></md-icon>
-    Pick Date and Time</div>
-    </div>
-    </md-menu-item>
-    <md-menu-item>
       <div layout=row>
-    <div><md-icon><img src="images/acesstime.svg" /></md-icon>
-    Pick Place</div>
-    </div>
+        <div>Reminder</div>
+      </div>
     </md-menu-item>
-  </md-menu-content>
-  </md-menu>
-<!--
-  <md-menu ng-show="showDiv1">
-
- <md-menu-item >
+    <md-menu-item ng-click="null">
+      <div layout=row layout-align="space-between center">
+        <div>Later Today</div>
+        <div>8.00 AM</div>
+      </div>
+    </md-menu-item>
+    <md-menu-item ng-click="null">
+      <div layout=row layout-align="space-between center">
+        <div>Tomorrow</div>
+        <div>8.00 AM</div>
+      </div>
+    </md-menu-item>
+    <md-menu-item>
+      <div layout=row layout-align="space-between center">
+        <div>Next Week</div>
+        <div>Mon,8.00 AM</div>
+      </div>
+    </md-menu-item>
+    <!-- <md-menu-item  ng-click="showMenu($event,notes.noteId)">
       <div layout=row>
         <div>
-          <md-icon><img src="images/arrowback.svg" /></md-icon>
+          <md-icon><img src="images/acesstime.svg"/></md-icon>
           Pick Date and Time</div>
       </div>
+    </md-menu-item> -->
+    <md-menu-item>
+      <md-menu>
+        <div layout=row ng-click="ctrl.showMenu($event)">
+          <div>
+            <md-icon><img src="images/acesstime.svg" /></md-icon>
+            Pick Date and Time</div>
+        </div>
+        <md-menu-content>
+          <md-menu-item>
+
+            <div>
+              <md-icon><img src="images/arrowback.svg" /></md-icon>
+              Pick Date and Time</div>
+
+          </md-menu-item >
+          <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
+            <input type=date id="dateinput" value="YYYY-MM-DDTHH:MM:SS" step="1">
+          </md-menu-item>
+          <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
+            <md-button id="saveDate" ng-click="Updatereminder();" >Save</md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <select class="form-control">
+  <option value="8.00 AM">Morning</option>
+  <option value="1.00 PM">AfterNoon</option>
+  <option value="6.00 PM">Evening</option>
+  <option value="9.00 PM">Night</option>
+</select>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-menu-item>
-    <md-menu-item ng-click="null">
+    <md-menu-item>
       <div layout=row>
-        <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
+        <div>
+          <md-icon><img src="images/acesstime.svg" /></md-icon>
+          Pick Place</div>
       </div>
     </md-menu-item>
-
-
-
-</md-menu> -->
+  </md-menu-content>
+</md-menu>
 
 <md-button class="md-icon-button">
   <md-icon><img src="images/collaberator.svg" /></md-icon>

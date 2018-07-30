@@ -1,4 +1,4 @@
-<md-card style="width:500px;" ng-style="{'background-color': notes.color}">
+<div style="width:500px;" ng-style="{'background-color': notes.color}">
   <div layout="row" layout-align="space-between center">
     <div>
       <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="notes.title"></div>
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div contenteditable id = "description1"  data-placeholder="Take a note............" ng-model="notes.description"></div>
-    <div style="height:40px" layout="row" layout-align="space-between center">
+    <div  layout="row" layout-align="space-between center">
       <div layout="row">
       <icons></icons>
       <archiveicon></archiveicon>
@@ -27,8 +27,6 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-      <!-- <md-button class="md-icon-button">
-        </md-button> -->
     </div>
     <div>
       <md-button ng-click=" updateNote(notes); hideDialogueBox()">
@@ -36,4 +34,4 @@
       </md-button>
     </div>
   </div>
-</md-card>
+</div>
