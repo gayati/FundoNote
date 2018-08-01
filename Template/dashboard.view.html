@@ -95,8 +95,9 @@
     <div ng-show="showPinned">
       <md-subheader><strong>Pinned</strong></md-subheader>
       <div layout="row" style="width:800px" layout-wrap>
-        <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
-          <div layout="row" layout-align="space-between center">
+        <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
+    <md-card-content ng-click="showDialogue($event,notes)">
+          <div layout="row" layout-align="space-between center"  >
             <div>
               <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
             </div>
@@ -110,14 +111,20 @@
           </div>
           <div contenteditable style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;" ng-bind-html="notes.description"></div>
           <div>
-            <!-- <div ng-repeat="label in noteLabels"> -->
-            <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
-              <md-chip-template>
-                <strong>{{$chip.label}}</strong>
-              </md-chip-template>
-            </md-chips>
-            <!-- </div> -->
           </div>
+
+
+      <!-- <div style="">
+        <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
+          <md-chip-template>
+            <strong>{{$chip.label}}</strong>
+          </md-chip-template>
+        </md-chips>
+      </div> -->
+        </md-card-content>
+        <md-chips ng-if="notes.reminder" readonly="true">
+         <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+       </md-chips>
           <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
               <icons></icons>
@@ -140,37 +147,16 @@
       </div>
     </div>
 
-    <div ng-show="showreminderDiv">
-      <md-card style="width:1200px;height:200px;background-color:yellow;">
-        <div layout=row>
-          <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
-        </div>
-        <!-- <md-menu-item ng-click="null">
-    <div layout=row>
-      <div>
-        <md-icon><img src="images/arrowback.svg" /></md-icon>
-        Pick Date and Time</div>
-    </div>
-  </md-menu-item>
-  <md-menu-item ng-click="null">
-    <div layout=row>
-      <md-datepicker ng-model="Date" md-placeholder="Enter date"></md-datepicker>
-    </div>
-  </md-menu-item>
-  <md-divider></md-divider>
-  <md-menu-item>
-    <md-button  ng-click="updateReminder()">SAVE</md-button>
-  </md-menu-item> -->
-      </md-card>
-    </div>
+
 
 
     <div ng-show="showOther">
       <md-subheader><strong>Other</strong></md-subheader>
       <!-- <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px"> -->
       <div layout="row" style="width:800px" layout-wrap>
-        <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)" ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
-          <div layout="row" layout-align="space-between center">
+        <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}"  ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
+         <md-card-content ng-click="showDialogue($event,notes)" >
+        <div layout="row" layout-align="space-between center">
             <div>
               <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
               <!-- <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div> -->
@@ -185,13 +171,29 @@
           </div>
           <div contenteditable style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
             <strong ng-bind-html="notes.description">  </strong></div>
-          <div style="">
+          </md-card-content>
+            <md-chips ng-if="notes.reminder" readonly="true">
+             <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+           </md-chips>
+
+            <!-- <div style="">
+              <md-chips ng-model="notes" readonly="true" md-removable="true">
+                <md-chip-template>
+                  <strong>{{$chip.reminder}}</strong>
+                </md-chip-template>
+              </md-chips>
+            </div> -->
+
+          <!-- <div style="">
             <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
               <md-chip-template>
                 <strong>{{$chip.label}}</strong>
               </md-chip-template>
             </md-chips>
-          </div>
+          </div> -->
+          <!-- <div ng-repeat="label in noteLabels">
+            <div>{{label.label}}</div>
+          </div> -->
           <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
               <icons></icons>

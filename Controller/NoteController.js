@@ -9,7 +9,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.isArchived = false;
   $scope.isPinned = false;
   $scope.isTrashed = false;
-  $scope.reminder = {};
+//  $scope.tempDate = '';
+//  $scope.remindertime = "";
 
 
 
@@ -159,7 +160,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         console.log("error" + response.data);
       })
     }
-
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
     }
@@ -220,6 +220,10 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
   $scope.goToLogin = function() {
     $state.go('login')
+  }
+
+  $scope.goToReminder = function() {
+    $state.go('reminder')
   }
 
 
@@ -425,37 +429,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
 
-  //
-  // $scope.checkLabels = function($event,labelObject){
-  //  $scope.value;
-  //
-  //   console.log("checking labels...");
-  //   // for(var i = 0; i < note.labels.length ; i++){
-  // 	//   if(note.labels[i].labelId == labelObject.label){
-  // 	// 	  console.log("found label")
-  // 	// 	  $scope.value="true";
-  // 	//   }else{
-  // 	// 	  console.log("label not found..!!!")
-  // 	// 	  $scope.value="false";
-  // 	//   }
-  //   // }
-  // }
-
-  //     $scope.editChange = function(isChecked,note,label,$index){
-  //      	 console.log(isChecked)
-  //      	 console.log(note)
-  //      	 console.log(label)
-  //        if(isChecked){
-  //       	 console.log("calling method..!!")
-  //       //	 $scope.addLabelToNote(note,label);
-  //        }else if(!isChecked){
-  //       	 console.log("calling delete method...");
-  //       	// $scope.deleteLabelFromNote(note,label,$index);
-  //        }
-  //     }
-  //
-  // }
-
 
 
   $scope.selected = [];
@@ -479,9 +452,10 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       color: $scope.color,
       isArchived: $scope.isArchived,
       isPinned: $scope.isPinned,
-      isTrashed: $scope.isTrashed
+      isTrashed: $scope.isTrashed,
+      reminder:null,
     }
-
+//console.log($scope.tempDate);
     console.log(note.title + "notetitle");
     var url = baseurl + 'createNote';
     if (note.title == "" && note.description == "") {
@@ -494,11 +468,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         console.log("error" + response.data);
       })
     }
-
   };
-  var obj = {
 
-  };
 
 
   function getNote() {
@@ -514,10 +485,9 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         var noteObj = noteArray[i];
         console.log(noteObj.noteId);
         getNoteLabel(noteObj.noteId);
-        //  console.log(labelArray);
+
       }
-      // console.log($scope.allNotes);
-      //showHideheader(  $scope.allNotes);
+
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
@@ -714,8 +684,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       notes.isPinned = true;
       notes.isArchived = false;
       notes.isTrashed = false;
-
-      //  console.log("In Pinned false" + $scope.showPinned);
       var url = baseurl + 'updateNote/' + notes.noteId;
       PostService.postService(notes, url).then(function successCallback(response) {
         console.log(response);
@@ -737,79 +705,100 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     }
   }
 
-  $scope.showReminderDialogue = function(clickEvent) {
-    console.log("In show label");
-    $mdDialog.show({
-      controller: reminderController,
+
+  $scope.addTime= [
+        {'name':'Morning   8:00 AM','value':'8:00 AM'},
+        {'name':'Afternoon 1:00 PM','value':'1:00 PM'},
+        {'name':'Evening   6:00 PM','value':'6:00 PM'},
+        {'name':'Night     8:00 PM','value':'8:00 PM'},
+        {'name':'custom','value':''}
+
+    ];
+
+
+    $scope.today=new Date();
+      console.log("today",$scope.today)
+  $scope.Updatereminder = function(note) {
+
+      console.log(  note.tempDate);
+      var myDate = new Date( note.tempDate);
+         console.log(myDate);
+      //console.log(note.remindertime);
+  // note.reminder = myDate;
+  //        console.log(note.remindertime);
+  //       if($scope.today.getHours() > 12){
+  //           console.log("r1");
+  //           myDate.setHours(note.remindertime.split(':')[0]);
+  //           console.log(myDate);
+  //           myDate.setMinutes(note.remindertime.split(':')[1].split(' ')[0]);
+  //       }else if($scope.today.getHours() < 12) {
+  //           console.log("r2");
+  //           myDate.setHours('20');
+  //           myDate.setMinutes('00');
+  //       }
+
+
+      note.reminder = myDate;
+      // note.remindertime = note.remindertime;
+       console.log(note.reminder);
+      var url = baseurl + 'updateNote/' + note.noteId;
+      PostService.postService(note, url).then(function successCallback(response) {
+        console.log(response);
+        getNote();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+
+  }
+
+
+  $scope.removeReminder = function ($event,note) {
+    console.log("In remove reminder........");
+    console.log(note);
+    note.reminder = null;
+
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
+      console.log(response);
+      getNote();
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+
+  }
+
+
+  $scope.showMenu = function($event, noteId) {
+    console.log("show menu");
+    var position = $mdPanel.newPanelPosition()
+      .relativeTo($event.currentTarget)
+      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+
+    var config = {
+      attachTo: angular.element(document.body),
+      controller: PanelMenuCtrl,
       templateUrl: 'Template/reminder.view.html',
-      parent: angular.element(document.body),
-      targetEvent: clickEvent,
+      position: position,
+      openFrom: $event,
       clickOutsideToClose: true,
-      fullscreen: $scope.customFullscreen
-    });
-  };
-
-  var reminderController = function() {
-    console.log("In reminder controller");
+      escapeToClose: true,
+      focusOnOpen: false,
+      zIndex: 2
+    };
+    console.log($event);
+    $mdPanel.open(config);
   }
 
-  $scope.updateReminder = function(note, reminder) {
-    note.reminder = $scope.reminder;
+  function PanelMenuCtrl(mdPanelRef, $timeout, $scope) {
+    $scope.reminder = true;
+    $scope.pickDateTime = function() {
+      // $scope.dateTime=false;
+      $scope.reminder = false;
+      console.log("onclick pick date and time");
+    }
+    console.log("panelController ", mdPanelRef);
+    this._mdPanelRef = mdPanelRef;
   }
-
-  $scope.showreminderDiv = false;
-  $scope.showDiv = function(clickEvent) {
-    console.log("Inshow dv");
-    console.log(clickEvent);
-    $scope.showreminderDiv = true;
-  }
-
-
-  $scope.Updatereminder = function () {
-     console.log("In update reminder");
-
-       // var date = new Date
-     // var rem = document.getElementById("dateinput").html();
-     //  console.log(rem);
-       console.log($('#dateinput').html());
-
-    // });
-
-
-
-  }
-
-  $scope.showMenu = function($event,noteId) {
-   console.log("show menu");
-   var position = $mdPanel.newPanelPosition()
-   .relativeTo($event.currentTarget)
-     .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
-
-   var config = {
-     attachTo: angular.element(document.body),
-     controller: PanelMenuCtrl,
-     templateUrl:'Template/reminder.view.html',
-     position: position,
-     openFrom: $event,
-     clickOutsideToClose: true,
-     escapeToClose: true,
-     focusOnOpen: false,
-     zIndex: 2
-   };
-console.log($event);
-   $mdPanel.open(config);
- }
-
- function PanelMenuCtrl(mdPanelRef, $timeout,$scope) {
-    $scope.reminder=true;
-   $scope.pickDateTime=function(){
-     // $scope.dateTime=false;
-     $scope.reminder=false;
-     console.log("onclick pick date and time");
-   }
-   console.log("panelController ",mdPanelRef);
- this._mdPanelRef = mdPanelRef;
-}
 
 
 
