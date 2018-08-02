@@ -726,7 +726,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
   $scope.Updatereminder = function(note) {
-      console.log(  note.tempDate);
+
+      console.log(note.tempDate);
       var myDate = new Date( note.tempDate);
       console.log(myDate);
       note.reminder = myDate;

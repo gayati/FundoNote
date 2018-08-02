@@ -1,5 +1,5 @@
-<div style="width:100%;padding-top:65px;" layout="column" layout-align="center center">
-  <div id="myDiv" style="padding-top:15px" style="width:70%" layout-align="center center">
+<div flex="100" style="padding-top:65px;" layout="column" layout-align="center center">
+  <div id="myDiv" style="margin-top:40vh" flex = "70" layout-align="center center">
     <div layout="row" style="width:800px" layout-align="center center">
       <md-card style="width:550px;height:50px;" ng-show="!showCard">
         <div layout="row" layout-align="space-between center" style="">
@@ -22,7 +22,7 @@
       </md-card>
     </div>
 
-    <div style="width:70%" layout-align="center-center ">
+    <div flex="70" layout-align="center-center ">
       <md-card style="width:550px" ng-style="{'background-color':color}" ng-show="showCard">
         <div layout="row" layout-align="space-between center">
           <div id="title" contenteditable data-placeholder="Title" style="border:none;outline:none;margin-left:10px" ng-model="noteTitle"></div>
@@ -33,7 +33,7 @@
             <md-tooltip>Pin Note</md-tooltip>
           </div>
         </div>
-        <div class="intial-text after-click" contenteditable id="description" , data-placeholder="Take a note....." style="border:none;outline:none;margin-left:10px" ng-model="noteDesc"></div>
+        <div class="intial-text after-click" contenteditable id="description"  data-placeholder="Take a note....." style="border:none;outline:none;margin-left:10px" ng-model="noteDesc"></div>
         <div layout="row" layout-align="space-between center">
           <div layout="row">
             <icons></icons>

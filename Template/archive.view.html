@@ -1,6 +1,6 @@
-<div style="width:100%;padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
+<div flex = "100" style="padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
     <div id ="myDiv" layout="row"  style="width:800px"  layout-wrap>
-    <md-card style="width:250px;" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
+    <md-card flex = "30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
       <div layout="row" layout-align="space-between center">
         <div>
           <p ng-bind-html="notes.title"> </p>
@@ -15,7 +15,7 @@
       </div>
       <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
         <strong ng-bind-html="notes.description"></strong></div>
-      <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+      <div style="height:40px" ng-mouseover="first=true" ng-mouseout="first=false">
         <div ng-show="first">
             <icons></icons>
           <unarchiveicon></unarchiveicon>
