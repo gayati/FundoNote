@@ -1,53 +1,128 @@
-<div>
-  <md-card class="demo-menu-example">
-    <div style="padding:5px; width:250px;" ng-show="reminder">
-      <div>Reminder:</div>
-      <md-list>
-        <md-list-item>
-          <div layout=row layout-align="space-between center">
-            <div>Later Today</div>
-            <div>8.00 AM</div>
-          </div>
-        </md-list-item>
-        <md-list-item>
-          <div layout=row layout-align="space-between center">
-            <div>Tomorrow</div>
-            <div>8.00 AM</div>
-          </div>
-        </md-list-item>
-        <md-list-item>
-          <div layout=row layout-align="space-between center">
-            <div>Next Week</div>
-            <div>Mon,8.00 AM</div>
-          </div>
-        </md-list-item>
-        <md-list-item ng-click="pickDateTime()">Pick date & time</md-list-item>
-      </md-list>
-    </div>
-    <div ng-hide="reminder">
-      <div style="padding:5px; width:300px; ">
-        <md-icon ng-click="reminder=true" style="outline:none;">keyboard_backspace</md-icon>Pick date & time</div>
-      <md-list>
-        <md-list-item ng-click="null">
-          <md-datepicker ng-model="reminderDate"></md-datepicker>
-        </md-list-item>
-        <!-- <md-list-item ng-click="null">Tommorow</md-list-item>
-        <md-list-item ng-click="null">Next Week</md-list-item>
-        <md-list-item ng-click="null">Home</md-list-item>
-        <md-list-item ng-click="null">Pick date & time</md-list-item> -->
-      </md-list>
-    </div>
-  </md-card>
+<div style="width:100%;padding-top:65px;" layout="column" layout-align="center center">
+  <div id="myDiv" style="padding-top:15px" style="width:70%" layout-align="center center">
+<div ng-show="showPinned">
+  <md-subheader><strong>Pinned</strong></md-subheader>
+  <div layout="row" style="width:800px" layout-wrap>
+    <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true,reminder:''}" style="width:250px;" ng-style="{'background-color': notes.color}">
+<md-card-content ng-click="showDialogue($event,notes)">
+      <div layout="row" layout-align="space-between center"  >
+        <div>
+          <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
+        </div>
+        <div>
+          <md-button class="md-icon-button" ng-click="updatePin(notes)">
+            <img ng-if="notes.isPinned === true" src="images/bluePin.svg">
+            <img ng-if="notes.isPinned === false" src="images/pin.svg">
+          </md-button>
+          <md-tooltip>Pin Note</md-tooltip>
+        </div>
+      </div>
+      <div contenteditable style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;" ng-bind-html="notes.description"></div>
+      <div>
+      </div>
+
+
+  <!-- <div style="">
+    <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
+      <md-chip-template>
+        <strong>{{$chip.label}}</strong>
+      </md-chip-template>
+    </md-chips>
+  </div> -->
+    </md-card-content>
+    <md-chips ng-if="notes.reminder" readonly="true">
+     <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+   </md-chips>
+      <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+        <div ng-show="first">
+          <icons></icons>
+          <archiveicon></archiveicon>
+          <md-menu>
+            <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
+              <md-icon><img src="images/more.svg" /></md-icon>
+            </md-button>
+            <md-menu-content width="4" ng-click="$mdMenu.close($event)">
+              <md-menu-item ng-repeat="item in menuList">
+                <md-button ng-click="ctrlNote($event,$index,notes)">
+                  {{item.option}}
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </div>
+      </div>
+    </md-card>
+  </div>
 </div>
 
 
 
-<!-- <md-menu-item ng-click="null">
 
-</md-menu-item>
-<md-menu-item ng-click="null">
+<div ng-show="showOther">
+  <md-subheader><strong>Other</strong></md-subheader>
+  <!-- <div layout="row" layout-xs='column' layout-wrap class="md-padding" style="margin-left:150px"> -->
+  <div layout="row" style="width:800px" layout-wrap>
+    <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}"  ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false,reminder:''} ">
+     <md-card-content ng-click="showDialogue($event,notes)" >
+    <div layout="row" layout-align="space-between center">
+        <div>
+          <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
+          <!-- <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div> -->
+        </div>
+        <div>
+          <md-button class="md-icon-button" ng-click="updatePin(notes)">
+            <img ng-if="notes.isPinned === true" src="images/bluePin.svg">
+            <img ng-if="notes.isPinned === false" src="images/pin.svg">
+          </md-button>
+          <md-tooltip>Pin Note</md-tooltip>
+        </div>
+      </div>
+      <div contenteditable style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
+        <strong ng-bind-html="notes.description">  </strong></div>
+      </md-card-content>
+        <md-chips ng-if="notes.reminder" readonly="true">
+         <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+       </md-chips>
 
-</md-menu-item>
-<md-menu-item>
+        <!-- <div style="">
+          <md-chips ng-model="notes" readonly="true" md-removable="true">
+            <md-chip-template>
+              <strong>{{$chip.reminder}}</strong>
+            </md-chip-template>
+          </md-chips>
+        </div> -->
 
-</md-menu-item>
+      <!-- <div style="">
+        <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
+          <md-chip-template>
+            <strong>{{$chip.label}}</strong>
+          </md-chip-template>
+        </md-chips>
+      </div> -->
+      <!-- <div ng-repeat="label in noteLabels">
+        <div>{{label.label}}</div>
+      </div> -->
+      <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+        <div ng-show="first">
+          <icons></icons>
+          <archiveicon></archiveicon>
+          <md-menu>
+            <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
+              <md-icon><img src="images/more.svg" /></md-icon>
+            </md-button>
+            <md-menu-content width="4" ng-click="$mdMenu.close($event)">
+              <md-menu-item ng-repeat="item in menuList">
+                <md-button ng-click="ctrlNote($event,$index,notes)">
+                  {{item.option}}
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </div>
+      </div>
+    </md-card>
+  </div>
+</div>
+
+</div>
+</div>

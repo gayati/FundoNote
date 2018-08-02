@@ -185,6 +185,13 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         'color': 'white'
       }
     }
+    else if ($state.is('home.reminder')) {
+       $scope.title = "Reminder";
+      $scope.CustomColor = {
+          'backgroundcolor': 'rgb(96, 125, 139)',
+        'color': 'white'
+      }
+     }
   };
   $scope.changeColor();
 
@@ -223,7 +230,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   }
 
   $scope.goToReminder = function() {
-    $state.go('reminder')
+    console.log("jkggggggg");
+    $state.go('home.reminder')
   }
 
 
@@ -716,30 +724,14 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     ];
 
 
-    $scope.today=new Date();
-      console.log("today",$scope.today)
-  $scope.Updatereminder = function(note) {
 
+  $scope.Updatereminder = function(note) {
       console.log(  note.tempDate);
       var myDate = new Date( note.tempDate);
-         console.log(myDate);
-      //console.log(note.remindertime);
-  // note.reminder = myDate;
-  //        console.log(note.remindertime);
-  //       if($scope.today.getHours() > 12){
-  //           console.log("r1");
-  //           myDate.setHours(note.remindertime.split(':')[0]);
-  //           console.log(myDate);
-  //           myDate.setMinutes(note.remindertime.split(':')[1].split(' ')[0]);
-  //       }else if($scope.today.getHours() < 12) {
-  //           console.log("r2");
-  //           myDate.setHours('20');
-  //           myDate.setMinutes('00');
-  //       }
-
-
+      console.log(myDate);
       note.reminder = myDate;
-      // note.remindertime = note.remindertime;
+      note.remindertime = note.remindertime;
+      console.log(note.remindertime);
        console.log(note.reminder);
       var url = baseurl + 'updateNote/' + note.noteId;
       PostService.postService(note, url).then(function successCallback(response) {
@@ -748,7 +740,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       }, function errorCallback(response) {
         console.log("error" + response.data);
       })
-
   }
 
 
@@ -800,6 +791,59 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     this._mdPanelRef = mdPanelRef;
   }
 
+  $scope.today=new Date();
+  console.log("today",$scope.today)
+  $scope.Latertoday = function (note) {
+     if($scope.today.getHours() > 12 && $scope.today.getHours() < 8){
+       note.reminder = $scope.today;
+       note.remindertime = "8.00 AM"
+       var url = baseurl + 'updateNote/' + note.noteId;
+       PostService.postService(note, url).then(function successCallback(response) {
+         console.log(response);
+         getNote();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+     }else{
+       note.reminder = $scope.today;
+       note.remindertime = "8.00 PM"
+       var url = baseurl + 'updateNote/' + note.noteId;
+       PostService.postService(note, url).then(function successCallback(response) {
+         console.log(response);
+         getNote();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+     }
+  }
 
+  $scope.setTomorrowDate = function (note) {
+       var tomorrow = new Date();
+       tomorrow.setDate(tomorrow.getDate() + 1);
+       note.reminder = tomorrow;
+       note.remindertime = "8.00 AM"
+       var url = baseurl + 'updateNote/' + note.noteId;
+       PostService.postService(note, url).then(function successCallback(response) {
+         console.log(response);
+         getNote();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+
+  }
+
+  $scope.setNextWeekDate = function (note) {
+       var nextWeek = new Date();
+       nextWeek.setDate(nextWeek.getDate() + (1+7 - nextWeek.getDay()) % 7);
+       note.reminder = nextWeek;
+       note.remindertime = "8.00 AM"
+       var url = baseurl + 'updateNote/' + note.noteId;
+       PostService.postService(note, url).then(function successCallback(response) {
+         console.log(response);
+         getNote();
+       }, function errorCallback(response) {
+         console.log("error" + response.data);
+       })
+  }
 
 });

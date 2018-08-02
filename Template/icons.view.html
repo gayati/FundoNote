@@ -13,19 +13,19 @@
         <div>Reminder</div>
       </div>
     </md-menu-item>
-    <md-menu-item ng-click="null">
+    <md-menu-item ng-click="Latertoday(notes)">
       <div layout=row layout-align="space-between center">
         <div>Later Today</div>
         <div>8.00 AM</div>
       </div>
     </md-menu-item>
-    <md-menu-item ng-click="null">
+    <md-menu-item ng-click="setTomorrowDate(notes)">
       <div layout=row layout-align="space-between center">
         <div>Tomorrow</div>
         <div>8.00 AM</div>
       </div>
     </md-menu-item>
-    <md-menu-item>
+    <md-menu-item  ng-click="setNextWeekDate(notes)">
       <div layout=row layout-align="space-between center">
         <div>Next Week</div>
         <div>Mon,8.00 AM</div>
@@ -53,30 +53,22 @@
               Pick Date and Time</div>
           </md-menu-item>
           <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
-            <input type="date" min="{{today | date : 'yyyy-MM-dd'}}" ng-model="notes.tempDate"/>
+            <input type="date" min="{{today | date : 'yyyy-MM-dd'}}" ng-model="notes.tempDate" />
 
             <!-- <input type="date" id="exampleInput" name="input" ng-model="notes.tempDate" step="1"> -->
           </md-menu-item>
           <md-menu-item>
-                           <md-input-container>
-                           <labe style="font-size: small">Enter Time</labe>
-                           <input list="timelist" ng-model="notes.remindertime" /></label>
-                           <datalist id="timelist">
+            <md-input-container>
+              <labe style="font-size: small">Enter Time</labe>
+              <input list="timelist" ng-model="notes.remindertime" /></label>
+              <datalist id="timelist">
                              <option ng-repeat="time in addTime" value="{{time.value}}">{{time.name}}</option>
                            </datalist>
-                           </md-input-container>
-                       </md-menu-item>
-          <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
-            <md-button id="saveDate" ng-click="Updatereminder(notes);" >Save</md-button>
+            </md-input-container>
           </md-menu-item>
-          <!-- <md-menu-item>
-            <select class="form-control">
-  <option value="8.00 AM">Morning</option>
-  <option value="1.00 PM">AfterNoon</option>
-  <option value="6.00 PM">Evening</option>
-  <option value="9.00 PM">Night</option>
-</select>
-          </md-menu-item> -->
+          <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
+            <md-button id="saveDate" ng-click="Updatereminder(notes);">Save</md-button>
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
     </md-menu-item>

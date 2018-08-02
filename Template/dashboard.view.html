@@ -123,7 +123,7 @@
       </div> -->
         </md-card-content>
         <md-chips ng-if="notes.reminder" readonly="true">
-         <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+         <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}  {{notes.remindertime}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
        </md-chips>
           <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
@@ -173,7 +173,7 @@
             <strong ng-bind-html="notes.description">  </strong></div>
           </md-card-content>
             <md-chips ng-if="notes.reminder" readonly="true">
-             <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
+             <md-chip ><md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}<md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon></md-chip>
            </md-chips>
 
             <!-- <div style="">
