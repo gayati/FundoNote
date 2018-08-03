@@ -97,6 +97,9 @@
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
     <md-card-content ng-click="showDialogue($event,notes)">
+      <div ng-if="notes.image" >
+          <img ng-src="{{notes.image}}" style="width:100%;">
+        </div>
           <div layout="row" layout-align="space-between center"  >
             <div>
               <div class="intial-text after-click" contenteditable>{{notes.title}}</div>
@@ -156,6 +159,9 @@
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}"  ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
          <md-card-content ng-click="showDialogue($event,notes)" >
+           <div ng-if="notes.image" >
+               <img ng-src="{{notes.image}}" style="width:100%;">
+             </div>
         <div layout="row" layout-align="space-between center">
             <div>
               <div class="intial-text after-click" contenteditable>{{notes.title}}</div>

@@ -45,6 +45,17 @@ div:empty:not(:focus):before {
 
 }
 
+.hide-file {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  cursor: pointer;
+  right: 0;
+  top: 0;
+  height: 100%;
+  font-size: 24px;
+  width: 100%;
+}
 .box {
   width: 20px;
   height: 20px;
@@ -60,7 +71,7 @@ div:empty:not(:focus):before {
 }
 
 .CreateLabel {
-  height: 200px;
+  height: 400px;
   width: 300px;
 }
 .button {

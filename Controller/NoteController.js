@@ -9,8 +9,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.isArchived = false;
   $scope.isPinned = false;
   $scope.isTrashed = false;
-//  $scope.tempDate = '';
-//  $scope.remindertime = "";
+  //  $scope.tempDate = '';
+  //  $scope.remindertime = "";
 
 
 
@@ -184,14 +184,13 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         'backgroundcolor': 'rgb(99, 99, 99)',
         'color': 'white'
       }
-    }
-    else if ($state.is('home.reminder')) {
-       $scope.title = "Reminder";
+    } else if ($state.is('home.reminder')) {
+      $scope.title = "Reminder";
       $scope.CustomColor = {
-          'backgroundcolor': 'rgb(96, 125, 139)',
+        'backgroundcolor': 'rgb(96, 125, 139)',
         'color': 'white'
       }
-     }
+    }
   };
   $scope.changeColor();
 
@@ -381,6 +380,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
     $scope.showCreate = true
+    //$scope.showLabel = true
     $scope.beforeEdit = function(label) {
       label.showDelete = true;
       label.showLabel = false;
@@ -452,8 +452,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
   $scope.createNote = function() {
-    // var title = $('#title').html();
-    // var description = $('#description').html();
     var note = {
       title: $scope.noteTitle,
       description: $scope.noteDesc,
@@ -461,9 +459,9 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       isArchived: $scope.isArchived,
       isPinned: $scope.isPinned,
       isTrashed: $scope.isTrashed,
-      reminder:null,
+      reminder: $scope.tempDate,
     }
-//console.log($scope.tempDate);
+    //console.log($scope.tempDate);
     console.log(note.title + "notetitle");
     var url = baseurl + 'createNote';
     if (note.title == "" && note.description == "") {
@@ -714,26 +712,42 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   }
 
 
-  $scope.addTime= [
-        {'name':'Morning   8:00 AM','value':'8:00 AM'},
-        {'name':'Afternoon 1:00 PM','value':'1:00 PM'},
-        {'name':'Evening   6:00 PM','value':'6:00 PM'},
-        {'name':'Night     8:00 PM','value':'8:00 PM'},
-        {'name':'custom','value':''}
+  $scope.addTime = [{
+      'name': 'Morning   8:00 AM',
+      'value': '8:00 AM'
+    },
+    {
+      'name': 'Afternoon 1:00 PM',
+      'value': '1:00 PM'
+    },
+    {
+      'name': 'Evening   6:00 PM',
+      'value': '6:00 PM'
+    },
+    {
+      'name': 'Night     8:00 PM',
+      'value': '8:00 PM'
+    },
+    {
+      'name': 'custom',
+      'value': ''
+    }
 
-    ];
+  ];
 
 
 
   $scope.Updatereminder = function(note) {
-
+    if (note === undefined) {
+      console.log("To create note................");
+    } else {
       console.log(note.tempDate);
-      var myDate = new Date( note.tempDate);
-      console.log(myDate);
-      note.reminder = myDate;
-      note.remindertime = note.remindertime;
+      $scope.myDate = new Date(note.tempDate);
+      note.reminder = $scope.myDate;
+      $scope.reminderTime = note.remindertime
+      note.remindertime = $scope.reminderTime;
       console.log(note.remindertime);
-       console.log(note.reminder);
+      console.log(note.reminder);
       var url = baseurl + 'updateNote/' + note.noteId;
       PostService.postService(note, url).then(function successCallback(response) {
         console.log(response);
@@ -741,10 +755,11 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       }, function errorCallback(response) {
         console.log("error" + response.data);
       })
+    }
   }
 
 
-  $scope.removeReminder = function ($event,note) {
+  $scope.removeReminder = function($event, note) {
     console.log("In remove reminder........");
     console.log(note);
     note.reminder = null;
@@ -792,59 +807,100 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     this._mdPanelRef = mdPanelRef;
   }
 
-  $scope.today=new Date();
-  console.log("today",$scope.today)
-  $scope.Latertoday = function (note) {
-     if($scope.today.getHours() > 12 && $scope.today.getHours() < 8){
-       note.reminder = $scope.today;
-       note.remindertime = "8.00 AM"
-       var url = baseurl + 'updateNote/' + note.noteId;
-       PostService.postService(note, url).then(function successCallback(response) {
-         console.log(response);
-         getNote();
-       }, function errorCallback(response) {
-         console.log("error" + response.data);
-       })
-     }else{
-       note.reminder = $scope.today;
-       note.remindertime = "8.00 PM"
-       var url = baseurl + 'updateNote/' + note.noteId;
-       PostService.postService(note, url).then(function successCallback(response) {
-         console.log(response);
-         getNote();
-       }, function errorCallback(response) {
-         console.log("error" + response.data);
-       })
-     }
+  $scope.today = new Date();
+  console.log("today", $scope.today)
+  $scope.Latertoday = function(note) {
+    if ($scope.today.getHours() > 12 && $scope.today.getHours() < 8) {
+      note.reminder = $scope.today;
+      note.remindertime = "8.00 AM"
+      var url = baseurl + 'updateNote/' + note.noteId;
+      PostService.postService(note, url).then(function successCallback(response) {
+        console.log(response);
+        getNote();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    } else {
+      note.reminder = $scope.today;
+      note.remindertime = "8.00 PM"
+      var url = baseurl + 'updateNote/' + note.noteId;
+      PostService.postService(note, url).then(function successCallback(response) {
+        console.log(response);
+        getNote();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
   }
 
-  $scope.setTomorrowDate = function (note) {
-       var tomorrow = new Date();
-       tomorrow.setDate(tomorrow.getDate() + 1);
-       note.reminder = tomorrow;
-       note.remindertime = "8.00 AM"
-       var url = baseurl + 'updateNote/' + note.noteId;
-       PostService.postService(note, url).then(function successCallback(response) {
-         console.log(response);
-         getNote();
-       }, function errorCallback(response) {
-         console.log("error" + response.data);
-       })
+  $scope.setTomorrowDate = function(note) {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    note.reminder = tomorrow;
+    note.remindertime = "8.00 AM"
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
+      console.log(response);
+      getNote();
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
 
   }
 
-  $scope.setNextWeekDate = function (note) {
-       var nextWeek = new Date();
-       nextWeek.setDate(nextWeek.getDate() + (1+7 - nextWeek.getDay()) % 7);
-       note.reminder = nextWeek;
-       note.remindertime = "8.00 AM"
-       var url = baseurl + 'updateNote/' + note.noteId;
-       PostService.postService(note, url).then(function successCallback(response) {
-         console.log(response);
-         getNote();
-       }, function errorCallback(response) {
-         console.log("error" + response.data);
-       })
+  $scope.setNextWeekDate = function(note) {
+    var nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + (1 + 7 - nextWeek.getDay()) % 7);
+    note.reminder = nextWeek;
+    note.remindertime = "8.00 AM"
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
+      console.log(response);
+      getNote();
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
   }
+
+
+
+  // $scope.uploadImage = function(evt) {
+  //   console.log(evt);
+  //   var file = evt;
+  //   console.log("In upload image..............." + file);
+  //   console.log("Calling image upload service.................");
+  //   // document.addEventListener("change", uploadPicture(file));
+  //
+  // }
+
+$scope.call = function(ev,note){
+  document.addEventListener('change',function(ev){
+        console.log(ev.target.files[0]);
+        var url = baseurl + 'upload' ;
+        var form = new FormData();
+         form.append("file", ev.target.files[0]);
+        PostService.imageUploadService(form, url).then(function successCallback(response) {
+          console.log(response.data);
+          var image = response.data;
+          updateImage(image,note)
+        }, function errorCallback(response) {
+          console.log("error" + response.data);
+        })
+      });
+}
+
+
+  function updateImage(image,note) {
+   console.log("In update image...............");
+   note.image = image;
+   var url = baseurl + 'updateNote/' + note.noteId;
+   PostService.postService(note, url).then(function successCallback(response) {
+     getNote();
+     console.log(response);
+   }, function errorCallback(response) {
+     console.log("error" + response.data);
+   })
+  }
+
 
 });

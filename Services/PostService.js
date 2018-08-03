@@ -13,5 +13,20 @@ ToDoApp.factory("PostService", function($http, $state,$location) {
 			}
     })
   }
+
+
+
+
+//  formData.append("file", "/home/bridgeit/Documents/pictures/sample2.jpeg");
+
+  factory.imageUploadService = function(file,url) {  
+    return $http({
+      method: "POST",
+      url: url,
+      data: file,
+      headers: {"Content-Type": undefined}
+    })
+  }
+
   return factory;
 });
