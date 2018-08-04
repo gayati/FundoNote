@@ -1,4 +1,5 @@
-ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPanel, $mdSidenav, $mdDialog, PostService, GetService, PutService, DeleteService, commonService) {
+ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPanel, $mdSidenav, $mdDialog,
+  PostService, GetService, PutService, DeleteService, commonService, $timeout) {
   var baseurl = "http://localhost:9000/";
 
 
@@ -873,34 +874,130 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   //
   // }
 
-$scope.call = function(ev,note){
-  document.addEventListener('change',function(ev){
-        console.log(ev.target.files[0]);
-        var url = baseurl + 'upload' ;
-        var form = new FormData();
-         form.append("file", ev.target.files[0]);
-        PostService.imageUploadService(form, url).then(function successCallback(response) {
-          console.log(response.data);
-          var image = response.data;
-          updateImage(image,note)
-        }, function errorCallback(response) {
-          console.log("error" + response.data);
-        })
-      });
-}
+  $scope.call = function(ev, note) {
+    document.addEventListener('change', function(ev) {
+      console.log(ev.target.files[0]);
+      var url = baseurl + 'upload';
+      console.log(ev.target.files[0]);
+      var form = new FormData();
+      form.append("file", ev.target.files[0]);
 
-
-  function updateImage(image,note) {
-   console.log("In update image...............");
-   note.image = image;
-   var url = baseurl + 'updateNote/' + note.noteId;
-   PostService.postService(note, url).then(function successCallback(response) {
-     getNote();
-     console.log(response);
-   }, function errorCallback(response) {
-     console.log("error" + response.data);
-   })
+      PostService.imageUploadService(form, url).then(function successCallback(response) {
+        console.log(response.data);
+        var image = response.data;
+        updateImage(image, note)
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    });
   }
+
+
+  function updateImage(image, note) {
+    console.log("In update image...............");
+    note.image = image;
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
+      getNote();
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+
+  $scope.removeImage = function(note) {
+    note.image = null;
+    var url = baseurl + 'updateNote/' + note.noteId;
+    PostService.postService(note, url).then(function successCallback(response) {
+      getNote();
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+
+  $scope.UploadProfile = function(clickEvent, notes) {
+    $mdDialog.show({
+      controller: profileUplodController,
+      templateUrl: 'Template/prifileupload.view.html',
+      parent: angular.element(document.body),
+      targetEvent: clickEvent,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen,
+    });
+  }
+
+  function profileUplodController($scope) {
+    $scope.myImage = '';
+    $scope.myCroppedImage = '';
+    $scope.filename ="";
+    var handleFileSelect = function(evt) {
+      var file = evt.target.files[0];
+      $scope.filename = evt.target.files[0].name;
+      console.log(evt);
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        console.log(evt);
+        $scope.$apply(function($scope) {
+          $scope.myImage = evt.target.result;
+        });
+      };
+      //console.log(  reader.readAsDataURL(file));
+      reader.readAsDataURL(file);
+      //console.log(  reader.readAsDataURL(file));
+    };
+
+    $timeout(function() {
+      angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+    }, 1000, false);
+
+
+    const dataURLtoFile = (dataurl, filename) => {
+      const arr = dataurl.split(',')
+      const mime = arr[0].match(/:(.*?);/)[1]
+      const bstr = atob(arr[1])
+      let n = bstr.length
+      const u8arr = new Uint8Array(n)
+      while (n) {
+        u8arr[n-1] = bstr.charCodeAt(n-1)
+        n -= 1 // to make eslint happy
+      }
+      return new File([u8arr], filename, { type: mime });
+    }
+
+//     function dataURLtoFile(dataurl, filename) {
+//     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+//         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+//     while(n--){
+//         u8arr[n] = bstr.charCodeAt(n);
+//     }
+//     return new File([u8arr], filename, {type:mime});
+// }
+
+    $scope.uploadProfilePic = function functionName(myCroppedImage) {
+      console.log("In upload profile pic...............");
+      var url = baseurl + 'upload';
+
+      console.log(myCroppedImage);
+      const file = dataURLtoFile(myCroppedImage,"abc.png");
+      console.log(file);
+
+     var form1 = new FormData();
+      form1.append("file", file);
+      //console.log(form);
+      PostService.imageUploadService(form1, url).then(function successCallback(response) {
+        console.log(response.data);
+        var image = response.data;
+
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      });
+    }
+  }
+
+
+
+
 
 
 });

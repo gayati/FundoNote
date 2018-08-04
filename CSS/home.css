@@ -66,8 +66,13 @@ div:empty:not(:focus):before {
   border-radius: 10px;
 }
 
-.intial-text after-click{
+/* .intial-text after-click{
   width: :100px;
+} */
+
+.profileDialgue{
+  /* height: 500px;
+  width: 400px; */
 }
 
 .CreateLabel {
@@ -84,6 +89,14 @@ div:empty:not(:focus):before {
   height: fit-content;
 }
 
-.intial-text after-click{
-  outline: none;
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  width:300px;
+  height:350px;
 }
+
+
+/* .intial-text after-click{
+  outline: none;
+} */
