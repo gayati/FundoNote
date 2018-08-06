@@ -245,22 +245,42 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   // }
 
 
+
+  var userInfo = "";
+
+  function getUser() {
+    console.log("In get User");
+    var url = baseurl + 'getUser';
+    GetService.getModel(url).then(function successCallback(response) {
+      console.log("success" + response.data.id);
+      $scope.userInfo = response.data;
+      userInfo = $scope.userInfo;
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+
+    return userInfo;
+  }
+
+  getUser();
+
   $scope.logoutCard = false;
   $scope.logOut = function() {
     if ($scope.logoutCard === false) {
       $scope.logoutCard = true;
-      var token = localStorage.getItem("loginToken");
-      console.log(token);
-      var user = {};
-      if (token !== null) {
-        var encoded = token.split('.')[1];
-        user = JSON.parse(tokenDecode(encoded));
-        console.log(user.sub);
-        $scope.userDetails = user;
-        console.log($scope.userDetails);
-      } else {
-        $location.path('login');
-      }
+      getUser();
+      //var token = localStorage.getItem("loginToken");
+      // console.log(token);
+      // var user = {};
+      // if (token !== null) {
+      //   var encoded = token.split('.')[1];
+      //   user = JSON.parse(tokenDecode(encoded));
+      //   console.log(user.sub);
+      //   $scope.userDetails = user;
+      //   console.log($scope.userDetails);
+      // } else {
+      //   $location.path('login');
+      // }
     } else {
       $scope.logoutCard = false;
     }
@@ -916,7 +936,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     })
   }
 
-  $scope.UploadProfile = function(clickEvent, notes) {
+  $scope.UploadProfile = function(clickEvent) {
     $mdDialog.show({
       controller: profileUplodController,
       templateUrl: 'Template/prifileupload.view.html',
@@ -930,7 +950,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   function profileUplodController($scope) {
     $scope.myImage = '';
     $scope.myCroppedImage = '';
-    $scope.filename ="";
+    $scope.filename = "";
     var handleFileSelect = function(evt) {
       var file = evt.target.files[0];
       $scope.filename = evt.target.files[0].name;
@@ -959,40 +979,54 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       let n = bstr.length
       const u8arr = new Uint8Array(n)
       while (n) {
-        u8arr[n-1] = bstr.charCodeAt(n-1)
+        u8arr[n - 1] = bstr.charCodeAt(n - 1)
         n -= 1 // to make eslint happy
       }
-      return new File([u8arr], filename, { type: mime });
+      return new File([u8arr], filename, {
+        type: mime
+      });
     }
 
-//     function dataURLtoFile(dataurl, filename) {
-//     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-//         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-//     while(n--){
-//         u8arr[n] = bstr.charCodeAt(n);
-//     }
-//     return new File([u8arr], filename, {type:mime});
-// }
+
 
     $scope.uploadProfilePic = function functionName(myCroppedImage) {
       console.log("In upload profile pic...............");
       var url = baseurl + 'upload';
 
       console.log(myCroppedImage);
-      const file = dataURLtoFile(myCroppedImage,"abc.png");
+      const file = dataURLtoFile(myCroppedImage, "profile.png");
       console.log(file);
 
-     var form1 = new FormData();
+      var form1 = new FormData();
       form1.append("file", file);
       //console.log(form);
       PostService.imageUploadService(form1, url).then(function successCallback(response) {
         console.log(response.data);
         var image = response.data;
-
+        updateUserPofile(image);
       }, function errorCallback(response) {
         console.log("error" + response.data);
       });
     }
+
+
+    function updateUserPofile(image) {
+      var user = getUser();
+      console.log(user);
+      var url = baseurl + 'updateUser';
+      user.profileImage = image;
+      console.log(user);
+      PutService.updateMethod(user, url).then(function successCallback(response) {
+        console.log(response);
+        //  $scope.userInfo = response.data;
+        getUser();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+
+
+
   }
 
 

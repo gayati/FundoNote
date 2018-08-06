@@ -1,6 +1,6 @@
 ToDoApp.factory("GetService", function($http, $state) {
   var factory = {};
-  console.log("Inget sevice");
+  console.log("In get user.............");
   factory.getModel = function(url) {
     return $http({
       method: "GET",

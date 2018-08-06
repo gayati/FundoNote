@@ -20,7 +20,8 @@
     </div>
 
   <!-- </div> -->
-  <div contenteditable id = "description1"  data-placeholder="Take a note............" ng-model="notes.description"></div>
+  <div contenteditable id = "description1"  data-placeholder="Take a note............"
+  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"  ng-model="notes.description"></div>
   <md-chips ng-if="notes.reminder" readonly="true">
     <md-chip>
       <md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}

@@ -1,4 +1,4 @@
-ToDoApp.controller('UserController', function($scope, $state, $location, PostService) {
+ToDoApp.controller('UserController', function($scope, $state, $location, PostService,GetService) {
   var baseurl = "http://localhost:9000/";
 
   $scope.registerUser = function() {
@@ -34,6 +34,7 @@ ToDoApp.controller('UserController', function($scope, $state, $location, PostSer
       console.log(response.data);
       $state.go('home.dashboard');
       localStorage.setItem("loginToken", response.data);
+      //  getUser();
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
@@ -82,4 +83,8 @@ ToDoApp.controller('UserController', function($scope, $state, $location, PostSer
   // $scope.goToresetPassword = function() {
   //   $state.go('resetpassword')
   // }
+
+
+
+
 });

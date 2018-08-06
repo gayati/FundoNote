@@ -1,10 +1,10 @@
-<div width="100%" style="padding-top:65px;" layout="column" layout-align="center center">
-  <div id="myDiv" width="70%" layout-align="center center">
+<div flex="100" style="padding-top:65px;" layout="column" layout-align="center center">
+  <div id="myDiv" flex="70" style="margin-top:90vh" layout-align="center center">
     <div layout="row" style="width:800px" layout-align="center center">
       <md-card style="width:550px;height:50px;" ng-show="!showCard">
         <div layout="row" layout-align="space-between center" style="">
           <input type="text" placeholder="Take a note....." style="border:none;width:200px" ng-click="showCard=true" />
-          <div layout="row" style="width:150px">
+          <!-- <div layout="row" style="width:150px">
             <md-button class="md-icon-button">
               <img src="images/list.svg">
               <md-tooltip>New List</md-tooltip>
@@ -17,7 +17,7 @@
               <md-icon><i class="material-icons not-allowed">edit</i></md-icon>
               <md-tooltip>Drawing is not available</md-tooltip>
             </md-button>
-          </div>
+          </div> -->
         </div>
       </md-card>
     </div>
@@ -119,13 +119,13 @@
             </div> -->
 
 
-            <!-- <div style="">
-        <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
-          <md-chip-template>
-            <strong>{{$chip.label}}</strong>
-          </md-chip-template>
-        </md-chips>
-      </div> -->
+            <div style="">
+              <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
+                <md-chip-template>
+                  <strong>{{$chip.label}}</strong>
+                </md-chip-template>
+              </md-chips>
+            </div>
           </md-card-content>
           <md-chips ng-if="notes.reminder" readonly="true">
             <md-chip>
@@ -197,13 +197,13 @@
               </md-chips>
             </div> -->
 
-          <!-- <div style="">
+          <div style="">
             <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
               <md-chip-template>
                 <strong>{{$chip.label}}</strong>
               </md-chip-template>
             </md-chips>
-          </div> -->
+          </div>
           <!-- <div ng-repeat="label in noteLabels">
             <div>{{label.label}}</div>
           </div> -->

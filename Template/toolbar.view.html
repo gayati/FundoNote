@@ -58,11 +58,11 @@
     <md-card style="width:300px;height:150px;">
       <div layout="row" style="">
         <div class="profile-image" ng-click="UploadProfile()">
-          <img src="images/gayatri.png" style="width:100px">
+          <img ng-src="{{userInfo.profileImage}}" style="width:100px">
         </div>
         <div layout="column" style="width:260px">
-          <div style="font-weight:bold">{{userDetails.iss}}</div>
-          <div>{{userDetails.sub}}</div>
+          <div style="font-weight:bold">{{userInfo.firstName}}</div>
+          <div>{{userInfo.emailId}}</div>
           <div><a href="https://plus.google.com/u/0/me" target="_blank">Google+ Profile</a>
             <span aria-hidden="true">–</span>
             <a href="https://myaccount.google.com/privacypolicy" target="_blank">Privacy</a>
