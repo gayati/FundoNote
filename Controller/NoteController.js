@@ -122,7 +122,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     console.log(url);
     GetService.getModel(url).then(function successCallback(response) {
       console.log("In get service of getNoteLabel");
-      $scope.noteLabels = response.data;
+      var noteLabels = response.data;
+      return noteLabels;
       console.log("In get note label.........." + $scope.noteLabels);
       //console.log("In get note label.........." + $scope.noteLabels.labelId);
     }, function errorCallback(response) {
@@ -235,10 +236,10 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   }
 
 
-  function tokenDecode(str) {
-    var output = str.replace('-', '+').replace('_', '/');
-    return window.atob(output);
-  }
+  // function tokenDecode(str) {
+  //   var output = str.replace('-', '+').replace('_', '/');
+  //   return window.atob(output);
+  // }
 
   // $scope.getProfileInfo = function () {
   //
@@ -376,7 +377,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
     $scope.hideDialogueBox = function() {
-      console.log("In hide d");
       $mdDialog.hide();
     }
 
@@ -460,15 +460,15 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
 
-  $scope.selected = [];
-  $scope.toggle = function(item, list) {
-    var idx = list.indexOf(item);
-    if (idx > -1) {
-      list.splice(idx, 1);
-    } else {
-      list.push(item);
-    }
-  };
+  // $scope.selected = [];
+  // $scope.toggle = function(item, list) {
+  //   var idx = list.indexOf(item);
+  //   if (idx > -1) {
+  //     list.splice(idx, 1);
+  //   } else {
+  //     list.push(item);
+  //   }
+  // };
 
 
 
@@ -507,13 +507,13 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       var noteArray = response.data;
       //  var noteArray = $scope.allNotes;
       showHideheader();
-      console.log('  $scope.allNotes', $scope.allNotes);
-      for (var i = 0; i < noteArray.length; i++) {
-        var noteObj = noteArray[i];
-        console.log(noteObj.noteId);
-        getNoteLabel(noteObj.noteId);
-
-      }
+      // console.log('  $scope.allNotes', $scope.allNotes);
+      // for (var i = 0; i < noteArray.length; i++) {
+      //   var noteObj = noteArray[i];
+      //   console.log(noteObj.noteId);
+      // var LabelList = getNoteLabel(noteObj.noteId);
+      // no
+      // }
 
     }, function errorCallback(response) {
       console.log("error" + response.data);
@@ -704,7 +704,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.updatePin = function(notes) {
     if (notes === undefined) {
       $scope.isPinned = true;
-      // $scope.showPinned = true;
     } else if (notes.isPinned === false) {
       console.log("In update false");
       console.log("in update note" + notes.color + notes.title + notes.description + notes.noteId + " " + notes.isArchived);
@@ -784,7 +783,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     console.log("In remove reminder........");
     console.log(note);
     note.reminder = null;
-
     var url = baseurl + 'updateNote/' + note.noteId;
     PostService.postService(note, url).then(function successCallback(response) {
       console.log(response);
@@ -792,41 +790,40 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
-
   }
 
 
-  $scope.showMenu = function($event, noteId) {
-    console.log("show menu");
-    var position = $mdPanel.newPanelPosition()
-      .relativeTo($event.currentTarget)
-      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
-
-    var config = {
-      attachTo: angular.element(document.body),
-      controller: PanelMenuCtrl,
-      templateUrl: 'Template/reminder.view.html',
-      position: position,
-      openFrom: $event,
-      clickOutsideToClose: true,
-      escapeToClose: true,
-      focusOnOpen: false,
-      zIndex: 2
-    };
-    console.log($event);
-    $mdPanel.open(config);
-  }
-
-  function PanelMenuCtrl(mdPanelRef, $timeout, $scope) {
-    $scope.reminder = true;
-    $scope.pickDateTime = function() {
-      // $scope.dateTime=false;
-      $scope.reminder = false;
-      console.log("onclick pick date and time");
-    }
-    console.log("panelController ", mdPanelRef);
-    this._mdPanelRef = mdPanelRef;
-  }
+  // $scope.showMenu = function($event, noteId) {
+  //   console.log("show menu");
+  //   var position = $mdPanel.newPanelPosition()
+  //     .relativeTo($event.currentTarget)
+  //     .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+  //
+  //   var config = {
+  //     attachTo: angular.element(document.body),
+  //     controller: PanelMenuCtrl,
+  //     templateUrl: 'Template/reminder.view.html',
+  //     position: position,
+  //     openFrom: $event,
+  //     clickOutsideToClose: true,
+  //     escapeToClose: true,
+  //     focusOnOpen: false,
+  //     zIndex: 2
+  //   };
+  //   console.log($event);
+  //   $mdPanel.open(config);
+  // }
+  //
+  // function PanelMenuCtrl(mdPanelRef, $timeout, $scope) {
+  //   $scope.reminder = true;
+  //   $scope.pickDateTime = function() {
+  //     // $scope.dateTime=false;
+  //     $scope.reminder = false;
+  //     console.log("onclick pick date and time");
+  //   }
+  //   console.log("panelController ", mdPanelRef);
+  //   this._mdPanelRef = mdPanelRef;
+  // }
 
   $scope.today = new Date();
   console.log("today", $scope.today)
@@ -866,7 +863,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
-
   }
 
   $scope.setNextWeekDate = function(note) {
@@ -891,7 +887,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   //   console.log("In upload image..............." + file);
   //   console.log("Calling image upload service.................");
   //   // document.addEventListener("change", uploadPicture(file));
-  //
   // }
 
   $scope.call = function(ev, note) {
@@ -901,7 +896,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       console.log(ev.target.files[0]);
       var form = new FormData();
       form.append("file", ev.target.files[0]);
-
       PostService.imageUploadService(form, url).then(function successCallback(response) {
         console.log(response.data);
         var image = response.data;
@@ -962,11 +956,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
           $scope.myImage = evt.target.result;
         });
       };
-      //console.log(  reader.readAsDataURL(file));
       reader.readAsDataURL(file);
-      //console.log(  reader.readAsDataURL(file));
     };
-
     $timeout(function() {
       angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
     }, 1000, false);
@@ -992,14 +983,11 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     $scope.uploadProfilePic = function functionName(myCroppedImage) {
       console.log("In upload profile pic...............");
       var url = baseurl + 'upload';
-
       console.log(myCroppedImage);
       const file = dataURLtoFile(myCroppedImage, "profile.png");
       console.log(file);
-
       var form1 = new FormData();
       form1.append("file", file);
-      //console.log(form);
       PostService.imageUploadService(form1, url).then(function successCallback(response) {
         console.log(response.data);
         var image = response.data;
@@ -1018,7 +1006,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       console.log(user);
       PutService.updateMethod(user, url).then(function successCallback(response) {
         console.log(response);
-        //  $scope.userInfo = response.data;
         getUser();
       }, function errorCallback(response) {
         console.log("error" + response.data);

@@ -1,5 +1,5 @@
-<div flex = "100" style="padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
-    <div id ="myDiv" layout="row"  style="width:800px"  layout-wrap>
+<div style="width:100%;padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
+<div id="myDiv" layout="row" layout-align="center-center" style="width:70%;" layout-wrap  >
     <md-card flex = "30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
       <div layout="row" layout-align="space-between center">
         <div>
