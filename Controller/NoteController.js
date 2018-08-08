@@ -48,90 +48,98 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     });
   }
 
-  var addLabelController = function($scope, $rootScope, label, note1) {
+  var addLabelController = function($scope,label, note1) {
     console.log("In add labelcontroller");
     $scope.label1 = label;
     $scope.note = note1;
-    $scope.selected = [];
-    console.log(note1);
+    $scope.selected = note1.labelList;
+    console.log(note1.labelList);
 
     $scope.exists = function(item, list) {
 
-      return list.indexOf(item) > -1;
-    };
-
-
-
-    $scope.toggle = function(label, note, list) {
-      var idx = list.indexOf(label);
-      if (idx > -1) {
-        // list.splice(idx, 1);
-      } else {
-        $scope.addNoteLabel(note, label);
+    for(var i=0;i<list.length;i++){
+      var selectedobject = list[i];
+      if(selectedobject.label == item.label){
+        return true;
       }
-    };
+    }
+    return false;
+  };
 
-    // $scope.checkLabels = function($event,note,labelObject){
-    // 	 $scope.value;
-    // 	  console.log("checking labels...");
-    // 	  for(var i = 0; i < note.labels.length ; i++){
-    // 		  if(note.labels[i].labelId == labelObject.label){
-    // 			  console.log("found label")
-    // 			  $scope.value="true";
-    // 		  }else{
-    // 			  console.log("label not found..!!!")
-    // 			  $scope.value="false";
-    // 		  }
-    // 	  }
+
+    // $scope.exists = function(item, list) {
+    //
+    //   return list.indexOf(item) > -1;
+    // };
+
+    $scope.toggle = function (item, list) {
+           var idx = list.indexOf(item);
+           console.log(idx + "index..........");
+           if (idx > -1) {
+             list.splice(idx, 1);
+           }
+           else {
+             list.push(item);
+           }
+           $scope.addNoteLabel(note1,item);
+};
+
+    // $scope.toggle = function(label, note, list) {
+    //   var idx = list.indexOf(label);
+    //   console.log(note + "In togglr....................");
+    //   if (idx > -1) {
+    //     // list.splice(idx, 1);
+    //   } else {
+    //     $scope.addNoteLabel(note, label);
     //   }
+    // };
 
-    // $scope.editChange = function(isChecked,note,label,$index){
-    //  	 console.log(isChecked)
-    //  	 console.log(note)
-    //  	 console.log(label)
-    //    if(isChecked){
-    //   	 console.log("calling method..!!")
-    //   	 $scope.addLabelToNote(note,label);
-    //    }else if(!isChecked){
-    //   	 console.log("calling delete method...");
-    //   	// $scope.deleteLabelFromNote(note,label,$index);
-    //    }
-    // }
+
 
     $scope.addNoteLabel = function(note, label) {
-      console.log("in add method");
+      console.log("in add method" + note.noteId);
       var noteLabel = {}
       noteLabel.noteId = note.noteId,
         noteLabel.labelId = label.labelId
 
-      console.log("In addlabel" + label);
+      console.log("In addlabel" + noteLabel.noteId);
       var url = baseurl + 'addnoteLabel';
       console.log(url);
       PostService.postService(noteLabel, url).then(function successCallback(response) {
         console.log(response);
-        getNoteLabel(noteLabel.noteId);
+        // getNoteLabel(noteLabel.noteId);
       }, function errorCallback(response) {
         console.log("error" + response.data);
       })
     }
   }
 
-  var getNoteLabel = function(noteId) {
-    console.log("In getlabel" + noteId);
-    var url = baseurl + 'getNoteLabels/' + noteId;
-    console.log(url);
-    GetService.getModel(url).then(function successCallback(response) {
-      console.log("In get service of getNoteLabel");
-      var noteLabels = response.data;
-      return noteLabels;
-      console.log("In get note label.........." + $scope.noteLabels);
-      //console.log("In get note label.........." + $scope.noteLabels.labelId);
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
+$scope.removeLabel = function (notes) {
+  var url = baseurl + 'removeLabel/' + notes.noteId;
+  DeleteService.delete(url).then(function successCallback(response) {
+    console.log(response);
+  }, function errorCallback(response) {
+    console.log("erorr.................");
+    console.log("error" + response.data);
+  })
+}
 
-
-  }
+  // var getNoteLabel = function(noteId) {
+  //   console.log("In getlabel" + noteId);
+  //   var url = baseurl + 'getNoteLabels/' + noteId;
+  //   console.log(url);
+  //   GetService.getModel(url).then(function successCallback(response) {
+  //     console.log("In get service of getNoteLabel");
+  //     var noteLabels = response.data;
+  //     return noteLabels;
+  //     console.log("In get note label.........." + $scope.noteLabels);
+  //     //console.log("In get note label.........." + $scope.noteLabels.labelId);
+  //   }, function errorCallback(response) {
+  //     console.log("error" + response.data);
+  //   })
+  //
+  //
+  // }
 
   $scope.showDialogue = function(clickEvent, notes) {
     console.log(notes.noteId + ":In show dialogue");
@@ -355,22 +363,39 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     getLabel();
 
     $scope.addLabel = function() {
+      console.log("In add label........" +  $scope.allLabels);
       var label = {
         labelId: $scope.labelId,
         label: $scope.label,
         userId: $scope.userId
       }
-      console.log("In addlabel" + label);
-      var url = baseurl + 'addLabel';
-      if (label.label == "") {
-        console.log("label undefined............");
-      } else {
+
+      var flag=false;
+
+      for(var i=0;i<=$scope.allLabels.length;i++){
+        console.log("In for");
+        var lableObj = $scope.allLabels[i];
+         console.log(lableObj);
+        if(lableObj !=undefined && lableObj.label === label.label ){
+          console.log("label undefined............");
+          flag = true;
+        } else {
+          console.log("In else...");
+        }
+      }
+
+      if (flag === false) {
+        console.log("In true...........");
+        var url = baseurl + 'addLabel';
         PostService.postService(label, url).then(function successCallback(response) {
           console.log(response);
           getLabel();
         }, function errorCallback(response) {
           console.log("error" + response.data);
         })
+            } else {
+        console.log("In addlabel" + label);
+
       }
     }
 

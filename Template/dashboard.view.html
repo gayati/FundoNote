@@ -119,13 +119,13 @@
             </div> -->
 
 
-            <div style="">
-              <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
-                <md-chip-template>
-                  <strong>{{$chip.label}}</strong>
-                </md-chip-template>
-              </md-chips>
-            </div>
+                      <div style=""  >
+                        <md-chips ng-if="notes.labelList"  ng-repeat="label in notes.labelList"  >
+                            <md-chip>{{label.label}}  <md-icon class="cancelicon" ng-click="removeLabel(notes)">cancel</md-icon></md-chip>
+
+
+                        </md-chips>
+                      </div>
           </md-card-content>
           <md-chips ng-if="notes.reminder" readonly="true">
             <md-chip>
@@ -188,20 +188,13 @@
               <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon>
             </md-chip>
           </md-chips>
+          <!-- <div>{{notes.labelList}}</div> -->
 
-          <!-- <div style="">
-              <md-chips ng-model="notes" readonly="true" md-removable="true">
-                <md-chip-template>
-                  <strong>{{$chip.reminder}}</strong>
-                </md-chip-template>
-              </md-chips>
-            </div> -->
 
-          <div style="">
-            <md-chips ng-model="noteLabels" readonly="true" md-removable="true">
-              <md-chip-template>
-                <strong>{{$chip.label}}</strong>
-              </md-chip-template>
+          <div  layout-wrap>
+            <md-chips ng-if="notes.labelList"  ng-repeat="label in notes.labelList"  >
+                <md-chip readonly="true" md-removable="true">{{label.label}}</md-chip>
+                <md-icon class="cancelicon" ng-click="">cancel</md-icon>
             </md-chips>
           </div>
           <!-- <div ng-repeat="label in noteLabels">
