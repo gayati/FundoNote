@@ -66,6 +66,11 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       templateUrl: 'Template/reminder.view.html',
       controller: 'NoteController'
     })
+    .state('home.label', {
+      url: '/label/:name',
+      templateUrl: 'Template/noteLabel.view.html',
+      controller: 'NoteController'
+    })
   // .state('logout', {
   // url: '/logout',
   // templateUrl: 'Template/logout.view.html',

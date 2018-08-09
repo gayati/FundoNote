@@ -71,8 +71,8 @@ div:empty:not(:focus):before {
 } */
 
 .profileDialgue{
-  /* height: 500px;
-  width: 400px; */
+
+  width: 400px;
 }
 
 .CreateLabel {
@@ -96,6 +96,36 @@ div:empty:not(:focus):before {
   height:350px;
 }
 
+.container {
+position: relative;
+width: 100%;
+max-width: 400px;
+}
+
+.container img {
+width: 100%;
+height: 100%;
+}
+
+.btn {
+position: absolute;
+top: 10%;
+left: 85%;
+display: inline-block;
+transform: translate(-50%, -50%);
+color: white;
+cursor: pointer;
+}
+
+.deletebtn {
+position: absolute;
+top: 90%;
+left: 85%;
+display: inline-block;
+transform: translate(-50%, -50%);
+color: white;
+cursor: pointer;
+}
 
 /* .intial-text after-click{
   outline: none;

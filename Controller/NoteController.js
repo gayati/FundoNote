@@ -1,5 +1,5 @@
 ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPanel, $mdSidenav, $mdDialog,
-  PostService, GetService, PutService, DeleteService, commonService, $timeout) {
+  PostService, GetService, PutService, DeleteService, commonService, $timeout,$location) {
   var baseurl = "http://localhost:9000/";
 
 
@@ -10,14 +10,20 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.isArchived = false;
   $scope.isPinned = false;
   $scope.isTrashed = false;
-  //  $scope.tempDate = '';
-  //  $scope.remindertime = "";
+  $scope.image = "";
+  $scope.labelList = null;
+  $scope.tempDate = '';
+  $scope.remindertime = "";
 
 
 
   getNote();
 
   $scope.noteLabels = [];
+
+var url = $location.path().split("/");
+  $scope.parameter = url[3];
+  console.log("bxbfghhhhhhhhhhhhhh" + url[3]);
 
   $scope.ctrlNote = function(clickEvent, index, notes) {
     console.log("in ctrl note");
@@ -48,7 +54,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     });
   }
 
-  var addLabelController = function($scope,label, note1) {
+  var addLabelController = function($scope, label, note1) {
     console.log("In add labelcontroller");
     $scope.label1 = label;
     $scope.note = note1;
@@ -57,32 +63,25 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
     $scope.exists = function(item, list) {
 
-    for(var i=0;i<list.length;i++){
-      var selectedobject = list[i];
-      if(selectedobject.label == item.label){
-        return true;
+      for (var i = 0; i < list.length; i++) {
+        var selectedobject = list[i];
+        if (selectedobject.label == item.label) {
+          return true;
+        }
       }
-    }
-    return false;
-  };
+      return false;
+    };
 
-
-    // $scope.exists = function(item, list) {
-    //
-    //   return list.indexOf(item) > -1;
-    // };
-
-    $scope.toggle = function (item, list) {
-           var idx = list.indexOf(item);
-           console.log(idx + "index..........");
-           if (idx > -1) {
-             list.splice(idx, 1);
-           }
-           else {
-             list.push(item);
-           }
-           $scope.addNoteLabel(note1,item);
-};
+    $scope.toggle = function(item, list) {
+      var idx = list.indexOf(item);
+      console.log(idx + "index..........");
+      if (idx > -1) {
+        list.splice(idx, 1);
+      } else {
+        list.push(item);
+      }
+      $scope.addNoteLabel(note1, item);
+    };
 
     // $scope.toggle = function(label, note, list) {
     //   var idx = list.indexOf(label);
@@ -114,15 +113,17 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     }
   }
 
-$scope.removeLabel = function (notes) {
-  var url = baseurl + 'removeLabel/' + notes.noteId;
-  DeleteService.delete(url).then(function successCallback(response) {
-    console.log(response);
-  }, function errorCallback(response) {
-    console.log("erorr.................");
-    console.log("error" + response.data);
-  })
-}
+  $scope.removeLabel = function(notes,label) {
+    console.log( "in remove label.............." );
+    var url = baseurl + 'removeLabel/' + notes.noteId + "/" + label.labelId;
+    DeleteService.delete(url).then(function successCallback(response) {
+      console.log(response);
+      getNote();
+    }, function errorCallback(response) {
+      console.log("erorr.................");
+      console.log("error" + response.data);
+    })
+  }
 
   // var getNoteLabel = function(noteId) {
   //   console.log("In getlabel" + noteId);
@@ -137,8 +138,6 @@ $scope.removeLabel = function (notes) {
   //   }, function errorCallback(response) {
   //     console.log("error" + response.data);
   //   })
-  //
-  //
   // }
 
   $scope.showDialogue = function(clickEvent, notes) {
@@ -200,7 +199,13 @@ $scope.removeLabel = function (notes) {
         'backgroundcolor': 'rgb(96, 125, 139)',
         'color': 'white'
       }
+    } else if ($state.is('home.label')) {
+    $scope.title = "Label";
+    $scope.CustomColor = {
+      'backgroundcolor': 'rgb(96, 125, 139)',
+      'color': 'white'
     }
+  }
   };
   $scope.changeColor();
 
@@ -241,6 +246,11 @@ $scope.removeLabel = function (notes) {
   $scope.goToReminder = function() {
     console.log("jkggggggg");
     $state.go('home.reminder')
+  }
+
+  $scope.goToLabel = function(label) {
+    console.log("jkggggggg" + label.label);
+    $state.go('home.label',{name:label.label})
   }
 
 
@@ -363,20 +373,20 @@ $scope.removeLabel = function (notes) {
     getLabel();
 
     $scope.addLabel = function() {
-      console.log("In add label........" +  $scope.allLabels);
+      console.log("In add label........" + $scope.allLabels);
       var label = {
         labelId: $scope.labelId,
         label: $scope.label,
         userId: $scope.userId
       }
 
-      var flag=false;
+      var flag = false;
 
-      for(var i=0;i<=$scope.allLabels.length;i++){
+      for (var i = 0; i <= $scope.allLabels.length; i++) {
         console.log("In for");
         var lableObj = $scope.allLabels[i];
-         console.log(lableObj);
-        if(lableObj !=undefined && lableObj.label === label.label ){
+        console.log(lableObj);
+        if (lableObj != undefined && lableObj.label === label.label) {
           console.log("label undefined............");
           flag = true;
         } else {
@@ -393,7 +403,7 @@ $scope.removeLabel = function (notes) {
         }, function errorCallback(response) {
           console.log("error" + response.data);
         })
-            } else {
+      } else {
         console.log("In addlabel" + label);
 
       }
@@ -505,10 +515,13 @@ $scope.removeLabel = function (notes) {
       isArchived: $scope.isArchived,
       isPinned: $scope.isPinned,
       isTrashed: $scope.isTrashed,
-      reminder: $scope.tempDate,
+      reminder: null,
+      remindertime: "",
+      image: $scope.image,
+      labelList: [],
     }
     //console.log($scope.tempDate);
-    console.log(note.title + "notetitle");
+    console.log(note + "notetitle");
     var url = baseurl + 'createNote';
     if (note.title == "" && note.description == "") {
       console.log("title or desc undefined............");
@@ -1009,7 +1022,7 @@ $scope.removeLabel = function (notes) {
       console.log("In upload profile pic...............");
       var url = baseurl + 'upload';
       console.log(myCroppedImage);
-      const file = dataURLtoFile(myCroppedImage, "profile.png");
+      const file = dataURLtoFile(myCroppedImage, "abc.png");
       console.log(file);
       var form1 = new FormData();
       form1.append("file", file);
@@ -1037,7 +1050,9 @@ $scope.removeLabel = function (notes) {
       })
     }
 
-
+    $scope.hideDialogueBox = function() {
+      $mdDialog.hide();
+    }
 
   }
 

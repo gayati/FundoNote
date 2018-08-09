@@ -3,13 +3,13 @@
     <md-list>
       <md-list-item ng-click="goToDashboard();">
         <div layout="row" layout-align="center-center">
-          <md-icon><img src="images/bulb.svg" /></md-icon>
+          <md-icon md-svg-icon="images/bulb.svg" ></md-icon>
           <p class="sidebar-para">Notes</p>
         </div>
       </md-list-item>
       <md-list-item ng-click="goToReminder()">
         <div layout="row">
-          <md-icon><img src="images/reminder.svg" /></md-icon>
+          <md-icon md-svg-icon="images/reminder.svg" ></md-icon>
           <p class="sidebar-para">Reminder</p>
         </div>
       </md-list-item>
@@ -20,9 +20,9 @@
           <md-button ng-click="showLabel($event)">EDIT</md-button>
         </div>
       </md-list-item>
-      <md-list-item  ng-repeat="labels in allLabels">
+      <md-list-item  ng-repeat="labels in allLabels" ng-click="goToLabel(labels)">
           <div layout="row" layout-align="space-between center">
-        <md-icon><img src="images/installsoftwear.svg" /></md-icon>
+        <md-icon md-svg-icon="images/installsoftwear.svg" ></md-icon>
           <div class="md-list-item">{{ labels.label}}</div>
 
       </div>
@@ -30,52 +30,52 @@
       </md-list-item>
       <md-list-item ng-click="showLabel($event)">
         <div layout="row">
-          <md-icon><img src="images/label.svg" /></md-icon>
+          <md-icon md-svg-icon="images/label.svg" ></md-icon>
           <p class="sidebar-para">Create new Label</p>
         </div>
       </md-list-item>
       <md-divider></md-divider>
       <md-list-item ng-click="goToArchive()">
         <div layout="row">
-          <md-icon><img src="images/archive.svg" /></md-icon>
+          <md-icon md-svg-icon="images/archive.svg" ></md-icon>
           <p class="sidebar-para">Archive</p>
         </div>
       </md-list-item>
       </md-list-item>
       <md-list-item ng-click="goTotrash()">
         <div layout="row">
-          <md-icon><img src="images/trash.svg" /></md-icon>
+          <md-icon md-svg-icon="images/trash.svg" ></md-icon>
           <p class="sidebar-para">Trash</p>
         </div>
       </md-list-item>
       <md-divider></md-divider>
       <md-list-item ng-click="null">
         <div layout="row">
-          <md-icon><img src="images/setting.svg" /></md-icon>
+          <md-icon md-svg-icon="images/setting.svg" ></md-icon>
           <p class="sidebar-para">Setting</p>
         </div>
       </md-list-item>
       <md-list-item ng-click="null">
         <div layout="row">
-          <md-icon><img src="images/feedback.svg" /></md-icon>
+          <md-icon md-svg-icon=src="images/feedback.svg" ></md-icon>
           <p class="sidebar-para">Send feedback</p>
         </div>
       </md-list-item>
       <md-list-item ng-click="null">
         <div layout="row">
-          <md-icon><img src="images/help.svg" /></md-icon>
+          <md-icon md-svg-icon="images/help.svg" ></md-icon>
           <p class="sidebar-para">Help</p>
         </div>
       </md-list-item>
       <md-list-item ng-click="null">
         <div layout="row">
-          <md-icon><img src="images/appdownloads.svg" /></md-icon>
+          <md-icon md-svg-icon="images/appdownloads.svg" ></md-icon>
           <p class="sidebar-para">App downloads</p>
         </div>
       </md-list-item>
       <md-list-item ng-click="null">
         <div layout="row">
-          <md-icon><img src="images/keyboardshortcut.svg" /></md-icon>
+          <md-icon md-svg-icon="images/keyboardshortcut.svg" ></md-icon>
           <p class="sidebar-para">Keyboard shortcuts</p>
         </div>
       </md-list-item>

@@ -1,20 +1,33 @@
 <div style="width:500px;" ng-style="{'background-color': notes.color}">
-  <div layout="row" layout-align="end end">
+  <!-- <div layout="row" layout-align="end end">
     <md-button class="md-icon-button" ng-click="updatePin(notes)" >
       <img ng-if="notes.isPinned === true" src="images/bluePin.svg">
       <img ng-if="notes.isPinned === false" src="images/pin.svg">
     </md-button>
     <md-tooltip>Pin Note</md-tooltip>
-  </div>
+  </div> -->
   <!-- <div layout="row" layout-align="space-between center"> -->
-    <div ng-if="notes.image" >
+    <!-- <div ng-if="notes.image" >
         <img ng-src="{{notes.image}}" style="width:100%;">
-      </div>
-      <div layout="row" layout-align="end end">
+      </div> -->
+
+<div class="container">
+<img ng-src="{{notes.image}}" class="md-card-image">
+<md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
+<md-icon style="width: 5px;height: 5px;" md-svg-icon="images/pin.svg" ></md-icon>
+</md-button>
+<md-button  aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+<md-icon md-svg-icon="images/bluePin.svg" ></md-icon>
+</md-button>
+<md-button class="deletebtn" ng-if="notes.image!==null" ng-click="removeImage(notes)" >
+  <md-icon  md-svg-icon="images/delete.svg" ></md-icon>
+</md-button>
+</div>
+      <!-- <div layout="row" layout-align="end end">
         <md-button class="md-icon-button" ng-click="removeImage(notes)" >
-          <md-icon><img src="images/delete.svg" /></md-icon>
+          <md-icon  ><img src="images/delete.svg" /></md-icon>
         </md-button>
-      </div>
+      </div> -->
     <div>
       <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="notes.title"></div>
     </div>
