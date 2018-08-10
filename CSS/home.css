@@ -100,6 +100,10 @@ div:empty:not(:focus):before {
 position: relative;
 width: 100%;
 max-width: 400px;
+padding-right: 0px;
+padding-left: 0px;
+margin-right: 0px;
+margin-left: 0px;
 }
 
 .container img {
@@ -130,3 +134,11 @@ cursor: pointer;
 /* .intial-text after-click{
   outline: none;
 } */
+.img-icon{
+  padding: 0px !important;
+  margin: 0px !important;
+  width:35px !important;
+}
+.image-size{
+  margin: 0px;
+}

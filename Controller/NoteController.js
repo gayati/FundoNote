@@ -830,39 +830,6 @@ var url = $location.path().split("/");
     })
   }
 
-
-  // $scope.showMenu = function($event, noteId) {
-  //   console.log("show menu");
-  //   var position = $mdPanel.newPanelPosition()
-  //     .relativeTo($event.currentTarget)
-  //     .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
-  //
-  //   var config = {
-  //     attachTo: angular.element(document.body),
-  //     controller: PanelMenuCtrl,
-  //     templateUrl: 'Template/reminder.view.html',
-  //     position: position,
-  //     openFrom: $event,
-  //     clickOutsideToClose: true,
-  //     escapeToClose: true,
-  //     focusOnOpen: false,
-  //     zIndex: 2
-  //   };
-  //   console.log($event);
-  //   $mdPanel.open(config);
-  // }
-  //
-  // function PanelMenuCtrl(mdPanelRef, $timeout, $scope) {
-  //   $scope.reminder = true;
-  //   $scope.pickDateTime = function() {
-  //     // $scope.dateTime=false;
-  //     $scope.reminder = false;
-  //     console.log("onclick pick date and time");
-  //   }
-  //   console.log("panelController ", mdPanelRef);
-  //   this._mdPanelRef = mdPanelRef;
-  // }
-
   $scope.today = new Date();
   console.log("today", $scope.today)
   $scope.Latertoday = function(note) {
@@ -1049,12 +1016,62 @@ var url = $location.path().split("/");
         console.log("error" + response.data);
       })
     }
-
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
     }
-
   }
+
+  $scope.collaberatorDialogue = function(clickEvent,notes) {
+    console.log(notes.noteId);
+    $mdDialog.show({
+      locals: {
+        note: notes
+      },
+      controller: collaberatorController,
+
+      templateUrl: 'Template/collaberator.view.html',
+      parent: angular.element(document.body),
+      targetEvent: clickEvent,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen,
+    });
+  }
+
+function collaberatorController($scope,note) {
+  $scope.emails=[{
+    'name' : 'satkarmadhuri777@gmail.com',
+    'value':  'satkarmadhuri777@gmail.com'
+    },
+  {
+  'name' : 'satkarmadhuri777@gmail.com',
+  'value':  'satkarmadhuri777@gmail.com'
+  },
+  {
+  'name' : 'satkarmadhuri777@gmail.com',
+  'value':  'satkarmadhuri777@gmail.com'
+  }]
+
+  console.log(note.noteId);
+$scope.sharedEmail = "";
+$scope.addCollaberator =function () {
+  var collaberator ={
+    sharedBy :note.createdBy,
+    sharedTo : $scope.sharedEmail,
+    noteId : note.noteId
+  };
+  console.log(collaberator.sharedBy + "  " + collaberator.sharedTo + "  " + collaberator.noteId);
+  var url = baseurl + 'addCollaberator';
+
+  PostService.postService(collaberator, url).then(function successCallback(response) {
+    console.log(response);
+    // getNoteLabel(noteLabel.noteId);
+  }, function errorCallback(response) {
+    console.log("error" + response.data);
+  })
+}
+}
+
+
 
 
 

@@ -9,7 +9,7 @@
       </md-card>
     </div>
 
-    <div flex="70" layout-align="center-center ">
+    <div flex="70" layout-align="center-center">
       <md-card style="width:550px" ng-style="{'background-color':color}" ng-show="showCard">
         <div layout="row" layout-align="space-between center">
           <div id="title" contenteditable data-placeholder="Title" style="border:none;outline:none;margin-left:10px" ng-model="noteTitle"></div>
@@ -62,13 +62,13 @@
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
-              <md-button aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <img src="images/bluePin.svg">
               </md-button>
             </div>
             <div>
               <div class="intial-text after-click" ng-bind-html="notes.title"></div>
-              <md-button class="md-icon-button btn" ng-if="notes.image===null && notes.isPinned===false" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button" ng-if="notes.image===null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
               <md-button aria-label="Pined Button" ng-if="notes.image===null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
@@ -90,13 +90,13 @@
               </md-chip>
             </md-chips>
           </div>
-          <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+          <div style="height:40px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
               <icons></icons>
               <archiveicon></archiveicon>
               <md-menu>
-                <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                  <md-icon><img src="images/more.svg" /></md-icon>
+                <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="$mdMenu.open($event)">
+                  <img src="images/more.svg" />
                 </md-button>
                 <md-menu-content width="4" ng-click="$mdMenu.close($event)">
                   <md-menu-item ng-repeat="item in menuList">
@@ -120,9 +120,9 @@
             <div class="container">
               <img ng-src="{{notes.image}}" class="md-card-image">
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
-                <md-icon style="width: 5px;height: 5px;" md-svg-icon="images/pin.svg"></md-icon>
+                <md-icon md-svg-icon="images/pin.svg"></md-icon>
               </md-button>
-              <md-button aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button  class="md-icon-button btn"  ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <md-icon md-svg-icon="images/bluePin.svg"></md-icon>
               </md-button>
             </div>
@@ -153,13 +153,13 @@
               </md-chip>
             </md-chips>
           </div>
-          <div style="height:80px" ng-mouseover="first=true" ng-mouseout="first=false">
+          <div style="height:40px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
               <icons></icons>
               <archiveicon></archiveicon>
               <md-menu>
-                <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                  <md-icon><img src="images/more.svg" /></md-icon>
+                <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="$mdMenu.open($event)">
+                  <md-icon  class="image-size"><img src="images/more.svg" /></md-icon>
                 </md-button>
                 <md-menu-content width="4" ng-click="$mdMenu.close($event)">
                   <md-menu-item ng-repeat="item in menuList">
