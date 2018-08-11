@@ -989,7 +989,7 @@ var url = $location.path().split("/");
       console.log("In upload profile pic...............");
       var url = baseurl + 'upload';
       console.log(myCroppedImage);
-      const file = dataURLtoFile(myCroppedImage, "abc.png");
+      const file = dataURLtoFile(myCroppedImage, $scope.filename);
       console.log(file);
       var form1 = new FormData();
       form1.append("file", file);
@@ -1043,13 +1043,14 @@ function collaberatorController($scope,note) {
     'value':  'satkarmadhuri777@gmail.com'
     },
   {
-  'name' : 'satkarmadhuri777@gmail.com',
-  'value':  'satkarmadhuri777@gmail.com'
+  'name' : 'pushpanavik17@gmail.com',
+  'value':  'pushpanavik17@gmail.com'
   },
   {
-  'name' : 'satkarmadhuri777@gmail.com',
-  'value':  'satkarmadhuri777@gmail.com'
-  }]
+  'name' : 'playscala2018@gmail.com',
+  'value':  'playscala2018@gmail.com'
+  }
+]
 
   console.log(note.noteId);
 $scope.sharedEmail = "";
@@ -1064,11 +1065,22 @@ $scope.addCollaberator =function () {
 
   PostService.postService(collaberator, url).then(function successCallback(response) {
     console.log(response);
-    // getNoteLabel(noteLabel.noteId);
+     getCollaberators(collaberator.noteId);
   }, function errorCallback(response) {
     console.log("error" + response.data);
   })
 }
+var getCollaberators = function(noteId) {
+  var url = baseurl + 'getCollaberator/' + noteId;
+  GetService.getModel(url).then(function successCallback(response) {
+    console.log(response.data);
+    $scope.collaberators = response.data;
+  }, function errorCallback(response) {
+    console.log("error" + response.data);
+  })
+}
+getCollaberators(note.noteId);
+
 }
 
 
