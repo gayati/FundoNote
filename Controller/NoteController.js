@@ -266,13 +266,14 @@ var url = $location.path().split("/");
 
 
   var userInfo = "";
-
+  $scope.userInfo ="";
   function getUser() {
     console.log("In get User");
     var url = baseurl + 'getUser';
     GetService.getModel(url).then(function successCallback(response) {
       console.log("success" + response.data.id);
       $scope.userInfo = response.data;
+      console.log($scope.userInfo);
       userInfo = $scope.userInfo;
     }, function errorCallback(response) {
       console.log("error" + response.data);
@@ -885,7 +886,6 @@ var url = $location.path().split("/");
   }
 
 
-
   // $scope.uploadImage = function(evt) {
   //   console.log(evt);
   //   var file = evt;
@@ -1081,6 +1081,12 @@ var getCollaberators = function(noteId) {
 }
 getCollaberators(note.noteId);
 
+$scope.userInfo = getUser();
+
+// $scope.updateCollaberator = function (note) {
+//
+// }
+
 }
 
 
@@ -1089,5 +1095,57 @@ getCollaberators(note.noteId);
 
 
 
+
+
+});
+
+
+ToDoApp.filter('dateformat', function ($filter) {
+
+     return function (remiderDate) {
+
+       console.log("inside filter", remiderDate);
+       if( !remiderDate )
+       {
+          return;
+       }
+
+       remiderDate = new Date( remiderDate );
+
+       var dt = "";
+       var todatedate = new Date();
+       console.log(todatedate.getMonth(), todatedate.getDate() );
+       var ltempToday = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() );
+
+       var ltempTom = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()+1 );
+       var ltempYes = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()-1 );
+
+       var ltempRD = new Date( remiderDate.getFullYear(), remiderDate.getMonth(), remiderDate.getDate() );
+
+       console.log(ltempRD);
+       console.log(ltempTom);
+
+       if( (ltempToday - ltempRD) == 0  )
+       {
+         dt += "Today";
+       }
+       else if( (ltempTom - ltempRD) == 0  ) {
+         dt += "Tomorrow";
+       }
+       else if( (ltempYes - ltempRD) == 0  ) {
+         dt += "Yesterday";
+       }
+       else
+       {
+         dt = $filter('date')(remiderDate, 'MMM dd, yyyy');
+         dt = dt.replace(", "+todatedate.getFullYear(),'');
+       }
+
+       // append time
+       var time = $filter('date')(remiderDate, 'hh:mm a');
+       dt += ", "+ time;
+
+       return dt;
+     };
 
 });

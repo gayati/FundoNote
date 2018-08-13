@@ -77,18 +77,30 @@
             </div>
             <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;" ng-bind-html="notes.description"></div>
           </div>
-          <div>
-            <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList">
-              <md-chip>{{label.label}}
-                <md-icon class="cancelicon" ng-click="removeLabel(notes,label)">cancel</md-icon>
+          <div style="width:250px" layout="row" layout-wrap >
+            <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
+            ng-mouseout="showMdIcon=false" >
+              <md-chip class="chip" style="text-align:center-center">{{label.label}}
+              <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
               </md-chip>
             </md-chips>
-            <md-chips ng-if="notes.reminder" readonly="true">
-              <md-chip>
-                <md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}
-                <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon>
+            <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true"
+            ng-mouseout="showMdIcon=false">
+              <md-chip  class="chip" >
+                <!-- <md-icon>schedule</md-icon> -->
+                {{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}
+                <!-- <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon> -->
+                <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
+                class="closebtn" ng-show="first">&times;</span>
+
               </md-chip>
             </md-chips>
+            <div ng-if="notes.collaberatorList" ng-repeat="user in notes.collaberatorList">
+              <div style="width:30px;height:30px;border-radius:30px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                <img src="{{user.profileImage}}"  style="width:100%;border-radius:50%" ng-click="collaberatorDialogue($event,notes)">
+               <md-tooltip>{{user.emailId}}</md-tooltip>
+              </div>
+            </div>
           </div>
           <div style="height:40px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
@@ -140,18 +152,29 @@
             <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
               <strong ng-bind-html="notes.description">  </strong></div>
           </div>
-          <div>
-            <md-chips ng-if="notes.reminder" readonly="true">
-              <md-chip>
-                <md-icon>schedule</md-icon>{{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}
-                <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon>
+          <div style="width:250px" layout="row" layout-wrap >
+            <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
+            ng-mouseout="showMdIcon=false" >
+              <md-chip class="chip" style="text-align:center-center">{{label.label}}
+              <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
               </md-chip>
             </md-chips>
-            <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList">
-              <md-chip>{{label.label}}
-                <md-icon class="cancelicon" ng-click="removeLabel(notes,label)">cancel</md-icon>
+            <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true"
+            ng-mouseout="showMdIcon=false">
+              <md-chip  class="chip" >
+                <!-- <md-icon>schedule</md-icon> -->
+                {{notes.reminder|dateformat}} {{notes.remindertime}}
+                <!-- <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon> -->
+                <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
+                class="closebtn" ng-show="first">&times;</span>
               </md-chip>
             </md-chips>
+            <div ng-if="notes.collaberatorList" ng-repeat="user in notes.collaberatorList">
+              <div style="width:30px;height:30px;border-radius:30px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                <img src="{{user.profileImage}}"  style="width:100%;border-radius:50%" ng-click="collaberatorDialogue($event,notes)">
+               <md-tooltip>{{user.emailId}}</md-tooltip>
+              </div>
+            </div>
           </div>
           <div style="height:40px" ng-mouseover="first=true" ng-mouseout="first=false">
             <div ng-show="first">
