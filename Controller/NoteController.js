@@ -797,16 +797,18 @@ var url = $location.path().split("/");
 
 
   $scope.Updatereminder = function(note) {
+    console.log("  note.reminder"+  note.reminder);
     if (note === undefined) {
       console.log("To create note................");
     } else {
       console.log(note.tempDate);
-      $scope.myDate = new Date(note.tempDate);
-      note.reminder = $scope.myDate;
-      $scope.reminderTime = note.remindertime
-      note.remindertime = $scope.reminderTime;
-      console.log(note.remindertime);
+      // var myDate = new Date(note.tempDate);
+      note.reminder = note.tempDate;
       console.log(note.reminder);
+      $scope.reminderTime = note.remindertime
+      note.remindertime =   $scope.reminderTime;
+      console.log(note.remindertime);
+      console.log("note reminder "+note.reminder);
       var url = baseurl + 'updateNote/' + note.noteId;
       PostService.postService(note, url).then(function successCallback(response) {
         console.log(response);
@@ -911,8 +913,25 @@ var url = $location.path().split("/");
     });
   }
 
+  $scope.zoom = function() {
+    var imageId = document.getElementById('view');
+    if(imageId.style.width == "400px"){
+    imageId.style.width = "300px";
+    imageId.style.height = "300px";
+
+   }else{
+    imageId.style.width = "400px";
+   imageId.style.height = "400px";
+ }
+   }
 
   function updateImage(image, note) {
+    if(note===undefined){
+      $scope.image=image;
+    }
+    else {
+
+
     console.log("In update image...............");
     note.image = image;
     var url = baseurl + 'updateNote/' + note.noteId;
@@ -922,6 +941,7 @@ var url = $location.path().split("/");
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
+        }
   }
 
   $scope.removeImage = function(note) {
@@ -1037,6 +1057,9 @@ var url = $location.path().split("/");
     });
   }
 
+
+
+
 function collaberatorController($scope,note) {
   $scope.emails=[{
     'name' : 'satkarmadhuri777@gmail.com',
@@ -1091,7 +1114,11 @@ $scope.userInfo = getUser();
 
 
 
-
+$scope.sortComment = function(notes) {
+  console.log("in sortComment...............+"+ notes);
+    var date = new Date(notes.reminder);
+    return date;
+};
 
 
 
@@ -1141,11 +1168,12 @@ ToDoApp.filter('dateformat', function ($filter) {
          dt = dt.replace(", "+todatedate.getFullYear(),'');
        }
 
-       // append time
-       var time = $filter('date')(remiderDate, 'hh:mm a');
-       dt += ", "+ time;
+       // // append time
+       // var time = $filter('date')(remiderDate, 'hh:mm a');
+       // dt += ", "+ time;
 
        return dt;
      };
+
 
 });

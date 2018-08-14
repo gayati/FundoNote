@@ -3,6 +3,9 @@
 <div id="myDiv" layout="row" layout-align="center-center" style="width:70%;" layout-wrap  >
   <div  ng-repeat="notes in allNotes | filter :{ isTrashed: true,isPinned:false,isArchived:false }">
     <md-card style="width:250px;" ng-style="{'background-color': notes.color}">
+      <div class="container">
+      <img ng-src="{{notes.image}}" class="md-card-image">
+      </div>
       <div layout="row" layout-align="space-between center">
         <div>
           <p ng-bind-html="notes.title"></p>

@@ -1,0 +1,12 @@
+<md-menu>
+<md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
+<md-icon><img src="images/more.svg" /></md-icon>
+</md-button>
+<md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+<md-menu-item ng-repeat="item in menuList">
+<md-button ng-click="ctrlNote($event,$index,notes)">
+{{item.option}}
+</md-button>
+</md-menu-item>
+</md-menu-content>
+</md-menu>

@@ -47,8 +47,8 @@
     </div>
     <div>
       <md-button class="md-icon-button" ng-click="logOut();">
-        <md-icon><i class="material-icons">account_circle</i></md-icon>
-        <md-tooltip>Google Account</md-tooltip>
+        <img ng-src="{{userInfo.profileImage}}" style="width:100%;border-radius:50%">
+        <md-tooltip>{{userInfo.emailId}}</md-tooltip>
       </md-button>
     </div>
   </md-toolbar>
@@ -56,11 +56,11 @@
 
   <div style="padding-top: 5px;position: absolute;z-index:0;margin-left:950px" ng-show="logoutCard">
     <md-card style="width:300px;height:150px;">
-      <div layout="row" style="">
-        <div class="profile-image" ng-click="UploadProfile()">
-          <img ng-src="{{userInfo.profileImage}}" style="width:100px">
+      <div layout="row">
+        <div style="width:100px;" ng-click="UploadProfile()">
+          <img ng-src="{{userInfo.profileImage}}" style="width:100%;border-radius:50%">
         </div>
-        <div layout="column" style="width:260px">
+        <div layout="column" style="width:260px;margin-left:10px">
           <div style="font-weight:bold">{{userInfo.firstName}}</div>
           <div>{{userInfo.emailId}}</div>
           <div><a href="https://plus.google.com/u/0/me" target="_blank">Google+ Profile</a>
@@ -68,7 +68,7 @@
             <a href="https://myaccount.google.com/privacypolicy" target="_blank">Privacy</a>
           </div>
           <div>
-          <a href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" target="_blank"><md-button>Google Account</a>
+          <a href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" target="_blank"><md-button style="text-transform: lowercase; ">Google Account</a>
           </div>
         </div>
       </div>

@@ -21,6 +21,15 @@
           </div>
         </div>
         <div class="intial-text after-click" contenteditable id="description" data-placeholder="Take a note....." style="border:none;outline:none;margin-left:10px" ng-model="noteDesc"></div>
+        <div class="container">
+          <img id="view" ng-src="{{image}}" class="md-card-image" ng-click="zoom()">
+          <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
+            <img src="images/pin.svg">
+          </md-button>
+          <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+            <img src="images/bluePin.svg">
+          </md-button>
+        </div>
         <div layout="row" layout-align="space-between center">
           <div layout="row">
             <icons></icons>
@@ -58,7 +67,7 @@
         <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
           <div ng-click="showDialogue($event,notes)">
             <div class="container">
-              <img ng-src="{{notes.image}}" class="md-card-image">
+              <img id="view" ng-src="{{notes.image}}" class="md-card-image" ng-click="zoom()">
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
@@ -88,7 +97,7 @@
             ng-mouseout="showMdIcon=false">
               <md-chip  class="chip" >
                 <!-- <md-icon>schedule</md-icon> -->
-                {{notes.reminder|date:" MMMM d"}} {{notes.remindertime}}
+                {{notes.reminder|dateformat}} {{notes.remindertime}}
                 <!-- <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon> -->
                 <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
                 class="closebtn" ng-show="first">&times;</span>

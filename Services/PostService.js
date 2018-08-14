@@ -3,7 +3,6 @@ ToDoApp.factory("PostService", function($http, $state,$location) {
 
   factory.postService = function(data,url) {
     console.log(data);
-    console.log("in post service..........");
     return $http({
       method: "POST",
       url: url,
@@ -12,6 +11,7 @@ ToDoApp.factory("PostService", function($http, $state,$location) {
 			   'Headers' : localStorage.getItem('loginToken')
 			}
     })
+
   }
 
 
@@ -19,7 +19,7 @@ ToDoApp.factory("PostService", function($http, $state,$location) {
 
 //  formData.append("file", "/home/bridgeit/Documents/pictures/sample2.jpeg");
 
-  factory.imageUploadService = function(file,url) {  
+  factory.imageUploadService = function(file,url) {
     return $http({
       method: "POST",
       url: url,

@@ -45,7 +45,8 @@
               Pick Date and Time</div>
           </md-menu-item>
           <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
-            <input type="date" min="{{today | date : 'yyyy-MM-dd'}}" ng-model="notes.tempDate" />
+            <input type="date"  ng-model="notes.tempDate" />
+          <!-- <md-datepicker ng-model="notes.tempDate" md-placeholder="Enter date"></md-datepicker> -->
           </md-menu-item>
           <md-menu-item>
             <md-input-container>

@@ -71,7 +71,6 @@ div:empty:not(:focus):before {
 } */
 
 .profileDialgue{
-
   width: 400px;
 }
 
@@ -99,7 +98,7 @@ div:empty:not(:focus):before {
 .container {
 position: relative;
 width: 100%;
-max-width: 400px;
+/* max-width: 400px; */
 padding-right: 0px;
 padding-left: 0px;
 margin-right: 0px;
