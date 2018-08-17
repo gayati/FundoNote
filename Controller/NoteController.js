@@ -1,5 +1,5 @@
 ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPanel, $mdSidenav, $mdDialog,
-  PostService, GetService, PutService, DeleteService, commonService, $timeout,$location) {
+  PostService, GetService, PutService, DeleteService, commonService, $timeout, $location) {
   var baseurl = "http://localhost:9000/";
 
 
@@ -16,12 +16,65 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.remindertime = "";
 
 
+  $scope.userInfo = {};
 
+  $scope.getCollaberatedNote = function() {
+    console.log($scope.userInfo);
+    console.log("In get collaberared...................");
+    if($scope.userInfo.id != undefined){
+      var url = baseurl + 'getCollaberatednotes/' + $scope.userInfo.id;
+      GetService.getModel(url).then(function successCallback(response) {
+        console.log(response.data);
+        $scope.collaberatedNote = response.data;
+        console.log($scope.allNotes);
+        $scope.allNotes = $scope.allNotes.concat($scope.collaberatedNote);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+  }
+
+  function getNote() {
+    console.log("In get note");
+    var url = baseurl + 'getNotes';
+    GetService.getModel(url).then(function successCallback(response) {
+      $scope.allNotes = response.data;
+      //var noteArray = response.data;
+      //  var noteArray = $scope.allNotes;
+      showHideheader();
+      $scope.getCollaberatedNote();
+      // console.log('  $scope.allNotes', $scope.allNotes);
+      // for (var i = 0; i < noteArray.length; i++) {
+      //   var noteObj = noteArray[i];
+      //   console.log(noteObj.noteId);
+      // var LabelList = getNoteLabel(noteObj.noteId);
+      // no
+      // }
+
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+
+  var getUser = function() {
+    console.log("In get User");
+    var url = baseurl + 'getUser';
+    GetService.getModel(url).then(function successCallback(response) {
+      console.log("success" + response.data.id);
+      $scope.userInfo = response.data;
+      console.log($scope.userInfo);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+    return $scope.userInfo;
+  }
+
+  getUser();
   getNote();
 
   $scope.noteLabels = [];
 
-var url = $location.path().split("/");
+  var url = $location.path().split("/");
   $scope.parameter = url[3];
   console.log("bxbfghhhhhhhhhhhhhh" + url[3]);
 
@@ -113,8 +166,8 @@ var url = $location.path().split("/");
     }
   }
 
-  $scope.removeLabel = function(notes,label) {
-    console.log( "in remove label.............." );
+  $scope.removeLabel = function(notes, label) {
+    console.log("in remove label..............");
     var url = baseurl + 'removeLabel/' + notes.noteId + "/" + label.labelId;
     DeleteService.delete(url).then(function successCallback(response) {
       console.log(response);
@@ -200,12 +253,12 @@ var url = $location.path().split("/");
         'color': 'white'
       }
     } else if ($state.is('home.label')) {
-    $scope.title = "Label";
-    $scope.CustomColor = {
-      'backgroundcolor': 'rgb(96, 125, 139)',
-      'color': 'white'
+      $scope.title = "Label";
+      $scope.CustomColor = {
+        'backgroundcolor': 'rgb(96, 125, 139)',
+        'color': 'white'
+      }
     }
-  }
   };
   $scope.changeColor();
 
@@ -250,7 +303,9 @@ var url = $location.path().split("/");
 
   $scope.goToLabel = function(label) {
     console.log("jkggggggg" + label.label);
-    $state.go('home.label',{name:label.label})
+    $state.go('home.label', {
+      name: label.label
+    })
   }
 
 
@@ -262,27 +317,6 @@ var url = $location.path().split("/");
   // $scope.getProfileInfo = function () {
   //
   // }
-
-
-
-  var userInfo = "";
-  $scope.userInfo ="";
-  function getUser() {
-    console.log("In get User");
-    var url = baseurl + 'getUser';
-    GetService.getModel(url).then(function successCallback(response) {
-      console.log("success" + response.data.id);
-      $scope.userInfo = response.data;
-      console.log($scope.userInfo);
-      userInfo = $scope.userInfo;
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-
-    return userInfo;
-  }
-
-  getUser();
 
   $scope.logoutCard = false;
   $scope.logOut = function() {
@@ -537,28 +571,6 @@ var url = $location.path().split("/");
   };
 
 
-
-  function getNote() {
-    console.log("In get note");
-    var url = baseurl + 'getNotes';
-    GetService.getModel(url).then(function successCallback(response) {
-      $scope.allNotes = response.data;
-      var noteArray = response.data;
-      //  var noteArray = $scope.allNotes;
-      showHideheader();
-      // console.log('  $scope.allNotes', $scope.allNotes);
-      // for (var i = 0; i < noteArray.length; i++) {
-      //   var noteObj = noteArray[i];
-      //   console.log(noteObj.noteId);
-      // var LabelList = getNoteLabel(noteObj.noteId);
-      // no
-      // }
-
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-  }
-
   var showHideheader = function() {
     var myArray = $scope.allNotes;
     console.log(myArray);
@@ -797,7 +809,7 @@ var url = $location.path().split("/");
 
 
   $scope.Updatereminder = function(note) {
-    console.log("  note.reminder"+  note.reminder);
+    console.log("  note.reminder" + note.reminder);
     if (note === undefined) {
       console.log("To create note................");
     } else {
@@ -806,9 +818,9 @@ var url = $location.path().split("/");
       note.reminder = note.tempDate;
       console.log(note.reminder);
       $scope.reminderTime = note.remindertime
-      note.remindertime =   $scope.reminderTime;
+      note.remindertime = $scope.reminderTime;
       console.log(note.remindertime);
-      console.log("note reminder "+note.reminder);
+      console.log("note reminder " + note.reminder);
       var url = baseurl + 'updateNote/' + note.noteId;
       PostService.postService(note, url).then(function successCallback(response) {
         console.log(response);
@@ -915,33 +927,32 @@ var url = $location.path().split("/");
 
   $scope.zoom = function() {
     var imageId = document.getElementById('view');
-    if(imageId.style.width == "400px"){
-    imageId.style.width = "300px";
-    imageId.style.height = "300px";
+    if (imageId.style.width == "400px") {
+      imageId.style.width = "300px";
+      imageId.style.height = "300px";
 
-   }else{
-    imageId.style.width = "400px";
-   imageId.style.height = "400px";
- }
-   }
+    } else {
+      imageId.style.width = "400px";
+      imageId.style.height = "400px";
+    }
+  }
 
   function updateImage(image, note) {
-    if(note===undefined){
-      $scope.image=image;
+    if (note === undefined) {
+      $scope.image = image;
+    } else {
+
+
+      console.log("In update image...............");
+      note.image = image;
+      var url = baseurl + 'updateNote/' + note.noteId;
+      PostService.postService(note, url).then(function successCallback(response) {
+        getNote();
+        console.log(response);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
     }
-    else {
-
-
-    console.log("In update image...............");
-    note.image = image;
-    var url = baseurl + 'updateNote/' + note.noteId;
-    PostService.postService(note, url).then(function successCallback(response) {
-      getNote();
-      console.log(response);
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-        }
   }
 
   $scope.removeImage = function(note) {
@@ -1041,11 +1052,13 @@ var url = $location.path().split("/");
     }
   }
 
-  $scope.collaberatorDialogue = function(clickEvent,notes) {
+  $scope.collaberatorDialogue = function(clickEvent, notes) {
     console.log(notes.noteId);
+    // console.log(userInfo);
     $mdDialog.show({
       locals: {
-        note: notes
+        note: notes,
+
       },
       controller: collaberatorController,
 
@@ -1060,65 +1073,64 @@ var url = $location.path().split("/");
 
 
 
-function collaberatorController($scope,note) {
-  $scope.emails=[{
-    'name' : 'satkarmadhuri777@gmail.com',
-    'value':  'satkarmadhuri777@gmail.com'
-    },
-  {
-  'name' : 'pushpanavik17@gmail.com',
-  'value':  'pushpanavik17@gmail.com'
-  },
-  {
-  'name' : 'playscala2018@gmail.com',
-  'value':  'playscala2018@gmail.com'
+  function collaberatorController($scope, note) {
+
+    $scope.sharedEmail = "";
+    $scope.userInfo = getUser();
+   console.log("In collaberator controller"+$scope.userInfo);
+
+    $scope.addCollaberator = function(user) {
+      console.log(user + " In add collaberator");
+      var collaberator = {
+        sharedBy: note.createdBy,
+        sharedTo: user.id,
+        noteId: note.noteId
+      };
+      console.log(collaberator.sharedBy + "  " + collaberator.sharedTo + "  " + collaberator.noteId);
+      var url = baseurl + 'addCollaberator';
+
+      PostService.postService(collaberator, url).then(function successCallback(response) {
+        console.log(response);
+
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+
+    // var getCollaberators = function(noteId) {
+    //   var url = baseurl + 'getCollaberator/' + noteId;
+    //   GetService.getModel(url).then(function successCallback(response) {
+    //     console.log(response.data);
+    //     $scope.collaberators = response.data;
+    //   }, function errorCallback(response) {
+    //     console.log("error" + response.data);
+    //   })
+    // }
+    // getCollaberators(note.noteId);
+
+    //getCollaberatedNote(collaberator.sharedTo);
+
+
+
+    var getAllUser = function() {
+      var url = baseurl + 'getAllUsers';
+      GetService.getModel(url).then(function successCallback(response) {
+        console.log(response.data);
+        $scope.userList = response.data;
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+    getAllUser();
   }
-]
-
-  console.log(note.noteId);
-$scope.sharedEmail = "";
-$scope.addCollaberator =function () {
-  var collaberator ={
-    sharedBy :note.createdBy,
-    sharedTo : $scope.sharedEmail,
-    noteId : note.noteId
-  };
-  console.log(collaberator.sharedBy + "  " + collaberator.sharedTo + "  " + collaberator.noteId);
-  var url = baseurl + 'addCollaberator';
-
-  PostService.postService(collaberator, url).then(function successCallback(response) {
-    console.log(response);
-     getCollaberators(collaberator.noteId);
-  }, function errorCallback(response) {
-    console.log("error" + response.data);
-  })
-}
-var getCollaberators = function(noteId) {
-  var url = baseurl + 'getCollaberator/' + noteId;
-  GetService.getModel(url).then(function successCallback(response) {
-    console.log(response.data);
-    $scope.collaberators = response.data;
-  }, function errorCallback(response) {
-    console.log("error" + response.data);
-  })
-}
-getCollaberators(note.noteId);
-
-$scope.userInfo = getUser();
-
-// $scope.updateCollaberator = function (note) {
-//
-// }
-
-}
 
 
 
-$scope.sortComment = function(notes) {
-  console.log("in sortComment...............+"+ notes);
+  $scope.sortComment = function(notes) {
+    console.log("in sortComment...............+" + notes);
     var date = new Date(notes.reminder);
     return date;
-};
+  };
 
 
 
@@ -1127,53 +1139,90 @@ $scope.sortComment = function(notes) {
 });
 
 
-ToDoApp.filter('dateformat', function ($filter) {
+ToDoApp.filter('dateformat', function($filter) {
 
-     return function (remiderDate) {
+  return function(remiderDate) {
 
-       console.log("inside filter", remiderDate);
-       if( !remiderDate )
-       {
-          return;
-       }
+    console.log("inside filter", remiderDate);
+    if (!remiderDate) {
+      return;
+    }
 
-       remiderDate = new Date( remiderDate );
+    remiderDate = new Date(remiderDate);
 
-       var dt = "";
-       var todatedate = new Date();
-       console.log(todatedate.getMonth(), todatedate.getDate() );
-       var ltempToday = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() );
+    var dt = "";
+    var todatedate = new Date();
+    console.log(todatedate.getMonth(), todatedate.getDate());
+    var ltempToday = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate());
 
-       var ltempTom = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()+1 );
-       var ltempYes = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()-1 );
+    var ltempTom = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() + 1);
+    var ltempYes = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() - 1);
 
-       var ltempRD = new Date( remiderDate.getFullYear(), remiderDate.getMonth(), remiderDate.getDate() );
+    var ltempRD = new Date(remiderDate.getFullYear(), remiderDate.getMonth(), remiderDate.getDate());
 
-       console.log(ltempRD);
-       console.log(ltempTom);
+    console.log(ltempRD);
+    console.log(ltempTom);
 
-       if( (ltempToday - ltempRD) == 0  )
-       {
-         dt += "Today";
-       }
-       else if( (ltempTom - ltempRD) == 0  ) {
-         dt += "Tomorrow";
-       }
-       else if( (ltempYes - ltempRD) == 0  ) {
-         dt += "Yesterday";
-       }
-       else
-       {
-         dt = $filter('date')(remiderDate, 'MMM dd, yyyy');
-         dt = dt.replace(", "+todatedate.getFullYear(),'');
-       }
+    if ((ltempToday - ltempRD) == 0) {
+      dt += "Today";
+    } else if ((ltempTom - ltempRD) == 0) {
+      dt += "Tomorrow";
+    } else if ((ltempYes - ltempRD) == 0) {
+      dt += "Yesterday";
+    } else {
+      dt = $filter('date')(remiderDate, 'MMM dd, yyyy');
+      dt = dt.replace(", " + todatedate.getFullYear(), '');
+    }
 
-       // // append time
-       // var time = $filter('date')(remiderDate, 'hh:mm a');
-       // dt += ", "+ time;
+    // // append time
+    // var time = $filter('date')(remiderDate, 'hh:mm a');
+    // dt += ", "+ time;
 
-       return dt;
-     };
+    return dt;
+  };
 
 
 });
+
+
+
+// ToDoApp.directive('img', function ($window) {
+//     'use strict';
+//
+//     function getElementOffset (element) {
+//         var de = document.documentElement;
+//         var box = element.getBoundingClientRect();
+//         var top = box.top + window.pageYOffset - de.clientTop;
+//         var left = box.left + window.pageXOffset - de.clientLeft;
+//         return { top: top, left: left };
+//     }
+//
+//     return {
+//         restrict: 'E',
+//         link: function (scope, element, attr) {
+//             var expanded = false,
+//                 cloned = element.clone(true),
+//                 offset = getElementOffset(element[0]);
+//             cloned.addClass('large');
+//             cloned.attr('src', attr.src);
+//             cloned.css('top', offset.top + 'px');
+//             cloned.css('left', offset.left + 'px');
+//             cloned.bind('click', function () {
+//                 if (expanded) {
+//                     cloned.removeClass('expanded');
+//                     expanded = false;
+//                 } else {
+//                     cloned.addClass('expanded');
+//                     expanded = true;
+//                 }
+//             });
+//             element.parent().append(cloned);
+//             angular.element($window).bind('scroll', function () {
+//                 if (expanded) {
+//                     cloned.removeClass('expanded');
+//                     expanded = false;
+//                 }
+//             });
+//         }
+//     };
+// });

@@ -176,3 +176,28 @@ line-height: 0px !important;
   padding: 10px 2px 0px 2px !important;
   margin: 2px 0px 2px 0px !important;
 }
+
+
+.app img {
+    display: block;
+    
+    width: 200px;
+}
+
+.app img.large {
+    cursor: -moz-zoom-in;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+    position: absolute;
+    -webkit-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+}
+
+.app img.expanded {
+    cursor: -moz-zoom-out;
+    cursor: -webkit-zoom-out;
+    cursor: zoom-out;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100%;
+}

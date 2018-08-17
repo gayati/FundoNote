@@ -27,16 +27,23 @@
   <div style="width:40px;height:40px;border-radius:40px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
   <md-icon style="margin-top: 6px;margin-left: 5px;" ><img src="images/collaberator.svg"></md-icon>
   </div>
-  <md-input-container>
-      <input list="emaillist" placeholder="Person or email to share with" ng-model="sharedEmail"/>
+  <!-- <md-input-container>
       <datalist id="emaillist">
-    <option ng-repeat="email in emails" value="{{email.value}}">{{email.name}}</option>
+    <option ng-repeat="user in userList" value="{{user.id}}">{{user.emailId}}</option>
     </datalist>
-  </md-input-container>
-  <div style="margin-top:15px">
-    <md-icon ng-click="addCollaberator()"  style=" margin-left: 250px;"><i class="material-icons">done</i></md-icon>
+    <input list="emaillist" placeholder="Person or email to share with" />
+
+  </md-input-container> -->
+
+  <md-input-container>
+  <md-select ng-model="user" placeholder="Person or email to share with">
+    <md-option ng-value="user" ng-repeat="user in userList">{{ user.emailId }}</md-option>
+  </md-select>
+</md-input-container>
+  <!-- <div style="margin-top:15px"> -->
+    <md-icon ng-click="addCollaberator(user)"  style=" margin-left: 200px;"><i class="material-icons">done</i></md-icon>
     <md-tooltip>Add collaberator</md-tooltip>
-  </div>
+  <!-- </div> -->
   <!-- <div>
     <md-icon><i class="material-icons">cancel</i></md-icon>
   </div> -->

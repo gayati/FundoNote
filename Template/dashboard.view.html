@@ -66,7 +66,7 @@
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
           <div ng-click="showDialogue($event,notes)">
-            <div class="container">
+            <div class="container ">
               <img id="view" ng-src="{{notes.image}}" class="md-card-image" ng-click="zoom()">
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
