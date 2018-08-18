@@ -66,7 +66,7 @@
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
           <div ng-click="showDialogue($event,notes)">
-            <div class="container ">
+            <div class="container " ng-if="notes.image">
               <img id="view" ng-src="{{notes.image}}" class="md-card-image" ng-click="zoom()">
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
@@ -90,18 +90,15 @@
             <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
             ng-mouseout="showMdIcon=false" >
               <md-chip class="chip" style="text-align:center-center">{{label.label}}
-              <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
+              <span ng-show="showMdIcon" class="closebtn" ng-show="first" ng-click="removeLabel(notes,label)">&times;</span>
               </md-chip>
             </md-chips>
             <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true"
             ng-mouseout="showMdIcon=false">
               <md-chip  class="chip" >
-                <!-- <md-icon>schedule</md-icon> -->
                 {{notes.reminder|dateformat}} {{notes.remindertime}}
-                <!-- <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon> -->
                 <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
-                class="closebtn" ng-show="first">&times;</span>
-
+                class="closebtn" ng-show="first" >&times;</span>
               </md-chip>
             </md-chips>
             <div ng-if="notes.collaberatorList" ng-repeat="user in notes.collaberatorList">
@@ -138,7 +135,7 @@
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}" ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
           <div ng-click="showDialogue($event,notes)">
-            <div class="container">
+            <div class="container" ng-if="notes.image">
               <img ng-src="{{notes.image}}" class="md-card-image">
               <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <md-icon md-svg-icon="images/pin.svg"></md-icon>
@@ -165,15 +162,13 @@
             <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
             ng-mouseout="showMdIcon=false" >
               <md-chip class="chip" style="text-align:center-center">{{label.label}}
-              <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
+              <span ng-show="showMdIcon" class="closebtn" ng-show="first" ng-click="removeLabel(notes,label)">&times;</span>
               </md-chip>
             </md-chips>
             <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true"
             ng-mouseout="showMdIcon=false">
               <md-chip  class="chip" >
-                <!-- <md-icon>schedule</md-icon> -->
                 {{notes.reminder|dateformat}} {{notes.remindertime}}
-                <!-- <md-icon class="cancelicon" ng-click="removeReminder($event,notes)">cancel</md-icon> -->
                 <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
                 class="closebtn" ng-show="first">&times;</span>
               </md-chip>
