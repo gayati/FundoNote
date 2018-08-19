@@ -1,5 +1,5 @@
 ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPanel, $mdSidenav, $mdDialog,
-  PostService, GetService, PutService, DeleteService, commonService, $timeout, $location,$filter) {
+  PostService, $timeout, $location,$filter) {
   var baseurl = "http://localhost:9000/";
 
 
@@ -42,31 +42,43 @@ $scope.trashMenuList = [{
 //colorList
   $scope.colorList = [
     [{
-      color: '#FFFFFF'
+      color: '#FFFFFF',
+      tooltip : 'White'
     }, {
-      color: '#EC407A'
+      color: '#EC407A',
+        tooltip : 'Pink'
     }, {
-      color: '#AB47BC'
+      color: '#AB47BC',
+      tooltip : 'Voilet'
     }, {
-      color: '#82B1FF'
+      color: '#82B1FF',
+        tooltip : 'Blue'
     }],
     [{
-      color: '#64B5F6'
+      color: '#64B5F6',
+        tooltip : 'Dark Blue'
     }, {
-      color: '#CCFF90'
+      color: '#CCFF90',
+        tooltip : 'Green'
     }, {
-      color: '#A7FFEB'
+      color: '#A7FFEB',
+        tooltip : 'Teal'
     }, {
-      color: '#FF8A80'
+      color: '#FF8A80',
+        tooltip : 'Red'
     }],
     [{
-      color: '#D5DBDB'
+      color: '#D5DBDB',
+        tooltip : 'Gray'
     }, {
-      color: '#FFD180'
+      color: '#FFD180',
+        tooltip : 'Orange'
     }, {
-      color: '#D7C9C8'
+      color: '#D7C9C8',
+        tooltip : 'Brown'
     }, {
-      color: '#F5F518'
+      color: '#F5F518',
+        tooltip : 'Yellow'
     }]
 
   ];
@@ -79,7 +91,7 @@ $scope.trashMenuList = [{
     console.log("In get collaberared...................");
     if ($scope.userInfo.id != undefined) {
       var url = baseurl + 'getCollaberatednotes/' + $scope.userInfo.id;
-      GetService.getModel(url).then(function successCallback(response) {
+      PostService.getModel(url).then(function successCallback(response) {
         console.log(response.data);
         $scope.collaberatedNote = response.data;
         console.log($scope.allNotes);
@@ -96,7 +108,7 @@ $scope.trashMenuList = [{
   function getNote() {
     console.log("In get note");
     var url = baseurl + 'getNotes';
-    GetService.getModel(url).then(function successCallback(response) {
+    PostService.getModel(url).then(function successCallback(response) {
       $scope.allNotes = response.data;
       showHideheader();
       $scope.getCollaberatedNote();
@@ -122,7 +134,7 @@ $scope.trashMenuList = [{
   var getUser = function() {
     console.log("In get User");
     var url = baseurl + 'getUser';
-    GetService.getModel(url).then(function successCallback(response) {
+    PostService.getModel(url).then(function successCallback(response) {
       console.log("success" + response.data.id);
       $scope.userInfo = response.data;
       console.log($scope.userInfo);
@@ -150,10 +162,12 @@ $scope.trashMenuList = [{
       labelList: [],
     }
     var url = baseurl + 'createNote';
-    if (note.title == "" && note.description == "" || note.image == "") {
-      console.log("title or desc undefined............");
-    } else {
+    if ((note.title !== "" || note.description !== "" ) || note.image !== undefined ) {
       updateNote(note, url);
+
+    } else {
+      console.log("title or desc undefined............");
+
     }
   };
 
@@ -167,6 +181,21 @@ $scope.trashMenuList = [{
   }
 
 
+
+  $scope.pin = true;
+  $scope.isClicked = false;
+  $scope.changePinIcon = function() {
+    $scope.isClicked = !$scope.isClicked;
+    if ($scope.isClicked) {
+      $scope.pin = false;
+      $scope.bluePin =true;
+    } else {
+      $scope.pin = true;
+      $scope.bluePin =true;
+
+    }
+  }
+
 //updatePin function
   $scope.updatePin = function(notes) {
     if (notes === undefined) {
@@ -177,11 +206,11 @@ $scope.trashMenuList = [{
       notes.isTrashed = false;
       var url = baseurl + 'updateNote/' + notes.noteId;
       updateNote(notes, url);
+
     } else {
       notes.isPinned = false;
       var url = baseurl + 'updateNote/' + notes.noteId;
       updateNote(notes, url);
-
     }
   }
 
@@ -216,104 +245,6 @@ $scope.trashMenuList = [{
   //Get url parameter
   var url = $location.path().split("/");
   $scope.parameter = url[3];
-
-
-  //The function for delete note and add label(more option)
-  $scope.ctrlNote = function(clickEvent, index, notes) {
-    console.log("in ctrl note");
-    if (index == 0) {
-      console.log("index");
-      trashNote(notes)
-    }
-    if (index == 1) {
-      $scope.showAddlabelDialogue(clickEvent, notes);
-    }
-  }
-
-  //Delete note
-  var trashNote = function(notes) {
-    if (notes.isTrashed === true) {
-      notes.isTrashed = false;
-      var url = baseurl + 'updateNote/' + notes.noteId;
-      updateNote(notes, url);
-    } else {
-      notes.isTrashed = true;
-      notes.isPinned = false;
-      notes.isArchived = false;
-      var url = baseurl + 'updateNote/' + notes.noteId;
-      updateNote(notes, url);
-    }
-  }
-
-  //Add Label Dialogue
-  $scope.showAddlabelDialogue = function(clickEvent, note) {
-    console.log("In add label dialgue");
-    console.log(note);
-    $mdDialog.show({
-      locals: {
-        label: $scope.allLabels,
-        note1: note
-      },
-      controller: addLabelController,
-      templateUrl: 'Template/addlabel.view.html',
-      parent: angular.element(document.body),
-      targetEvent: clickEvent,
-      clickOutsideToClose: true,
-      fullscreen: $scope.customFullscreen
-    });
-  }
-
-//Add label controller
-  var addLabelController = function($scope, label, note1) {
-    console.log("In add labelcontroller");
-    $scope.label1 = label;
-    $scope.note = note1;
-    $scope.selected = note1.labelList;
-    $scope.exists = function(item, list) {
-      for (var i = 0; i < list.length; i++) {
-        var selectedobject = list[i];
-        if (selectedobject.label == item.label) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    $scope.toggle = function(item, list) {
-      var idx = list.indexOf(item);
-      if (idx > -1) {
-        list.splice(idx, 1);
-      } else {
-        list.push(item);
-      }
-      $scope.addNoteLabel(note1, item);
-    };
-
-//function to add label
-    $scope.addNoteLabel = function(note, label) {
-      console.log("in add method" + note.noteId);
-      var noteLabel = {}
-      noteLabel.noteId = note.noteId,
-        noteLabel.labelId = label.labelId
-      console.log("In addlabel" + noteLabel.noteId);
-      var url = baseurl + 'addnoteLabel';
-      PostService.postService(noteLabel, url).then(function successCallback(response) {}, function errorCallback(response) {
-        console.log("error" + response.data);
-      })
-    }
-  }
-
-//function for remove label
-  $scope.removeLabel = function(notes, label) {
-    console.log("in remove label..............");
-    var url = baseurl + 'removeLabel/' + notes.noteId + "/" + label.labelId;
-    DeleteService.delete(url).then(function successCallback(response) {
-      console.log(response);
-      getNote();
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-  }
 
 //add time reminder array
   $scope.addTime = [{
@@ -357,6 +288,7 @@ $scope.trashMenuList = [{
     note.reminder = null;
     var url = baseurl + 'updateNote/' + note.noteId;
     updateNote(note, url);
+
   }
 
 
@@ -491,7 +423,7 @@ $scope.trashMenuList = [{
   var deleteNoteforever = function(noteId) {
     console.log("In delte forever");
     var url = baseurl + 'deleteNote/' + noteId;
-    DeleteService.delete(url).then(function successCallback(response) {
+    PostService.delete(url).then(function successCallback(response) {
       console.log(response);
     }, function errorCallback(response) {
       console.log("erorr.................");
@@ -578,6 +510,8 @@ $scope.trashMenuList = [{
   };
 
   $scope.goToLogin = function() {
+    localStorage.removeItem("loginToken");
+   console.log(localStorage.getItem("loginToken"));
     $state.go('login')
   }
 
@@ -621,7 +555,7 @@ $scope.trashMenuList = [{
   //function for display label on Dilogue box
       var getLabel = function() {
         var url = baseurl + 'getLabels';
-        GetService.getModel(url).then(function successCallback(response) {
+        PostService.getModel(url).then(function successCallback(response) {
           $scope.allLabels = response.data;
           console.log($scope.allLabels);
         }, function errorCallback(response) {
@@ -695,7 +629,7 @@ $scope.trashMenuList = [{
 
       $scope.deleteLabel = function(label) {
         var url = baseurl + 'deleteLabel/' + label.labelId;
-        DeleteService.delete(url).then(function successCallback(response) {
+        PostService.delete(url).then(function successCallback(response) {
           console.log(response);
         }, function errorCallback(response) {
           console.log("erorr.................");
@@ -707,7 +641,7 @@ $scope.trashMenuList = [{
         console.log("In update label" + label.label + label.labelId + label.userId);
         console.log(label);
         var url = baseurl + 'updateLabel/' + label.labelId;
-        PutService.updateMethod(label, url).then(function successCallback(response) {
+        PostService.updateMethod(label, url).then(function successCallback(response) {
           console.log(response);
           getLabel();
         }, function errorCallback(response) {
@@ -719,7 +653,7 @@ $scope.trashMenuList = [{
 //function for display labels on side bar
     var getLabel = function() {
       var url = baseurl + 'getLabels';
-      GetService.getModel(url).then(function successCallback(response) {
+      PostService.getModel(url).then(function successCallback(response) {
         $scope.allLabels = response.data;
         console.log($scope.allLabels);
       }, function errorCallback(response) {
@@ -840,7 +774,7 @@ $scope.trashMenuList = [{
       var url = baseurl + 'updateUser';
       user.profileImage = image;
       console.log(user);
-      PutService.updateMethod(user, url).then(function successCallback(response) {
+      PostService.updateMethod(user, url).then(function successCallback(response) {
         console.log(response);
         getUser();
       }, function errorCallback(response) {
@@ -853,7 +787,118 @@ $scope.trashMenuList = [{
   }
 
 
+  $scope.morePanel = function(ev, note,templatePage) {
+ console.log(note + "in more panel");
+   var position = $mdPanel.newPanelPosition()
+      .relativeTo(ev.target)
+      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+    console.log("position of panel ", position);
+    var config = {
+      locals: {
+        label: $scope.allLabels,
+        note: note,
+        spe: $scope.thisScope
+      },
+      attachTo: angular.element(document.body),
+      controller: morePanelCtrl,
+      templateUrl: 'Template/' + templatePage + '.html',
+      position: position,
+      openFrom: ev,
+      clickOutsideToClose: true,
+      escapeToClose: true,
+      focusOnOpen: false,
+      zIndex: 2,
+    };
+    $mdPanel.open(config);
+  }
 
+  function morePanelCtrl(mdPanelRef, $timeout, $scope, note, label, spe) {
+  $scope.more = true;
+
+  $scope.label = label;
+  $scope.note = note;
+  $scope.selected = note.labelList;
+
+    $scope.exists = function(item, list) {
+      for (var i = 0; i < list.length; i++) {
+        var selectedobject = list[i];
+        if (selectedobject.label == item.label) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    $scope.toggle = function(item, list) {
+      var idx = list.indexOf(item);
+      if (idx > -1) {
+        list.splice(idx, 1);
+      } else {
+        list.push(item);
+      }
+      $scope.addNoteLabel(note, item);
+    };
+
+//function to add label
+    $scope.addNoteLabel = function(note, label) {
+
+      console.log("in add method" + note.noteId);
+      var noteLabel = {}
+      noteLabel.noteId = note.noteId,
+        noteLabel.labelId = label.labelId
+      console.log("In addlabel" + noteLabel.noteId);
+      var url = baseurl + 'addnoteLabel';
+      PostService.postService(noteLabel, url).then(function successCallback(response) {}, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+
+    var getLabel = function() {
+      var url = baseurl + 'getLabels';
+      PostService.getModel(url).then(function successCallback(response) {
+        $scope.allLabels = response.data;
+        console.log($scope.allLabels);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+    getLabel();
+
+
+   //Delete note
+   $scope.trashNote = function() {
+     console.log(note);
+     if (note.isTrashed === true) {
+       note.isTrashed = false;
+       var url = baseurl + 'updateNote/' + note.noteId;
+       updateNote(note, url);
+     } else {
+       note.isTrashed = true;
+       note.isPinned = false;
+       note.isArchived = false;
+       var url = baseurl + 'updateNote/' + note.noteId;
+       updateNote(note, url);
+     }
+   }
+
+   $scope.hidemore = function() {
+        console.log("hide method ");
+        $scope.more = false;
+      }
+
+ }
+
+
+ $scope.removeLabel = function(notes, label) {
+    console.log("in remove label..............");
+    var url = baseurl + 'removeLabel/' + notes.noteId + "/" + label.labelId;
+    PostService.delete(url).then(function successCallback(response) {
+      console.log(response);
+      getNote();
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
 
   $scope.collaberatorDialogue = function(clickEvent, notes) {
     console.log(notes.noteId);
@@ -877,7 +922,7 @@ $scope.trashMenuList = [{
   function collaberatorController($scope, note) {
     var getAllUser = function() {
       var url = baseurl + 'getAllUsers';
-      GetService.getModel(url).then(function successCallback(response) {
+      PostService.getModel(url).then(function successCallback(response) {
         console.log(response.data);
         $scope.userList = response.data;
       }, function errorCallback(response) {
@@ -885,7 +930,7 @@ $scope.trashMenuList = [{
       })
     }
     getAllUser();
-    
+
      $scope.note = note;
     $scope.sharedEmail = "";
     $scope.userInfo = getUser();
@@ -911,10 +956,10 @@ $scope.trashMenuList = [{
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
     }
-
-
-
   }
+
+
+
 
 
 

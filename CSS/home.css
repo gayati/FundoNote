@@ -63,7 +63,7 @@ div:empty:not(:focus):before {
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 /* .intial-text after-click{
@@ -180,7 +180,7 @@ line-height: 0px !important;
 
 .app img {
     display: block;
-    
+
     width: 200px;
 }
 

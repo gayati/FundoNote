@@ -1,6 +1,6 @@
 <div style="width:100%;padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
 <div id="myDiv" layout="row" layout-align="center-center" style="width:70%;" layout-wrap  >
-    <md-card flex = "30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" ng-click="showDialogue($event,notes)">
+    <md-card flex = "30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}" >
       <div ng-click="showDialogue($event,notes)">
         <div class="container">
           <img ng-src="{{notes.image}}" class="md-card-image">
@@ -51,7 +51,10 @@
         <div ng-show="first">
             <icons></icons>
           <unarchiveicon></unarchiveicon>
-          <md-menu>
+          <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
+            <img src="images/more.svg" />
+          </md-button>
+          <!-- <md-menu>
     <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open($event)">
       <md-icon><img src="images/more.svg" /></md-icon>
     </md-button>
@@ -62,7 +65,7 @@
         </md-button>
       </md-menu-item>
     </md-menu-content>
-  </md-menu>
+  </md-menu> -->
         </div>
       </div>
     </md-card>

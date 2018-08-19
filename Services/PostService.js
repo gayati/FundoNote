@@ -14,8 +14,38 @@ ToDoApp.factory("PostService", function($http, $state,$location) {
 
   }
 
+  factory.delete = function(url) {
+    return $http({
+      method: "DELETE",
+      url: url,
+      headers : {
+         'Headers' : localStorage.getItem('loginToken')
+      }
+    })
+  }
+
+  factory.getModel = function(url) {
+    return $http({
+      method: "GET",
+      url: url,
+      headers : {
+         'Headers' : localStorage.getItem('loginToken')
+      }
+    })
+  }
 
 
+  factory.updateMethod = function (data,url) {
+    console.log(data);
+    return $http({
+     method:"PUT",
+     url:url,
+     data:data,
+     headers : {
+       'Headers' : localStorage.getItem('loginToken')
+    }
+    })
+  }
 
 //  formData.append("file", "/home/bridgeit/Documents/pictures/sample2.jpeg");
 

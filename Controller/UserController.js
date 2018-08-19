@@ -1,4 +1,4 @@
-ToDoApp.controller('UserController', function($scope, $state, $location, PostService,GetService) {
+ToDoApp.controller('UserController', function($scope, $state, $location, PostService) {
   var baseurl = "http://localhost:9000/";
 
   $scope.registerUser = function() {

@@ -83,8 +83,11 @@
   </md-button>
   <md-menu-content width="2" ng-click="$mdMenu.close($event)">
     <md-menu-item ng-repeat="array in colorList">
-      <div ng-repeat="object in array" class="box" ng-style="{'background-color': object.color}" ng-click="updateNotecolor(notes,object.color)">
-      </div>
+      <div ng-repeat="object in array" class="box" ng-style="{'background-color': object.color}"
+      			title="{{object.tooltip}}"  ng-click="updateNotecolor(notes,object.color)">
+
+    </div>
+
     </md-menu-item>
   </md-menu-content>
 </md-menu>

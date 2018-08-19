@@ -9,8 +9,17 @@
       </md-card>
     </div>
 
-    <div flex="70" layout-align="center-center">
+    <div  layout="row"  style="width:800px" layout-align="center-center">
       <md-card style="width:550px" ng-style="{'background-color':color}" ng-show="showCard">
+        <div class="container">
+          <img id="view" ng-src="{{image}}" class="md-card-image" ng-click="zoom()">
+          <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
+            <img src="images/pin.svg">
+          </md-button>
+          <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+            <img src="images/bluePin.svg">
+          </md-button>
+        </div>
         <div layout="row" layout-align="space-between center">
           <div id="title" contenteditable data-placeholder="Title" style="border:none;outline:none;margin-left:10px" ng-model="noteTitle"></div>
           <div>
@@ -21,15 +30,7 @@
           </div>
         </div>
         <div class="intial-text after-click" contenteditable id="description" data-placeholder="Take a note....." style="border:none;outline:none;margin-left:10px" ng-model="noteDesc"></div>
-        <div class="container">
-          <img id="view" ng-src="{{image}}" class="md-card-image" ng-click="zoom()">
-          <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
-            <img src="images/pin.svg">
-          </md-button>
-          <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
-            <img src="images/bluePin.svg">
-          </md-button>
-        </div>
+
         <div layout="row" layout-align="space-between center">
           <div layout="row">
             <icons></icons>
@@ -68,23 +69,23 @@
           <div ng-click="showDialogue($event,notes)">
             <div class="container " ng-if="notes.image">
               <img id="view" ng-src="{{notes.image}}" class="md-card-image" ng-click="zoom()">
-              <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button btn" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
-              <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button btn" aria-label="Pined Button" ng-if="notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <img src="images/bluePin.svg">
               </md-button>
             </div>
-            <div>
+            <div ng-if="notes.title">
               <div class="intial-text after-click" ng-bind-html="notes.title"></div>
-              <md-button class="md-icon-button" ng-if="notes.image===null && notes.isPinned===false" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
-              <md-button aria-label="Pined Button" ng-if="notes.image===null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button aria-label="Pined Button" ng-if="notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <img src="images/bluePin.svg">
               </md-button>
             </div>
-            <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;" ng-bind-html="notes.description"></div>
+            <div ng-if="notes.description" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;" ng-bind-html="notes.description"></div>
           </div>
           <div style="width:250px" layout="row" layout-wrap >
             <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
@@ -112,7 +113,14 @@
             <div ng-show="first">
               <icons></icons>
               <archiveicon></archiveicon>
-              <md-menu>
+              <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
+                <img src="images/more.svg" />
+              </md-button>
+              <!-- <md-button class="md-icon-button" class="md-icon-button img-icon"  ng-click="reminderPanel($event, note,'morePanel',ReminderPanelCtrl)">
+                <img src="images/more.svg" />
+    <md-tooltip>more</md-tooltip>
+  </md-button> -->
+              <!-- <md-menu>
                 <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="$mdMenu.open($event)">
                   <img src="images/more.svg" />
                 </md-button>
@@ -123,7 +131,7 @@
                     </md-button>
                   </md-menu-item>
                 </md-menu-content>
-              </md-menu>
+              </md-menu> -->
             </div>
           </div>
         </md-card>
@@ -137,20 +145,20 @@
           <div ng-click="showDialogue($event,notes)">
             <div class="container" ng-if="notes.image">
               <img ng-src="{{notes.image}}" class="md-card-image">
-              <md-button class="md-icon-button btn" ng-if="notes.image!==null && notes.isPinned===false" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button btn" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
                 <md-icon md-svg-icon="images/pin.svg"></md-icon>
               </md-button>
-              <md-button  class="md-icon-button btn"  ng-if="notes.image!==null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button  class="md-icon-button btn"  ng-if=" notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <md-icon md-svg-icon="images/bluePin.svg"></md-icon>
               </md-button>
             </div>
             <div>
               <div class="intial-text after-click" ng-bind-html="notes.title"></div>
               <div>
-                <md-button class="md-icon-button btn" ng-if="notes.image===null && notes.isPinned===false" ng-click="updatePin(notes);">
+                <md-button class="md-icon-button btn" ng-if=" notes.isPinned===false" ng-click="updatePin(notes);">
                   <md-icon style="width: 5px;height: 5px;" md-svg-icon="images/pin.svg"></md-icon>
                 </md-button>
-                <md-button aria-label="Pined Button" ng-if="notes.image===null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+                <md-button aria-label="Pined Button" ng-if=" notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                   <md-icon md-svg-icon="images/bluePin.svg"></md-icon>
                 </md-button>
               </div>
@@ -184,7 +192,10 @@
             <div ng-show="first">
               <icons></icons>
               <archiveicon></archiveicon>
-              <md-menu>
+              <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
+                <img src="images/more.svg" />
+              </md-button>
+              <!-- <md-menu>
                 <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="$mdMenu.open($event)">
                   <md-icon  class="image-size"><img src="images/more.svg" /></md-icon>
                 </md-button>
@@ -195,7 +206,7 @@
                     </md-button>
                   </md-menu-item>
                 </md-menu-content>
-              </md-menu>
+              </md-menu> -->
             </div>
           </div>
         </md-card>
