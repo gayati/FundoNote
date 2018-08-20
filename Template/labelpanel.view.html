@@ -13,12 +13,12 @@
 <div class="labelPanel">
   <md-subheader class="label-header">Label notes</md-subheader>
   <div layout="row" layout-align="start space-between">
-      <input type="text" style="border: none;outline: none;margin-left: 15px;" placeholder="Enter label name" ng-model="label"  ng-maxlength=25 >
+      <input type="text" style="border: none;outline: none;margin-left: 15px;" placeholder="Enter label name" ng-model="label1"  ng-maxlength=25 >
       <md-button class="md-icon-button md-icon-right" style="margin: 0 auto;padding: 0px;">
           <md-icon><i class="material-icons">search</i></md-icon>
       </md-button>
   </div>
-<div  ng-repeat="label in allLabels|orderBy:'label'|filter:label">
+<div  ng-repeat="label in allLabels|orderBy:'label'|filter:label1">
   <md-checkbox class="standard" ng-checked="exists(label, selected)" ng-click="toggle(label,selected)">{{label.label}}</md-checkbox>
 </div>
 </div>

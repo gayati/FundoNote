@@ -66,7 +66,7 @@
       <md-subheader><strong>Pinned</strong></md-subheader>
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-repeat="notes in allNotes| filter :{ isArchived: false ,isTrashed:false,isPinned:true}" style="width:250px;" ng-style="{'background-color': notes.color}">
-          <div ng-click="showDialogue($event,notes)">
+          <div ng-click="showDialogue($event,notes)" ng-init="isUrl(notes)">
             <div class="container " ng-if="notes.image">
               <img id="view" ng-src="{{notes.image}}" class="md-card-image" ng-click="zoom()">
               <md-button class="md-icon-button btn" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
@@ -78,10 +78,10 @@
             </div>
             <div ng-if="notes.title">
               <div class="intial-text after-click" ng-bind-html="notes.title"></div>
-              <md-button class="md-icon-button" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
+              <md-button class="md-icon-button" ng-if="notes.image===null && notes.isPinned===false" ng-click="updatePin(notes);">
                 <img src="images/pin.svg">
               </md-button>
-              <md-button aria-label="Pined Button" ng-if="notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
+              <md-button aria-label="Pined Button" ng-if="notes.image === null && notes.isPinned===true" class="md-icon-button btn" ng-click="updatePin(notes);">
                 <img src="images/bluePin.svg">
               </md-button>
             </div>
@@ -142,7 +142,7 @@
       <md-subheader><strong>Other</strong></md-subheader>
       <div layout="row" style="width:800px" layout-wrap>
         <md-card class="mdcard" style="" ng-style="{'background-color': notes.color}" ng-repeat="notes in allNotes | filter :{ isArchived: false ,isTrashed:false,isPinned:false} ">
-          <div ng-click="showDialogue($event,notes)">
+          <div ng-click="showDialogue($event,notes)"  ng-init="isUrl(notes)">
             <div class="container" ng-if="notes.image">
               <img ng-src="{{notes.image}}" class="md-card-image">
               <md-button class="md-icon-button btn" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
