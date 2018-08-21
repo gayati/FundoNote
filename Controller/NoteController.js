@@ -84,8 +84,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
   ];
 
-
-
   //Get collaberatedNote
   $scope.getCollaberatedNote = function() {
     console.log($scope.userInfo);
@@ -134,6 +132,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       }
     }
   }
+
 
   //Get User
   function getUser() {
@@ -446,46 +445,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
   //controller for handling the functionalities of sidebar and toolbar(HomeController)
-
-
-
-  //sideBar..
-  //function for changing $state color
-  $scope.changeColor = function() {
-    if ($state.is('home.dashboard')) {
-      $scope.title = "Fundoo Notes";
-      $scope.CustomColor = {
-        'backgroundcolor': '#fb0',
-        'color': 'black'
-      }
-    } else if ($state.is('home.archive')) {
-      $scope.title = "Archive";
-      $scope.CustomColor = {
-        'backgroundcolor': '#A09E98',
-        'color': 'white'
-      }
-    } else if ($state.is('home.trash')) {
-      $scope.title = "Trash";
-      $scope.CustomColor = {
-        'backgroundcolor': 'rgb(99, 99, 99)',
-        'color': 'white'
-      }
-    } else if ($state.is('home.reminder')) {
-      $scope.title = "Reminder";
-      $scope.CustomColor = {
-        'backgroundcolor': 'rgb(96, 125, 139)',
-        'color': 'white'
-      }
-    } else if ($state.is('home.label')) {
-      $scope.title = "Label";
-      $scope.CustomColor = {
-        'backgroundcolor': 'rgb(96, 125, 139)',
-        'color': 'white'
-      }
-    }
-  };
-  $scope.changeColor();
-
 
   //
   $scope.toggleLeft = buildToggler('left');

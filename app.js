@@ -1,4 +1,4 @@
-var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages","content-editable",'ngSanitize','ngImgCrop']);
+var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages","content-editable",'ngSanitize','ngImgCrop',]);
 ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('register', {
@@ -83,3 +83,57 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
 
   $urlRouterProvider.otherwise('/login');
 }]);
+
+
+ToDoApp.run(function($rootScope){
+  $rootScope.$on('$locationChangeStart',
+function(event, toState){
+    // do something
+    console.log(event);
+    console.log(toState);
+    var path = toState.split('/');
+    console.log(path[5]);
+
+    if(path[5]!=undefined){
+      if(path[5] == "dashboard"){
+        $rootScope.title = "Fundoo Notes";
+        $rootScope.CustomColor = {
+          'backgroundcolor': '#fb0',
+          'color': 'white'
+        }
+      }
+      else if(path[5] == "archive"){
+        $rootScope.title = "Archive";
+        $rootScope.CustomColor = {
+          'backgroundcolor': '#A09E98',
+          'color': 'white'
+        }
+      }
+      else if(path[5] == "reminder"){
+        $rootScope.title = "Reminder";
+        $rootScope.CustomColor = {
+          'backgroundcolor': '#A09E98',
+          'color': 'white'
+        }
+      }
+      else if(path[5] == "trash"){
+        $rootScope.title = "Trash";
+        $rootScope.CustomColor = {
+          'backgroundcolor': 'rgb(99, 99, 99)',
+          'color': 'white'
+        }
+      }
+      else if(path[5] == "label"){
+        $rootScope.title = "Label";
+        $rootScope.CustomColor = {
+          'backgroundcolor': 'rgb(96, 125, 139)',
+          'color': 'white'
+        }
+      }
+
+
+
+
+    }
+})
+})
