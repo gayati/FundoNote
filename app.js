@@ -1,5 +1,5 @@
-var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages","content-editable",'ngSanitize','ngImgCrop',]);
-ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+var ToDoApp = angular.module('ToDoApplication', ['ui.router', 'ngMaterial', "ngMessages","content-editable",'ngSanitize','ngImgCrop','auth0.auth0']);
+ToDoApp.config(['$stateProvider','$urlRouterProvider','angularAuth0Provider','$locationProvider', function($stateProvider, $urlRouterProvider,  angularAuth0Provider,$locationProvider) {
   $stateProvider
     .state('register', {
       url: '/register',
@@ -13,7 +13,6 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
     })
     .state('activateUser', {
       url: '/activateUser',
-      // templateUrl: 'Template/register.view.html',
       controller: 'ActivateUserController'
     })
     .state('login', {
@@ -41,11 +40,6 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       templateUrl: 'Template/dashboard.view.html',
       controller: 'NoteController'
     })
-    // .state('home.dashboard', {
-    //   url: '/dashboard',
-    //   templateUrl: 'Template/dashboard.view.html',
-    //   controller: 'LabelController',
-    // })
     .state('home.archive', {
       url: '/archive',
       templateUrl: 'Template/archive.view.html',
@@ -71,32 +65,40 @@ ToDoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       templateUrl: 'Template/noteLabel.view.html',
       controller: 'NoteController'
     })
-  // .state('logout', {
-  // url: '/logout',
-  // templateUrl: 'Template/logout.view.html',
-  // controller: 'UserController'
-  //   })
+
+
+//  Initialization for the angular-auth0 library
+     // angularAuth0Provider.init({
+     //   clientID: 'YOUR_CLIENT_ID',
+     //   domain: 'undefined',
+     //   responseType: localStorage.getItem('loginToken'),
+     //   audience: 'https://undefined/userinfo',
+     //   redirectUri: 'http://localhost:9000/home/dashboard',
+     //   scope: 'openid'
+     // });
+
+    $urlRouterProvider.otherwise('/login');
+
+    // $locationProvider.hashPrefix('');
+
+     /// Comment out the line below to run the app
+     // without HTML5 mode (will use hashes in routes)
+    // $locationProvider.html5Mode(true);
 
 
 
 
 
-  $urlRouterProvider.otherwise('/login');
 }]);
 
 
 ToDoApp.run(function($rootScope){
   $rootScope.$on('$locationChangeStart',
 function(event, toState){
-    // do something
-    console.log(event);
-    console.log(toState);
     var path = toState.split('/');
-    console.log(path[5]);
-
     if(path[5]!=undefined){
       if(path[5] == "dashboard"){
-        $rootScope.title = "Fundoo Notes";
+        $rootScope.title = "FundooNotes";
         $rootScope.CustomColor = {
           'backgroundcolor': '#fb0',
           'color': 'white'
@@ -124,9 +126,16 @@ function(event, toState){
         }
       }
       else if(path[5] == "label"){
-        $rootScope.title = "Label";
+        $rootScope.title = path[6];
         $rootScope.CustomColor = {
           'backgroundcolor': 'rgb(96, 125, 139)',
+          'color': 'white'
+        }
+      }
+      else if(path[5] == "search"){
+        $rootScope.title = "FundooNotes";
+        $rootScope.CustomColor = {
+          'backgroundcolor': 'rgb(62, 80, 180)',
           'color': 'white'
         }
       }

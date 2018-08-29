@@ -11,12 +11,16 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.isArchived = false;
   $scope.isPinned = false;
   $scope.isTrashed = false;
+  $scope.showLink = false;
   $scope.image = "";
   $scope.labelList = null;
   $scope.tempDate = '';
   $scope.remindertime = "";
   $scope.userInfo = {};
   $scope.noteLabels = [];
+  $scope.scrapurl = "";
+  $scope.scrapTitlel = "";
+  $scope.imageLink = "";
 
 
 
@@ -94,7 +98,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         console.log(response.data);
         $scope.collaberatedNote = response.data;
         $scope.concatFun();
-
       }, function errorCallback(response) {
         console.log("error" + response.data);
       })
@@ -114,6 +117,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     var url = baseurl + 'getNotes';
     PostService.getModel(url).then(function successCallback(response) {
       $scope.mynotes = response.data;
+      console.log(    $scope.mynotes);
       $scope.getCollaberatedNote();
     }, function errorCallback(response) {
       console.log("error" + response.data);
@@ -151,6 +155,11 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   getUser();
   $scope.getNote();
 
+   $scope.refresh = function () {
+     $state.reload();
+   }
+
+
   //create note function
   $scope.createNote = function() {
     var note = {
@@ -164,6 +173,10 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       remindertime: "",
       image: $scope.image,
       labelList: [],
+      showLink: $scope.showLink,
+      scrapUrl:$scope.scrapurl,
+      urlTitle:$scope.scrapTitlel,
+      imageLink:$scope.imageLink
     }
     var url = baseurl + 'createNote';
     if ((note.title !== "" || note.description !== "") || note.image !== undefined) {
@@ -185,20 +198,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   }
 
 
-
-  $scope.pin = true;
-  $scope.isClicked = false;
-  $scope.changePinIcon = function() {
-    $scope.isClicked = !$scope.isClicked;
-    if ($scope.isClicked) {
-      $scope.pin = false;
-      $scope.bluePin = true;
-    } else {
-      $scope.pin = true;
-      $scope.bluePin = true;
-
-    }
-  }
 
   //updatePin function
   $scope.updatePin = function(notes) {
@@ -349,11 +348,33 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
   //note Dilogue controller
   function dialogueController($scope, note) {
+    console.log("sdffffff" + note);
     $scope.notes = note;
-    $scope.updateNote = function(note) {
-      var url = baseurl + 'updateNote/' + note.noteId;
-      updateNote(note, url);
+
+    $scope.removeUrl = function(note) {
+      console.log("in remove url..................");
+      note.showLink = true;
+      note.scrapUrl = "";
+      note.urlTitle = "";
+      note.imageLink = "";
+      $scope.updateNote1(note);
     }
+
+    $scope.updateNote1 = function(note1) {
+      console.log(note1);
+      var url = baseurl + 'updateNote/' + note1.noteId;
+      updateNote(note1, url);
+    }
+
+    var updateNote = function(note1, url) {
+      console.log("in update.....");
+      PostService.postService(note1, url).then(function successCallback(response) {
+        $scope.getNote();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+
 
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
@@ -443,10 +464,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     updateNote(notes, url);
   }
 
-
-  //controller for handling the functionalities of sidebar and toolbar(HomeController)
-
-  //
   $scope.toggleLeft = buildToggler('left');
 
   function buildToggler(componentId) {
@@ -518,7 +535,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     $scope.userId = 0;
 
     //function for display label on Dilogue box
-    var getLabel = function() {
+    var getLabel = function(){
       var url = baseurl + 'getLabels';
       PostService.getModel(url).then(function successCallback(response) {
         $scope.allLabels = response.data;
@@ -675,6 +692,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     });
   }
 
+
   //profile upload controller
   function profileUplodController($scope) {
     $scope.myImage = '';
@@ -806,7 +824,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
     //function to add label
     $scope.addNoteLabel = function(note, label) {
-
       console.log("in add method" + note.noteId);
       var noteLabel = {}
       noteLabel.noteId = note.noteId,
@@ -827,7 +844,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         console.log("error" + response.data);
       })
     }
-  $scope.getLabel();
+    $scope.getLabel();
 
 
     //Delete note
@@ -886,6 +903,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 
   function collaberatorController($scope, note) {
+    console.log(note.collaberatorList);
+    $scope.collabratedUser = note.collaberatorList;
     var getAllUser = function() {
       var url = baseurl + 'getAllUsers';
       PostService.getModel(url).then(function successCallback(response) {
@@ -901,7 +920,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     $scope.sharedEmail = "";
     $scope.userInfo = getUser();
     console.log("In collaberator controller" + $scope.userInfo);
-
     $scope.addCollaberator = function(user) {
       console.log(user + " In add collaberator");
       var collaberator = {
@@ -916,33 +934,94 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         console.log("error" + response.data);
       })
     }
-
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
     }
+
+    $scope.getInitials = function(name) {
+      console.log("In get initials of collaberator");
+      var canvas = document.createElement('canvas');
+      canvas.style.display = 'none';
+      canvas.width = '95';
+      canvas.height = '90';
+      document.body.appendChild(canvas);
+      var context = canvas.getContext('2d');
+      context.fillStyle = "green";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.font = "56px Arial";
+      context.fillStyle = "white";
+      var first;
+      if (name !== undefined) {
+        first = name.charAt(0);
+
+        var initials = first;
+        context.fillText(initials.toUpperCase(), 30, 65);
+        var data = canvas.toDataURL();
+        document.body.removeChild(canvas);
+        return data;
+      } else {
+        return false;
+      }
+    }
+
+
   }
 
 
   $scope.isUrl = function(notes) {
-  console.log(notes);
-  var urlArray =[];
-  var url = notes.description;
-   var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-   if(regexp.test(url)){
-     urlArray.push(url);
-     console.log(urlArray );
-     var url = baseurl + 'addUrl';
-     PostService.postService(urlArray, url).then(function successCallback(response) {
-       console.log(response);
-     }, function errorCallback(response) {
+    console.log("In is url...............");
+    console.log(notes);
+    // var urlArray ="";
+    $scope.scrapurl = notes.description;
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    if (regexp.test($scope.scrapurl)) {
+      console.log("In url........." + $scope.scrapurl);
+      var url = baseurl + 'addUrl/' + $scope.scrapurl;
+      PostService.getModel(url).then(function successCallback(response) {
+        console.log("url response..............");
+        console.log("Is url response........" + response.data);
+        $scope.scrapData = response.data;
+        console.log("image url" + $scope.scrapData[0]);
+        $scope.imageLink = $scope.scrapData[0];
+        $scope.scrapTitle = $scope.scrapData[1];
+        notes.scrapUrl = $scope.scrapurl;
+        notes.urlTitle = $scope.scrapTitle;
+        notes.imageLink = $scope.imageLink;
+        console.log(           notes.urlTitle);
+        var url1 = baseurl + 'updateNote/' + notes.noteId;
+        updateNote(notes, url1)
+        // console.log("Is url response........" +  $scope.image );
+      }, function errorCallback(response) {
+      })
+    } else {
+      // console.log("Not proper url..........");
+    }
+  }
 
-     })
-   }else{
-     console.log("Not proper url..........");
-   }
-}
+  $scope.getInitials = function(name) {
+    var canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    canvas.width = '95';
+    canvas.height = '90';
+    document.body.appendChild(canvas);
+    var context = canvas.getContext('2d');
+    context.fillStyle = "green";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.font = "56px Arial";
+    context.fillStyle = "white";
+    var first;
+    if (name !== undefined) {
+      first = name.charAt(0);
 
-
+      var initials = first;
+      context.fillText(initials.toUpperCase(), 30, 65);
+      var data = canvas.toDataURL();
+      document.body.removeChild(canvas);
+      return data;
+    } else {
+      return false;
+    }
+  }
 
 
 

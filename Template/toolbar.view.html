@@ -6,20 +6,18 @@
         <md-tooltip>Menu</md-tooltip>
       </md-button>
     </div>
-    <h2 ng-style="{'color':CustomColor.color}">{{title}}</h2>
-    <div class="search-box" ng-click="goToSearch();">
-      <md-button class="md-icon-button"><img src="images/search.svg" /></md-button>
+    <div ng-style="{'color':CustomColor.color}" style="font-size: 30px;"> {{title}}</div>
+    <div class="search-box">
+      <md-button class="md-icon-button"  ng-click="goToSearch();"><img src="images/search.svg" /></md-button>
       <input type='text' ng-model='search' placeholder="Search" style="color: black;width:550px;height: 50px ;border:none;outline:none;" />
-      <md-button class="md-icon-button">
+      <md-button class="md-icon-button" ng-click="goToDashboard()">
         <md-icon><i class="material-icons pointer"><font color="black">close</font></i></md-icon>
       </md-button>
       <md-tooltip>Search</md-tooltip>
     </div>
-
-
     <div>
       <md-button class="md-icon-button">
-        <md-icon><img src="images/replay.svg"/></md-icon>
+        <md-icon><img src="images/replay.svg" ng-click="refresh();"/></md-icon>
         <md-tooltip>Refresh</md-tooltip>
       </md-button>
     </div>
@@ -47,36 +45,32 @@
     </div>
     <div>
       <md-button class="md-icon-button" ng-click="logOut();">
-        <img ng-src="{{userInfo.profileImage}}" style="width:100%;border-radius:50%">
+        <img ng-src="{{userInfo.profileImage || getInitials(userInfo.firstName)}}" alt="{{userInfo.firstName.first}}" style="width:100%;border-radius:50%">
         <md-tooltip>{{userInfo.emailId}}</md-tooltip>
       </md-button>
     </div>
   </md-toolbar>
-
-
   <div style="padding-top: 5px;position: absolute;z-index:0;margin-left:950px" ng-show="logoutCard">
     <md-card style="width:300px;height:150px;">
       <div layout="row">
-        <div style="width:100px;" ng-click="UploadProfile()">
-          <img ng-src="{{userInfo.profileImage}}" style="width:100%;border-radius:50%">
+        <div class="profileDiv" ng-click="UploadProfile()">
+          <img ng-src="{{userInfo.profileImage || getInitials(userInfo.firstName)}}" alt="{{userInfo.firstName.first}}" style="width:100%">
+          <span class="change">change</span>
         </div>
         <div layout="column" style="width:260px;margin-left:10px">
           <div style="font-weight:bold">{{userInfo.firstName}}</div>
           <div>{{userInfo.emailId}}</div>
-          <div><a href="https://plus.google.com/u/0/me" target="_blank">Google+ Profile</a>
-            <span aria-hidden="true">–</span>
-            <a href="https://myaccount.google.com/privacypolicy" target="_blank">Privacy</a>
-          </div>
-          <div>
-          <a href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" target="_blank"><md-button style="text-transform: lowercase; ">Google Account</a>
-          </div>
         </div>
       </div>
       <md-divider></md-divider>
       <div layout="row" layout-align="space-between center">
-      <div><md-button>Add account</md-button></div>
-      <div><md-button ng-click="goToLogin()">Log Out</md-button></div>
-    </div>
+        <div>
+          <md-button>Add account</md-button>
+        </div>
+        <div>
+          <md-button ng-click="goToLogin()">Log Out</md-button>
+        </div>
+      </div>
     </md-card>
   </div>
 </div>

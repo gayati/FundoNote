@@ -41,6 +41,7 @@ ToDoApp.controller('UserController', function($scope, $state, $location, PostSer
   }
 
   $scope.forgotPassword = function() {
+
     var emailId = {
       emailId: $scope.userEmail,
     }

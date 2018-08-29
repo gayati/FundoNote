@@ -20,6 +20,7 @@
 .sidebar-para {
   margin-left: 30px;
   margin-bottom: 0px;
+  font-size: 13px;
 }
 
 .input-placeholder {
@@ -97,7 +98,6 @@ div:empty:not(:focus):before {
   position: absolute;
   top: 2px;
   right: 0;
-  height: 25px;
 }
 
 .mdcard:hover .pinDiv {
@@ -105,7 +105,7 @@ div:empty:not(:focus):before {
   position: absolute;
   top: 2px;
   right: 0;
-  height: 25px;
+
 }
 
 .pinbtn {
@@ -125,7 +125,7 @@ div:empty:not(:focus):before {
 }
 
 .dialogue{
-  width:500px;
+  width:550px;
   position: relative;
 }
 
@@ -134,10 +134,10 @@ div:empty:not(:focus):before {
   position: absolute;
   top: 2px;
   right: 0;
-  height: 25px;
-}
 
-.dialogue:hover .iconsDiv {
+} */
+
+ .dialogue:hover .iconsDiv {
   visibility: visible;
 }
 
@@ -149,7 +149,7 @@ div:empty:not(:focus):before {
 }
 
 .container {
-   /* position: relative; */
+   position: relative;
   width: 100%;
   /* max-width: 400px; */
   padding-right: 0px;
@@ -164,11 +164,11 @@ div:empty:not(:focus):before {
 }
 
 
-.dialogue:hover .deletebtn {
+.container:hover .deletebtn {
   visibility: visible;
   position: absolute;
-  top: 65%;
-  left: 85%;
+  top: 90%;
+  left: 95%;
   display: inline-block;
   transform: translate(-50%, -50%);
   color: white;
@@ -217,7 +217,7 @@ position:relative;
 }
 
 .md-chips md-chip {
-  border-radius: 0px;
+  border-radius: 30px;
   font-size: 12px;
   line-height: 0px;
 }
@@ -226,6 +226,9 @@ position:relative;
   box-shadow: 0 0px !important;
   height: 0px !important;
 }
+
+
+
 
 .cancelicon {
   font-size: 15px;
@@ -248,10 +251,11 @@ position:relative;
 }
 
 .chip {
-  font-size: 15px !important;
+  font-size: 10px !important;
   height: 24px !important;
-  padding: 10px 2px 0px 2px !important;
-  margin: 2px 0px 2px 0px !important;
+  padding: 10px 10px 10px 10px !important;
+  cursor:pointer;
+  /* margin: 2px 0px 2px 0px !important; */
 }
 
 .moreClass {
@@ -266,4 +270,30 @@ position:relative;
   width: 200px;
   z-index: 5003;
   padding: 10px 10px 15px 10px;
+}
+
+  .change{
+ /* margin-top: 60px; */
+color: #fff;
+font-size: 9px;
+font-weight: bold;
+left: 0;
+line-height: 9px;
+position: absolute;
+text-align: center;
+width: 83px;
+bottom: 0;
+padding: 7px 0;
+background-color: #19361B  ;
+
+}
+
+.profileDiv{
+width: 95px;
+height: 82px;
+border-radius: 50%;
+padding: 5px;
+background-color: green;
+overflow: hidden;
+position: relative;
 }

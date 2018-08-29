@@ -1,0 +1,32 @@
+<div ng-init="isUrl(notes)">
+  <div layout="row" ng-if="scrapData" style="height:50px;border: 1px solid grey;background-color:white">
+    <div style="width:50px;height:50px">
+      <img ng-src="{{notes.imageLink}}" style="width:50px;height:50px;">
+    </div>
+    <div style="width:350px;">
+      <div layout="row" layout-align="end end">
+        <div style="padding:2px;" class="md-truncate" ng-bind="notes.urlTitle"></div>
+        <div>
+          <md-menu>
+            <md-icon aria-label="Open menu with custom trigger" ng-mouseenter="$mdMenu.open()">
+              <img src="images/more.svg" />
+            </md-icon>
+            <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+              <md-menu-item>
+                <md-button ng-click="removeUrl(notes)">
+                  Remove
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button>
+                  copy url
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </div>
+      </div>
+      <div class="md-truncate" ng-bind="notes.scrapurl" style="color: rgba(0,0,0,.54);font-size: 11px;font-weight: 400;padding:2px;"></div>
+    </div>
+  </div>
+</div>

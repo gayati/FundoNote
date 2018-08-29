@@ -4,12 +4,13 @@
       <font size="4px;"><b>Select Profile Photo</b></font>
     </div>
 
-    <div>Select an image file: <input type="file" id="fileInput" /></div>
+    <!-- <div>Select an image file: <input type="file" id="fileInput" /></div> -->
     <div class="cropArea">
       <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
     </div>
+      <div>Select an image file: <input type="file" id="fileInput" /></div>
 
-  <md-button ng-click="uploadProfilePic(myCroppedImage);hideDialogueBox()">select photo from your computer</md-button>
+  <md-button ng-click="uploadProfilePic(myCroppedImage);hideDialogueBox()"  style="text-transform: lowercase; */">set as profilePhoto</md-button>
 
   </md-dialog-content>
 </md-dialog>

@@ -7,44 +7,48 @@
       <md-icon md-svg-icon="images/bluePin.svg"></md-icon>
     </md-button>
   </div>
-<div class="container">
-<img ng-src="{{notes.image}}" class="md-card-image">
-<md-button class="deletebtn"  ng-click="removeImage(notes)" >
-  <md-icon  md-svg-icon="images/delete.svg" ></md-icon>
-</md-button>
-</div>
-    <div style="padding:10px;">
-      <div class="intial-text after-click" contenteditable id = "title1"  data-placeholder="Title" ng-model="notes.title"></div>
-    </div>
-  <div contenteditable id = "description1"  data-placeholder="Take a note............"
-  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;"  ng-model="notes.description"></div>
-  <div style="width:250px;padding:10px;" layout="row" layout-wrap >
-    <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true"
-    ng-mouseout="showMdIcon=false" >
+  <div class="container" ng-if="notes.image">
+    <img ng-src="{{notes.image}}" class="md-card-image">
+    <md-button class="deletebtn" ng-click="removeImage(notes)">
+      <md-icon md-svg-icon="images/delete.svg"></md-icon>
+    </md-button>
+  </div>
+  <div ng-if="notes.title" style="padding:10px;">
+    <div class="intial-text after-click" contenteditable id="title1" data-placeholder="Title" ng-model="notes.title"></div>
+  </div>
+  <div contenteditable id="description1" data-placeholder="Take a note............" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;" ng-model="notes.description"></div>
+  <div style="width:250px;padding:10px;" layout="row" layout-wrap>
+    <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true" ng-mouseout="showMdIcon=false">
       <md-chip class="chip" style="text-align:center-center">{{label.label}}
-      <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
+        <span ng-show="showMdIcon" class="closebtn" ng-show="first">&times;</span>
       </md-chip>
     </md-chips>
-    <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true"
-    ng-mouseout="showMdIcon=false">
-      <md-chip  class="chip" >
+    <md-chips ng-if="notes.reminder" readonly="true" ng-mouseover="showMdIcon=true" ng-mouseout="showMdIcon=false">
+      <md-chip class="chip">
         {{notes.reminder|dateformat}} {{notes.remindertime}}
-        <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)"
-        class="closebtn" ng-show="first">&times;</span>
+        <span ng-show="showMdIcon" ng-click="removeReminder($event,notes)" class="closebtn" ng-show="first">&times;</span>
       </md-chip>
     </md-chips>
     <div ng-if="notes.collaberatorList" ng-repeat="user in notes.collaberatorList">
-      <div style="width:30px;height:30px;border-radius:30px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-        <img src="{{user.profileImage}}"  style="width:100%;border-radius:50%" ng-click="collaberatorDialogue($event,notes)">
-       <md-tooltip>{{user.emailId}}</md-tooltip>
+      <div style="width:30px;height:30px;border-radius:30px;border: 1px solid rgba(0,0,0,.5); ">
+        <img src="{{user.profileImage}}" style="width:100%;border-radius:50%" ng-click="collaberatorDialogue($event,notes)">
+        <md-tooltip>{{user.emailId}}</md-tooltip>
       </div>
     </div>
   </div>
-  <div style="height:40px" class="iconsDiv">
-      <icons></icons>
-      <archiveicon></archiveicon>
-      <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
-        <img src="images/more.svg" />
+  <div style="padding: 0px 0px 0px 0px;z-index:5;">
+    <dscrap></dscrap>
+  </div>
+  <div layout="row">
+    <icons></icons>
+    <archiveicon></archiveicon>
+    <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
+      <img src="images/more.svg" />
+    </md-button>
+    <div>
+      <md-button ng-click="hideDialogueBox(); updateNote1(notes);">
+        CLOSE
       </md-button>
+    </div>
   </div>
 </div>
