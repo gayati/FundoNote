@@ -16,7 +16,8 @@
   <div ng-if="notes.title" style="padding:10px;">
     <div class="intial-text after-click" contenteditable id="title1" data-placeholder="Title" ng-model="notes.title"></div>
   </div>
-  <div contenteditable id="description1" data-placeholder="Take a note............" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;" ng-model="notes.description"></div>
+  <div contenteditable id="description1" data-placeholder="Take a note............" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;" ng-model="notes.description"  only-text="true"
+  convert-new-lines="true"></div>
   <div style="width:250px;padding:10px;" layout="row" layout-wrap>
     <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true" ng-mouseout="showMdIcon=false">
       <md-chip class="chip" style="text-align:center-center">{{label.label}}

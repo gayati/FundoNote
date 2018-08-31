@@ -1,6 +1,6 @@
 <div style="width:100%;padding-top:65px" layout="row" layout-xs='column' layout-align="center-center">
   <div id="myDiv" layout="row" layout-align="center-center" style="width:70%;" layout-wrap>
-    <md-card class="mdcard" flex="30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false}" ng-style="{'background-color': notes.color}">
+    <md-card class="mdcard" flex="30" ng-repeat="notes in allNotes | filter :{ isArchived: true,isTrashed:false,isPinned:false}" ng-style="{'background-color': notes.color}">
       <div class="pinDiv">
         <md-button class="md-icon-button pinbtn" ng-if="notes.isPinned===false" ng-click="updatePin(notes);">
           <md-icon md-svg-icon="images/pin.svg"></md-icon>
@@ -41,6 +41,9 @@
         <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
           <img src="images/more.svg" />
         </md-button>
+      </div>
+      <div style="">
+        <scrap></scrap>
       </div>
     </md-card>
   </div>

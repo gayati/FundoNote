@@ -107,7 +107,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.concatFun = function() {
     $scope.allNotes = $scope.mynotes.concat($scope.collaberatedNote);
     console.log($scope.allNotes);
-    showHideheader();
+
   }
 
 
@@ -124,18 +124,18 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     })
   }
 
-  //function for show and hide header
-  var showHideheader = function() {
-    var myArray = $scope.allNotes;
-    for (var i = 0; i < myArray.length; i++) {
-      var noteObj = myArray[i];
-      if (noteObj.isPinned === true) {
-        $scope.showPinned = true;
-      } else if (noteObj.isPinned === false) {
-        $scope.showOther = true;
-      }
-    }
-  }
+  // //function for show and hide header
+  // var showHideheader = function() {
+  //   var myArray = $scope.allNotes;
+  //   for (var i = 0; i < myArray.length; i++) {
+  //     var noteObj = myArray[i];
+  //     if (noteObj.isPinned === true) {
+  //       $scope.showPinned = true;
+  //     } else if (noteObj.isPinned === false) {
+  //       $scope.showOther = true;
+  //     }
+  //   }
+  // }
 
 
   //Get User
@@ -219,6 +219,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
   //archiveNote function
   $scope.archiveNote = function(notes) {
+    console.log("archive......" + notes.imageLink);
+
     if (notes === undefined) {
       $scope.isArchived = true;
     } else if (notes.isArchived === false) {
@@ -276,7 +278,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   //update reminder function
   $scope.Updatereminder = function(note) {
     if (note === undefined) {
-
     } else {
       note.reminder = note.tempDate;
       $scope.reminderTime = note.remindertime
@@ -291,7 +292,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     note.reminder = null;
     var url = baseurl + 'updateNote/' + note.noteId;
     updateNote(note, url);
-
   }
 
 
@@ -404,7 +404,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     if (imageId.style.width == "400px") {
       imageId.style.width = "300px";
       imageId.style.height = "300px";
-
     } else {
       imageId.style.width = "400px";
       imageId.style.height = "400px";
@@ -465,7 +464,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   }
 
   $scope.toggleLeft = buildToggler('left');
-
   function buildToggler(componentId) {
     return function() {
       $mdSidenav(componentId).toggle();
@@ -918,12 +916,12 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
     $scope.note = note;
     $scope.sharedEmail = "";
-    $scope.userInfo = getUser();
+    // $scope.userInfo = getUser();
     console.log("In collaberator controller" + $scope.userInfo);
     $scope.addCollaberator = function(user) {
       console.log(user + " In add collaberator");
       var collaberator = {
-        sharedBy: $scope.userInfo.id,
+        sharedBy: note.createdBy,
         sharedTo: user.id,
         noteId: note.noteId
       };
@@ -937,6 +935,19 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
     $scope.hideDialogueBox = function() {
       $mdDialog.hide();
     }
+
+    var getOwner = function () {
+      console.log("In get User");
+      var url = baseurl + 'getOwner/' + note.createdBy;
+      PostService.getModel(url).then(function successCallback(response) {
+        console.log("success" + response.data.id);
+        $scope.userInfo = response.data;
+        console.log($scope.userInfo);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
+    getOwner();
 
     $scope.getInitials = function(name) {
       console.log("In get initials of collaberator");
@@ -964,6 +975,8 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
       }
     }
 
+    // $scope.getInitials();
+
 
   }
 
@@ -971,7 +984,6 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
   $scope.isUrl = function(notes) {
     console.log("In is url...............");
     console.log(notes);
-    // var urlArray ="";
     $scope.scrapurl = notes.description;
     var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
     if (regexp.test($scope.scrapurl)) {
@@ -987,14 +999,14 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
         notes.scrapUrl = $scope.scrapurl;
         notes.urlTitle = $scope.scrapTitle;
         notes.imageLink = $scope.imageLink;
-        console.log(           notes.urlTitle);
+        console.log( notes.urlTitle);
         var url1 = baseurl + 'updateNote/' + notes.noteId;
         updateNote(notes, url1)
         // console.log("Is url response........" +  $scope.image );
       }, function errorCallback(response) {
       })
     } else {
-      // console.log("Not proper url..........");
+       console.log("Not proper url..........");
     }
   }
 
@@ -1036,8 +1048,7 @@ ToDoApp.controller('NoteController', function($scope, $rootScope, $state, $mdPan
 
 ToDoApp.filter('dateformat', function($filter) {
 
-  return function(remiderDate) {
-
+  return function(remiderDate) { 
     console.log("inside filter", remiderDate);
     if (!remiderDate) {
       return;

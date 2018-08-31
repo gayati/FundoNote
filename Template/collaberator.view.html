@@ -4,7 +4,7 @@
     <md-divider></md-divider>
     <div layout="row">
       <div style="width:40px;height:40px;border-radius:40px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-        <img src="{{userInfo.profileImage}}" style="width:100%;border-radius:50%">
+        <img ng-src="{{userInfo.profileImage || getInitials(userInfo.firstName)}}" alt="{{userInfo.firstName.first}}" style="width:100%;border-radius:50%">
       </div>
       <div layout="column" style="margin-top:5px">
         <div><strong>{{userInfo.firstName}} {{userInfo.lastName}} </strong></div>

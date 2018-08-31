@@ -76,16 +76,5 @@ ToDoApp.controller('UserController', function($scope, $state, $location, PostSer
     $state.go('login');
   }
 
-  // $scope.goToHome = function() {
-  //   $state.go('home')
-  // }
-
-
-  // $scope.goToresetPassword = function() {
-  //   $state.go('resetpassword')
-  // }
-
-
-
 
 });

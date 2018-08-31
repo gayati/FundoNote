@@ -1,4 +1,4 @@
-<div width="100%" style="padding-top:65px;" layout="column" layout-align="center center">
+<div width="100%" style="padding-top:65px;" layout="row" layout-xs="column" layout-align="center center">
   <div id="myDiv" width="70%" style="margin-top:0vh" layout-align="center center">
 
     <div layout="row" style="width:800px;margin-top:15px;" layout-align="center center">
@@ -59,7 +59,9 @@
           <div ng-if="notes.title">
             <div style="padding:10px;" class="intial-text after-click" ng-bind-html="notes.title"></div>
           </div>
-          <div ng-if="notes.description" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;" ng-bind-html="notes.description"></div>
+          <div  ng-if="notes.description">
+          <div style="word-wrap:break-word;padding:10px;"><span ng-bind-html="notes.description | linky"></span></div>
+        </div>
         </div>
         <div style="width:250px;padding:10px;" layout="row" layout-wrap>
           <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true" ng-mouseout="showMdIcon=false">
@@ -113,7 +115,7 @@
           <div ng-if="notes.title">
             <div style="padding:10px;" class="intial-text after-click" ng-bind-html="notes.title"></div>
           </div>
-          <div ng-if="notes.description" style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;" ng-bind-html="notes.description"></div>
+          <div ng-if="notes.description" style="word-wrap:break-word;padding:10px;" ng-bind-html="notes.description | linky"></div>
         </div>
         <div style="width:250px;padding:10px;" layout="row" layout-wrap>
           <md-chips ng-if="notes.labelList" ng-repeat="label in notes.labelList" ng-mouseover="showMdIcon=true" ng-mouseout="showMdIcon=false">
@@ -135,7 +137,7 @@
             </div>
           </div>
         </div>
-        <div style="height:40px" class="iconsDiv">
+        <div style="" class="iconsDiv">
           <icons></icons>
           <archiveicon></archiveicon>
           <md-button aria-label="Open menu with custom trigger" class="md-icon-button img-icon" ng-click="morePanel($event, notes,'labelpanel.view',ReminderPanelCtrl)">
